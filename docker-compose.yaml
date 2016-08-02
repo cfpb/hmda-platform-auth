@@ -1,0 +1,22 @@
+version: '2'
+services:
+
+  apiman:
+    build: ./docker/apiman
+    ports:
+      - '80:9080'
+      - '443:9443'
+      - '9990:9990'
+
+  configr:
+    build: ./docker/configr
+
+  api:
+    build: ../hmda-platform
+    ports:
+      - '8080:8080'
+
+  web:
+    build: ../hmda-platform-ui
+    ports:
+      - '80:80'
