@@ -26,6 +26,27 @@ This project is intended to be run from [`hmda-platform`](https://github.com/cfp
 Docker Compose setup, configured in [`hmda-platform/docker-compose.yml`](https://github.com/cfpb/hmda-platform/blob/master/docker-compose.yml).
 Please see the instructions in that repo for details on how to launch the system.
 
+## Run it!
+
+### First Time
+
+When you are launching this stack from a clean slate, all you need is a simple:
+
+```
+docker-compose up
+```
+
+### Re-running
+
+If you're making changes, and you'd like to rebuild and launch the full stack, 
+the safest way to do so is with:
+
+```
+docker-compose rm -vfa configr apiman && docker-compose build --no-cache configr apiman && docker-compose u
+```
+
+This will guarantee that old containers (and their data) are removed, and new ones are build from scratch.
+
 ## Known issues
 
 The `configr` provisioning tool currently only works from a clean install.  Subsequent runs of `configr` against fully provisioned
