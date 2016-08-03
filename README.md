@@ -1,46 +1,56 @@
-
-
 # HMDA Platform Auth
 
-### This project is a work in progress.
+This is a prototype for providing [OpenID Connect](http://openid.net/connect/)-based
+authentication and authorization services for all HMDA APIs and web applications 
+with identity requirements.  This is currently implemented to support the 
+[`hmda-platform`](https://github.com/cfpb/hmda-platform) and 
+[`hmda-platform-ui`](https://github.com/cfpb/hmda-platform-ui) projects,
+though may support more in the future.
 
-Information and code contained in this repository should be considered provisional and a work in progress, and not the final implementation for the HMDA Platform Auth components, unless otherwise indicated.
+## Technologies
 
-## Introduction to HMDA
-
-The Home Mortgage Disclosure Act (HMDA) requires many financial institutions to maintain, report, and publicly disclose information about mortgages. HMDA was originally enacted by Congress in 1975 and is implemented by Regulation C. The Dodd-Frank Act transferred HMDA rulemaking authority from the Federal Reserve Board to the Consumer Financial Protection Bureau (CFPB) on July 21, 2011.
-
-This regulation provides the public loan data that can be used to assist:
-
-- in determining whether financial institutions are serving the housing needs of their communities;
-- public officials in distributing public-sector investments so as to attract private investment to areas where it is needed;
-- and in identifying possible discriminatory lending patterns.
-
-This regulation applies to certain financial institutions, including banks, savings associations, credit unions, and other mortgage lending institutions.
-
-For more information on HMDA, please visit: [http://www.consumerfinance.gov/data-research/hmda/](http://www.consumerfinance.gov/data-research/hmda/) at the Consumer Financial Protection Bureau. 
-
-## The Platform Auth
-
-This repo is supporting components for the  [HMDA platform back-end](https://github.com/cfpb/hmda-platform) and the [HMDA platform UI](https://github.com/cfpb/hmda-platform-ui). 
-
-The various parts of the platform auth are: TBD
+* [Keycloak](http://www.keycloak.org/) - Open-source identity management, with full OpenID Connect support.
+* [APIMan](http://www.apiman.io/latest/) - Open-source API management, abstracting OpenID Connect details from underlying APIs.
+* [Python 3](https://docs.python.org/3/) - Used for provisioning Keycloak and APIMan instances.
 
 ## Dependencies
 
-TBD
+This project has been fully Docker-ized.  Docker is all you need to launch the full stack!
+
+* [Docker](https://www.docker.com/)
+* [Docker Compose](https://docs.docker.com/compose/)
 
 ## Installation
 
-TBD
+This project is intended to be run from [`hmda-platform`](https://github.com/cfpb/hmda-platform)'s
+Docker Compose setup, configured in [`hmda-platform/docker-compose.yml`](https://github.com/cfpb/hmda-platform/blob/master/docker-compose.yml).
+Please see the instructions in that repo for details on how to launch the system.
 
-## How to test the software
+## Run it!
 
-TBD
+### First Time
+
+When you are launching this stack from a clean slate, all you need is a simple:
+
+```
+docker-compose up
+```
+
+### Re-running
+
+If you're making changes, and you'd like to rebuild and launch the full stack, 
+the safest way to do so is with:
+
+```
+docker-compose rm -vfa configr apiman && docker-compose build --no-cache configr apiman && docker-compose up
+```
+
+This will guarantee that old containers (and their data) are removed, and new ones are build from scratch.
 
 ## Known issues
 
-This repo is a work in progress.
+The `configr` provisioning tool currently only works from a clean install.  Subsequent runs of `configr` against fully provisioned
+systems will fail.
 
 ## Getting help
 
