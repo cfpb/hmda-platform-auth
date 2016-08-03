@@ -133,4 +133,73 @@ apiman:
                       - POST
                       - PUT
                     maxAge: 600
+        - name: echo 
+          description: 'Echo API'
+          versions:
+            - version: v1
+              endpoint: 'http://echo:5000'
+              endpointType: rest
+              endpointContentType: json
+              publicAPI: true
+              policies:
+                - definitionId: cors-policy
+                  configuration:
+                    errorOnCorsFailure: true
+                    allowOrigin:
+                      - 'http://192.168.99.100'
+                    allowCredentials: false
+                    exposeHeaders: []
+                    allowHeaders:
+                      - Authorization
+                      - Accept
+                    allowMethods:
+                      - DELETE
+                      - GET
+                      - HEAD
+                      - OPTIONS
+                      - PATCH
+                      - POST
+                      - PUT
+                    maxAge: 600
+                - definitionId: keycloak-oauth-policy
+                  configuration:
+                    requireOauth: true
+                    requireTransportSecurity: true
+                    blacklistUnsafeTokens: false
+                    stripTokens: false
+                    realm: 'https://192.168.99.100:9443/auth/realms/hmda'
+                    realmCertificateString: null
+                    forwardRoles: 
+                      active: false
+                    delegateKerberosTicket: false
+                    forwardAuthInfo:
+                      - headers: CFPB-HMDA-Institutions
+                        field: institutions
+                      - headers: CFPB-HMDA-Username
+                        field: preferred_username
+            - version: noauth 
+              endpoint: 'http://echo:5000'
+              endpointType: rest
+              endpointContentType: json
+              publicAPI: true
+              policies:
+                - definitionId: cors-policy
+                  configuration:
+                    errorOnCorsFailure: true
+                    allowOrigin:
+                      - 'http://192.168.99.100'
+                    allowCredentials: false
+                    exposeHeaders: []
+                    allowHeaders:
+                      - Authorization
+                      - Accept
+                    allowMethods:
+                      - DELETE
+                      - GET
+                      - HEAD
+                      - OPTIONS
+                      - PATCH
+                      - POST
+                      - PUT
+                    maxAge: 600
 
