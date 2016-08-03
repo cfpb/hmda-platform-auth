@@ -14,12 +14,12 @@ keycloak:
           enabled: true
           clientAuthenticatorType: client-secret
           rootUrl: null
-          baseUrl: 'http://192.168.99.100:3000'
+          baseUrl: 'http://192.168.99.100'
           redirectUris:
-            - 'http://192.168.99.100:3000'
-            - 'http://192.168.99.100:3000/*'
+            - 'http://192.168.99.100'
+            - 'http://192.168.99.100/*'
           webOrigins:
-            - 'http://192.168.99.100:3000'
+            - 'http://192.168.99.100'
           notBefore: 0
           bearerOnly: false
           consentRequired: false
@@ -49,7 +49,7 @@ apiman:
       description: This is the gateway
       type: REST
       configuration:
-        endpoint: 'https://192.168.99.100/apiman-gateway-api'
+        endpoint: 'https://192.168.99.100:9443/apiman-gateway-api'
         # Default username/password
         username: 'apimanager'
         password: 'apiman123!'
@@ -68,7 +68,7 @@ apiman:
           description: 'HMDA Platform API'
           versions:
             - version: v1
-              endpoint: 'http://192.168.99.100:8080'
+              endpoint: 'http://api:8080'
               endpointType: rest
               endpointContentType: json
               publicAPI: true
@@ -77,7 +77,7 @@ apiman:
                   configuration:
                     errorOnCorsFailure: true
                     allowOrigin:
-                      - 'http://192.168.99.100:3000'
+                      - 'http://192.168.99.100'
                     allowCredentials: false
                     exposeHeaders: []
                     allowHeaders:
@@ -98,7 +98,7 @@ apiman:
                     requireTransportSecurity: true
                     blacklistUnsafeTokens: false
                     stripTokens: false
-                    realm: 'http://192.168.99.100/auth/realms/hmda'
+                    realm: 'https://192.168.99.100:9443/auth/realms/hmda'
                     realmCertificateString: null 
                     forwardRoles: 
                       active: false
@@ -109,7 +109,7 @@ apiman:
                       - headers: CFPB-HMDA-Username
                         field: preferred_username
             - version: noauth 
-              endpoint: 'http://192.168.99.100:8080'
+              endpoint: 'http://api:8080'
               endpointType: rest
               endpointContentType: json
               publicAPI: true
@@ -118,7 +118,7 @@ apiman:
                   configuration:
                     errorOnCorsFailure: true
                     allowOrigin:
-                      - 'http://192.168.99.100:3000'
+                      - 'http://192.168.99.100'
                     allowCredentials: false
                     exposeHeaders: []
                     allowHeaders:

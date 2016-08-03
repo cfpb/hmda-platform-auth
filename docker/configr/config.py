@@ -208,7 +208,7 @@ def main():
     #FIXME: Pass these in a params
     username = 'admin'
     password = 'admin123!'
-    root_url = 'http://192.168.99.100'
+    root_url = 'http://192.168.99.100:9080'
     
     # Setup base URLs
     keycloak_base_url = '{}/auth'.format(root_url)

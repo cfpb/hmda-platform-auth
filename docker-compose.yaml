@@ -4,19 +4,26 @@ services:
   apiman:
     build: ./docker/apiman
     ports:
-      - '80:9080'
-      - '443:9443'
-      - '9990:9990'
+      - '9080:8080'
+      - '9443:8443'
+    links:
+      - api
+      - echo 
 
   configr:
     build: ./docker/configr
 
+  echo:
+    build: ./docker/echo-api
+    ports:
+      - '5000:5000'
+
   api:
     build: ../hmda-platform
-    ports:
-      - '8080:8080'
 
   web:
     build: ../hmda-platform-ui
     ports:
       - '80:80'
+    depends_on:
+      - configr
