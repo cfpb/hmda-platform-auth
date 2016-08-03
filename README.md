@@ -42,7 +42,7 @@ If you're making changes, and you'd like to rebuild and launch the full stack,
 the safest way to do so is with:
 
 ```
-docker-compose rm -vfa configr apiman && docker-compose build --no-cache configr apiman && docker-compose u
+docker-compose rm -vfa configr apiman && docker-compose build --no-cache configr apiman && docker-compose up
 ```
 
 This will guarantee that old containers (and their data) are removed, and new ones are build from scratch.
