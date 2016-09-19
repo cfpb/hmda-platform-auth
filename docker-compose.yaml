@@ -1,29 +1,44 @@
 version: '2'
 services:
 
-  apiman:
-    build: ./docker/apiman
+  keycloak: 
+    build: ./docker/keycloak
+    #image: 'jboss/keycloak:2.2.0.Final'
     ports:
       - '9080:8080'
-      - '9443:8443'
-    links:
-      - api
-      - echo 
+    #  - '9443:8443'
+    environment:
+      KEYCLOAK_USER: hkeeler 
+      KEYCLOAK_PASSWORD: hkeeler
 
-  configr:
-    build: ./docker/configr
+  authproxy:
+    build: ./docker/authproxy
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8443:8443'
+    environment:
+      AUTHPROXY_SERVER_NAME: '192.168.99.100'
+      OIDC_SERVER_ADDR: '192.168.99.100:9080'
+      OIDC_REALM: test-realm
+      OIDC_CLIENT_APP_NAME: test-app
+      OIDC_CLIENT_ID: test-api
+      OIDC_CLIENT_SECRET: 1234567890
+      OIDC_CRYPTO_PASSPHRASE: abcdefghijklmnopqrstuvwxyz
+    links:
+    #  - api
+      - echo
+      - keycloak
 
   echo:
     build: ./docker/echo-api
     ports:
       - '5000:5000'
 
-  api:
-    build: ../hmda-platform
+#  api:
+#    build: ../hmda-platform
 
-  web:
-    build: ../hmda-platform-ui
-    ports:
-      - '80:80'
-    depends_on:
-      - configr
+#  web:
+#    build: ../hmda-platform-ui
+#    ports:
+#      - '8080:80'

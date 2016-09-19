@@ -15,8 +15,9 @@ RUN apt-get update && \
     curl -s -L -o /tmp/${PKG} ${DL_SITE}/v${VERSION}/${PKG} && \
     dpkg -i /tmp/${PKG} && \
     apt-get install -yf && \
-    a2enmod auth_openidc proxy proxy_http rewrite ssl
+    a2enmod auth_openidc headers proxy proxy_http rewrite ssl
 
+ADD ports.conf /etc/apache2/
 ADD 000-default.conf /etc/apache2/sites-available/
 
 CMD apache2ctl -D FOREGROUND
