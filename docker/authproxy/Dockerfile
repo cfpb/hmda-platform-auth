@@ -5,7 +5,7 @@ ENV PATCHLEVEL 1
 ENV PKG libapache2-mod-auth-openidc_${VERSION}-${PATCHLEVEL}_amd64.deb
 ENV DL_SITE https://github.com/pingidentity/mod_auth_openidc/releases/download/
 
-# Starting with mod_auth_openidc Cisco's cjose lib is required
+# Cisco's cjose lib is available on mod_auth_openidc download site 
 ENV CJOSE_PKG libcjose_0.4.1-1_amd64.deb
 
 RUN apt-get update && \
