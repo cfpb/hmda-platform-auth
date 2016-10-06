@@ -2,38 +2,45 @@ version: '2'
 services:
 
   keycloak: 
-    build: ./docker/keycloak
-    #image: 'jboss/keycloak:2.2.0.Final'
+    build: ./keycloak
     ports:
-      - '9080:8080'
-    #  - '9443:8443'
-    environment:
-      KEYCLOAK_USER: hkeeler 
-      KEYCLOAK_PASSWORD: hkeeler
-
-  authproxy:
-    build: ./docker/authproxy
-    ports:
-      - '80:80'
-      - '443:443'
+      - '8080:8080'
       - '8443:8443'
     environment:
-      AUTHPROXY_SERVER_NAME: '192.168.99.100'
-      OIDC_SERVER_ADDR: '192.168.99.100:9080'
-      OIDC_REALM: test-realm
-      OIDC_CLIENT_APP_NAME: test-app
-      OIDC_CLIENT_ID: test-api
-      OIDC_CLIENT_SECRET: 1234567890
-      OIDC_CRYPTO_PASSPHRASE: abcdefghijklmnopqrstuvwxyz
+      KEYCLOAK_USER: admin 
+      KEYCLOAK_PASSWORD: admin
+
+  auth_proxy:
+    build: ./auth-proxy
+    ports:
+      - '80:80'     # Redirects to https
+      - '443:443'   # Apache w/ mod_auth_openidc
+    environment:
+      METADATA_URI: https://keycloak:8443/auth/realms/master/.well-known/openid-configuration
+      JWKS_URI: https://keycloak:8443/auth/realms/master/protocol/openid-connect/certs
+      CLIENT_ID: hmda-api
+      REDIRECT_URI: https://192.168.99.100:8443
+      CRYPTO_PASSPHRASE: abcdefghijklmnopqrstuvwxyz
+      VALIDATE_SSL: "Off"
+      HEADER_PREFIX: CFPB-HMDA-
+      REMOTE_USER_CLAIM: preferred_username
+      API_BASE_URI: http://echo:5000/ 
     links:
     #  - api
       - echo
       - keycloak
+    volumes:
+      - ./auth-proxy/000-default.conf:/etc/apache2/sites-available/000-default.conf
 
   echo:
-    build: ./docker/echo-api
+    build: ./echo-api
     ports:
       - '5000:5000'
+
+  oidc_test:
+    build: test/oidc-test
+    ports:
+      - '7070:80'
 
 #  api:
 #    build: ../hmda-platform
