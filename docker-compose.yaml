@@ -26,7 +26,7 @@ services:
       REMOTE_USER_CLAIM: preferred_username
       API_BASE_URI: http://echo:5000/ 
     links:
-    #  - api
+      - hmda_api
       - echo
       - keycloak
     volumes:
@@ -38,12 +38,14 @@ services:
       - '5000:5000'
 
   oidc_test:
-    build: test/oidc-test
+    build: ./oidc-test
     ports:
       - '7070:80'
 
-#  api:
-#    build: ../hmda-platform
+  hmda_api:
+    build: ../hmda-platform
+    ports:
+      - '9090:8080'
 
 #  web:
 #    build: ../hmda-platform-ui

@@ -53,12 +53,10 @@ $(document).ready(function() {
 
 function getInstitution(accessToken, instId) {
 
-    var resource = "/hmda/institutions/v1/institutions/"+instId
-
     $("#inst-id").text(instId)
 
     $.ajax({
-        url: "https://192.168.99.100/api"+resource,
+        url: "https://192.168.99.100/hmda/institutions/"+instId,
         method: "GET",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -76,16 +74,16 @@ function getInstitution(accessToken, instId) {
 function getMyInstitutions(accessToken) {
 
     $.ajax({
-        url: "https://192.168.99.100/api/hmda/institutions/v1/institutions",
+        url: "https://192.168.99.100/hmda/institutions",
         method: "GET",
         headers: {
             "Authorization": "Bearer " + accessToken
         }
     }).done(function(data, textStatus, jqXHR) {
         console.log("Institutions List Success! :)")
-        data.forEach(function(inst){
+        data.institutions.forEach(function(inst){
             $("#inst-list-response-table").append(
-                "<tr><td>"+inst.id+"</td><td>"+inst.name+"</td><td>"+inst.taxId+"</td></tr>"
+                "<tr><td>"+inst.id+"</td><td>"+inst.name+"</td><td>"+inst.status+"</td></tr>"
             )
         })
         $("#inst-list-response").text(JSON.stringify(data, null, '  '))
