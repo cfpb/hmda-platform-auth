@@ -16,15 +16,17 @@ services:
       - '80:80'     # Redirects to https
       - '443:443'   # Apache w/ mod_auth_openidc
     environment:
-      METADATA_URI: https://keycloak:8443/auth/realms/master/.well-known/openid-configuration
-      JWKS_URI: https://keycloak:8443/auth/realms/master/protocol/openid-connect/certs
-      CLIENT_ID: hmda-api
-      REDIRECT_URI: https://192.168.99.100:8443
+      OIDC_METADATA_URI: https://keycloak:8443/auth/realms/master/.well-known/openid-configuration
+      OIDC_JWKS_URI: https://keycloak:8443/auth/realms/master/protocol/openid-connect/certs
+      OIDC_CLIENT_ID: hmda-api
+      OIDC_REDIRECT_URI: https://192.168.99.100:8443
       CRYPTO_PASSPHRASE: abcdefghijklmnopqrstuvwxyz
       VALIDATE_SSL: "Off"
-      HEADER_PREFIX: CFPB-HMDA-
+      CLAIM_HEADER_PREFIX: CFPB-HMDA-
       REMOTE_USER_CLAIM: preferred_username
-      API_BASE_URI: http://echo:5000/ 
+      REMOTE_USER_HEADER: CFPB-HMDA-Username
+      UPSTREAM_API_URI: http://hmda_api:8080/
+      API_PATH_PREFIX: /hmda/
     links:
       - hmda_api
       - echo
