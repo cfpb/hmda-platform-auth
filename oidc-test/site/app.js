@@ -132,13 +132,13 @@ function tokenToJWT(token) {
 function forwardToLogin() {
     // set client_id and redirect_uri
     var clientInfo = {
-        client_id : 'admin-api',
+        client_id : 'hmda-api',
         redirect_uri: 'http://192.168.99.100:7070'
     };
     OIDC.setClientInfo( clientInfo );
     
     // set Identity Provider configuration information using discovery
-    var providerInfo = OIDC.discover('https://192.168.99.100:8443/auth/realms/master');
+    var providerInfo = OIDC.discover('https://192.168.99.100:8443/auth/realms/hmda');
     
     // set Identity Provider configuration
     OIDC.setProviderInfo( providerInfo );

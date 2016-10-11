@@ -9,6 +9,11 @@ services:
     environment:
       KEYCLOAK_USER: admin 
       KEYCLOAK_PASSWORD: admin
+    command: >
+      -Dkeycloak.migration.action=export 
+      -Dkeycloak.migration.provider=dir
+      -Dkeycloak.migration.dir=/tmp/
+      -b 0.0.0.0
 
   auth_proxy:
     build: ./auth-proxy
@@ -16,8 +21,8 @@ services:
       - '80:80'     # Redirects to https
       - '443:443'   # Apache w/ mod_auth_openidc
     environment:
-      OIDC_METADATA_URI: https://keycloak:8443/auth/realms/master/.well-known/openid-configuration
-      OIDC_JWKS_URI: https://keycloak:8443/auth/realms/master/protocol/openid-connect/certs
+      OIDC_METADATA_URI: https://keycloak:8443/auth/realms/hmda/.well-known/openid-configuration
+      OIDC_JWKS_URI: https://keycloak:8443/auth/realms/hmda/protocol/openid-connect/certs
       OIDC_CLIENT_ID: hmda-api
       OIDC_REDIRECT_URI: https://192.168.99.100:8443
       CRYPTO_PASSPHRASE: abcdefghijklmnopqrstuvwxyz
