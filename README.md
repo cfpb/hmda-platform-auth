@@ -89,8 +89,15 @@ This project is not fully automated yet.  In order to integrate with these servi
         
 
 ## Use it!
+Once you've jumped through all of these setup hoops, you're ready to authenticate. 
 
-Once you've jumped through all of these setup hoops, you're ready to start authenticating.  In your client code, you will likely need the following settings.
+### OIDC test webapp
+This project currently includes a test webapp (`oidc-test`) and a test API (`echo-api`).  You can confirm the stack is working by browsing to:
+
+* http://192.168.99.100:7070 
+
+### Integrate your own app
+When integrating with your own app, the following are the most important configs.  Defaults should work for the rest of the usual OIDC settings.
 
 * **Discovery Endpoint:** https://192.168.99.100:8443/auth/realms/hmda/.well-known/openid-configuration
 * **Client ID:** hmda-api
