@@ -126,7 +126,7 @@ Several of Keycloak's identity manangement workflows involve email confirmation.
 * http://192.168.99.100:1080/
 
 ### Self-signed Certs
-**WARNING:** The Keycloak and Auth Proxy services both required to run over HTTPS.  However, this dev setup uses self-signed certificates, which can result in unexpected behavior when the services first start.  In order to get around this in dev, you should browse to each the following services and accept the untrusted certs.
+**WARNING:** The Keycloak and Auth Proxy services are served over HTTPS with self-signed certificates.  This can result in unexpected behavior, especially when dealing with CORS calls.  To get around this, browse to each these services and accept the untrusted certs before you start using any of the other services.
 
 * https://192.168.99.100 (Auth Proxy)
 * https://192.168.99.100:8443 (Keycloak)
