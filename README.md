@@ -1,46 +1,106 @@
-
-
 # HMDA Platform Auth
 
-### This project is a work in progress.
+This is a prototype for providing [OpenID Connect](http://openid.net/connect/)-based
+authentication and authorization services for all HMDA APIs and web applications 
+with identity requirements.  This is currently implemented to support the 
+[`hmda-platform`](https://github.com/cfpb/hmda-platform) and 
+[`hmda-platform-ui`](https://github.com/cfpb/hmda-platform-ui) projects,
+though may support more in the future.
 
-Information and code contained in this repository should be considered provisional and a work in progress, and not the final implementation for the HMDA Platform Auth components, unless otherwise indicated.
+## Technologies
 
-## Introduction to HMDA
-
-The Home Mortgage Disclosure Act (HMDA) requires many financial institutions to maintain, report, and publicly disclose information about mortgages. HMDA was originally enacted by Congress in 1975 and is implemented by Regulation C. The Dodd-Frank Act transferred HMDA rulemaking authority from the Federal Reserve Board to the Consumer Financial Protection Bureau (CFPB) on July 21, 2011.
-
-This regulation provides the public loan data that can be used to assist:
-
-- in determining whether financial institutions are serving the housing needs of their communities;
-- public officials in distributing public-sector investments so as to attract private investment to areas where it is needed;
-- and in identifying possible discriminatory lending patterns.
-
-This regulation applies to certain financial institutions, including banks, savings associations, credit unions, and other mortgage lending institutions.
-
-For more information on HMDA, please visit: [http://www.consumerfinance.gov/data-research/hmda/](http://www.consumerfinance.gov/data-research/hmda/) at the Consumer Financial Protection Bureau. 
-
-## The Platform Auth
-
-This repo is supporting components for the  [HMDA platform back-end](https://github.com/cfpb/hmda-platform) and the [HMDA platform UI](https://github.com/cfpb/hmda-platform-ui). 
-
-The various parts of the platform auth are: TBD
+* [Keycloak](http://www.keycloak.org/) - Open-source identity management, with full OpenID Connect support.
+* [mod_auth_openidc](https://github.com/pingidentity/mod_auth_openidc) - Open-source OpenID Connect authentication and authorization proxy.
 
 ## Dependencies
 
-TBD
+This project has been fully Docker-ized.  Docker is all you need to launch the full stack!
+
+* [Docker](https://www.docker.com/)
+* [Docker Compose](https://docs.docker.com/compose/)
 
 ## Installation
 
-TBD
+This project is intended to be run from [`hmda-platform`](https://github.com/cfpb/hmda-platform)'s
+Docker Compose setup, configured in [`hmda-platform/docker-compose.yml`](https://github.com/cfpb/hmda-platform/blob/master/docker-compose.yml).
+Please see the instructions in that repo for details on how to launch the system.
 
-## How to test the software
+## Run it!
 
-TBD
+### First Time
 
-## Known issues
+When you are launching this stack from a clean slate, all you need is a simple:
 
-This repo is a work in progress.
+```
+docker-compose up
+```
+
+### Re-running
+
+If you're making changes, and you'd like to rebuild and launch the full stack, 
+the safest way to do so is with:
+
+```
+docker-compose rm -vf auth_proxy keycloak && docker-compose build --no-cache auth_proxy keycloak && docker-compose up
+```
+
+This will guarantee that old containers (and their data) are removed, and new ones are build from scratch.
+
+## Config it!
+This project is not fully automated yet.  In order to integrate with these service, you'll need to do a bit of manual configuration.
+
+1. Login to Keycloak _master_ realm by browsing to https://192.168.99.100:8443/auth/admin/.
+1. Create the _HMDA_ realm.
+    1. Mouse-over _Master_ header.
+    2. Click _Add realm_ button.
+    3. Add "hmda" to _Name_ field.
+    4. Click _Create_ button.
+1. Add a _hmda-api_ OpenID Connect client.
+    1. Follow _Clients_ link on left menu, and click _Create_.
+    1. Set _Client ID_ to hmda-api, and click _Save_.
+    1. On the _Settings_ tab, change the following options, and click _Save_:
+        1. Standard Flow Enabled: OFF
+        1. Implicit Flow Enabled: ON
+        1. Direct Access Grant Enabled: OFF
+        1. Valid Redirect URIs: http://192.168.99.100:7070
+            * **NOTE:** This is the URI for the test webapp.  You will need to add additional for other apps.
+        1. Web Origins: *
+    1. On the _Mappers_ tab, click _Create_, fill out the following, and _Save_.
+        1. Name: Institutions
+        1. Mapper Type: User Attribute
+        1. User Attribute: institutions
+        1. Token Claim Name: institutions
+        1. Claim JSON Type: String
+        1. Add to access token: ON
+1. Add Users
+    1. Follow _Users_ link on left menu.
+    1. Click _Add user_.
+    1. Fill in these fields, and click _Save_:
+        1. Username, Email, First Name, Last Name
+        1. User Enabled: ON
+        1. Email Verified: ON
+    1. On the _Attributes_ tab, filling in the following, and click _Add_ and _Save_.
+        1. Key: institutions
+        1. Value: 1,2
+    1. On the _Credentials_ tab:
+        1. Fill in _New Password_ and _Password Confirmation_.
+        1. Set _Temporary_ to _OFF_
+        1. Click big red _Reset Password_, and then _Change password_ buttons.
+        
+
+## Use it!
+Once you've jumped through all of these setup hoops, you're ready to authenticate. 
+
+### OIDC test webapp
+This project currently includes a test webapp (`oidc-test`) and a test API (`echo-api`).  You can confirm the stack is working by browsing to:
+
+* http://192.168.99.100:7070 
+
+### Integrate your own app
+When integrating with your own app, the following are the most important configs.  Defaults should work for the rest of the usual OIDC settings.
+
+* **Discovery Endpoint:** https://192.168.99.100:8443/auth/realms/hmda/.well-known/openid-configuration
+* **Client ID:** hmda-api
 
 ## Getting help
 
