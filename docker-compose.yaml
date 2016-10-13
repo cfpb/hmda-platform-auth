@@ -9,12 +9,16 @@ services:
     environment:
       KEYCLOAK_USER: admin 
       KEYCLOAK_PASSWORD: admin
-    volumes: 
-      - './keycloak/import:/opt/jboss/import'
+    #volumes: 
+    #  - './keycloak/import:/opt/jboss/import'
+
+    # Set action to "export" to dump Keycloak realm data
     command: >
       -Dkeycloak.migration.action=import 
       -Dkeycloak.migration.provider=dir
       -Dkeycloak.migration.dir=/opt/jboss/import/
+      -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+      -Dkeycloak.migration.usersExportStrategy=SKIP
       -b 0.0.0.0
     links:
       - mail_dev
