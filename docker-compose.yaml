@@ -9,10 +9,12 @@ services:
     environment:
       KEYCLOAK_USER: admin 
       KEYCLOAK_PASSWORD: admin
+    volumes: 
+      - './keycloak/import:/opt/jboss/import'
     command: >
-      -Dkeycloak.migration.action=export 
+      -Dkeycloak.migration.action=import 
       -Dkeycloak.migration.provider=dir
-      -Dkeycloak.migration.dir=/tmp/
+      -Dkeycloak.migration.dir=/opt/jboss/import/
       -b 0.0.0.0
 
   auth_proxy:
@@ -37,7 +39,7 @@ services:
       - echo
       - keycloak
     volumes:
-      - ./auth-proxy/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - './auth-proxy/000-default.conf:/etc/apache2/sites-available/000-default.conf'
 
   echo:
     build: ./echo-api
