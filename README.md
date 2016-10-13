@@ -52,9 +52,12 @@ This project is not fully automated yet.  In order to integrate with these servi
 1. Login to Keycloak _master_ realm by browsing to https://192.168.99.100:8443/auth/admin/.
 1. Create the _HMDA_ realm.
     1. Mouse-over _Master_ header.
-    2. Click _Add realm_ button.
-    3. Add "hmda" to _Name_ field.
-    4. Click _Create_ button.
+    1. Click _Add realm_ button.
+    1. Add "hmda" to _Name_ field.
+    1. Click _Create_ button.
+    1. On the _Email_ tab, fill in the following fields, and click _Save_:
+        1. Host: mail_dev
+        1. From: hmda-support@keycloak.local
 1. Add a _hmda-api_ OpenID Connect client.
     1. Follow _Clients_ link on left menu, and click _Create_.
     1. Set _Client ID_ to hmda-api, and click _Save_.
@@ -89,18 +92,44 @@ This project is not fully automated yet.  In order to integrate with these servi
         
 
 ## Use it!
-Once you've jumped through all of these setup hoops, you're ready to authenticate. 
-
-### OIDC test webapp
-This project currently includes a test webapp (`oidc-test`) and a test API (`echo-api`).  You can confirm the stack is working by browsing to:
-
-* http://192.168.99.100:7070 
+Once you've jumped through all of these setup hoops, you're ready to authenticate.
 
 ### Integrate your own app
 When integrating with your own app, the following are the most important configs.  Defaults should work for the rest of the usual OIDC settings.
 
 * **Discovery Endpoint:** https://192.168.99.100:8443/auth/realms/hmda/.well-known/openid-configuration
 * **Client ID:** hmda-api
+
+### Services
+
+The following services are included in the Docker Compose config.
+
+#### Keycloak
+Keycloak acts as an OpenID Connect Identity Provider.  It is available at:
+
+* https://192.168.99.100:8443/auth/
+
+#### Echo API
+This is a simple REST API that _echos_ back the request it received, including all headers added by the Auth Proxy.  This can be extremely useful while debugging OIDC settings.
+
+* http://192.168.99.100:5000 (directly)
+* https://192.168.99.100 (through the Auth Proxy)
+
+#### OpenId Connect Demo Webapp
+This is a simple OIDC test webapp used for testing purposes.  It authenticates with Keycloak, and makes CORS API calls through the Auth Proxy to both the Echo API and HMDA Platform API.
+
+* http://192.168.99.100:7070 
+
+#### Email
+Several of Keycloak's identity manangement workflows involve email confirmation.  In order to test this locally, we've included the [MailDev](http://danfarrelly.nyc/MailDev/) service.  All emails sent by Keycloak can be viewed at:
+
+* http://192.168.99.100:1080/
+
+### Self-signed Certs
+**WARNING:** The Keycloak and Auth Proxy services are served over HTTPS with self-signed certificates.  This can result in unexpected behavior, especially when dealing with CORS calls.  To get around this, browse to each these services and accept the untrusted certs before you start using any of the other services.
+
+* https://192.168.99.100 (Auth Proxy)
+* https://192.168.99.100:8443 (Keycloak)
 
 ## Getting help
 
