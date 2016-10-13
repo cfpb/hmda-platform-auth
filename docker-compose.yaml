@@ -14,6 +14,13 @@ services:
       -Dkeycloak.migration.provider=dir
       -Dkeycloak.migration.dir=/tmp/
       -b 0.0.0.0
+    links:
+      - mail_dev
+
+  mail_dev:
+    image: djfarrelly/maildev:0.14.0
+    ports:
+      - '1080:80'
 
   auth_proxy:
     build: ./auth-proxy
