@@ -47,7 +47,16 @@ docker-compose rm -vf auth_proxy keycloak && docker-compose build --no-cache aut
 This will guarantee that old containers (and their data) are removed, and new ones are build from scratch.
 
 ## Config it!
-This project is not fully automated yet.  In order to integrate with these service, you'll need to do a bit of manual configuration.
+
+### Automated
+The Keycloak Docker image comes with the default "master" (admin) realm, and a "hmda" realm configured 
+for integrating with the oidc-client webapp.  If you want to persist changes to "hmda", edit `keycloak/import/hmda-realm.json`.
+This file is copied in during the Docker built, and applied to Keycloak via its
+[Import/Export](https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/export-import.html) functionality.
+
+### Manual
+When experimenting with Keycloak setting, it is easier to use the admin UI to make changes.
+Below is an example how the automated "hmda" realm is setup.
 
 1. Login to Keycloak _master_ realm by browsing to https://192.168.99.100:8443/auth/admin/.
 1. Create the _HMDA_ realm.
