@@ -46,6 +46,15 @@
                 </div>
             </div>
 
+            <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('institutions',properties.kcFormGroupErrorClass!)}">
+                <div class="${properties.kcLabelWrapperClass!}">
+                    <label for="user.attributes.institutions" class="${properties.kcLabelClass!}">Institutions</label>
+                </div>
+                <div class="${properties.kcInputWrapperClass!}">
+                    <input type="text" id="user.attributes.institutions" class="${properties.kcInputClass!}" name="user.attributes.institutions"/>
+                </div>
+            </div>
+
             <#if passwordRequired>
             <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('password',properties.kcFormGroupErrorClass!)}">
                 <div class="${properties.kcLabelWrapperClass!}">

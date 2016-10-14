@@ -54,7 +54,17 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group ${messagesPerField.printIfExists('institutions','has-error')}">
+            <div class="col-sm-2 col-md-2">
+                <label for="user.attributes.institutions" class="control-label">Institutions<span class="required">*</span>
+            </div>
+
+            <div class="col-sm-10 col-md-10">
+                <input type="text" class="form-control" id="user.attributes.institutions" name="user.attributes.institutions" value="${(account.attributes.institutions!'')?html}"/>
+            </div> 
+       </div>
+
+       <div class="form-group">
             <div id="kc-form-buttons" class="col-md-offset-2 col-md-10 submit">
                 <div class="">
                     <#if url.referrerURI??><a href="${url.referrerURI}">${msg("backToApplication")}/a></#if>
