@@ -9,6 +9,8 @@ services:
     environment:
       KEYCLOAK_USER: admin 
       KEYCLOAK_PASSWORD: admin
+    volumes:
+      - './keycloak/themes/hmda:/opt/jboss/keycloak/themes/hmda'
     command: >
       -Dkeycloak.migration.action=export 
       -Dkeycloak.migration.provider=dir
