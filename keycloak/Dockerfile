@@ -10,7 +10,13 @@ RUN keytool -genkey -noprompt \
     -keypass password && \
     mv keycloak.jks /opt/jboss/keycloak/standalone/configuration/
 
-COPY import /opt/jboss/import
+# Copy JBoss Wildfly-based config file
 COPY standalone.xml /opt/jboss/keycloak/standalone/configuration/
+
+# Copy realms and users for import at startup
+COPY import /opt/jboss/import
+
+# Copy all custom web and email themes
+COPY themes/hmda /opt/jboss/keycloak/themes/hmda
 
 EXPOSE 8443
