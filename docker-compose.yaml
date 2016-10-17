@@ -9,7 +9,8 @@ services:
     environment:
       KEYCLOAK_USER: admin 
       KEYCLOAK_PASSWORD: admin
-    #volumes: 
+    volumes:
+      - './keycloak/themes/hmda:/opt/jboss/keycloak/themes/hmda'
     #  - './keycloak/import:/opt/jboss/import'
 
     # Set action to "export" to dump Keycloak realm data
