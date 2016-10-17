@@ -9,10 +9,16 @@ services:
     environment:
       KEYCLOAK_USER: admin 
       KEYCLOAK_PASSWORD: admin
+    #volumes: 
+    #  - './keycloak/import:/opt/jboss/import'
+
+    # Set action to "export" to dump Keycloak realm data
     command: >
-      -Dkeycloak.migration.action=export 
+      -Dkeycloak.migration.action=import 
       -Dkeycloak.migration.provider=dir
-      -Dkeycloak.migration.dir=/tmp/
+      -Dkeycloak.migration.dir=/opt/jboss/import/
+      -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+      -Dkeycloak.migration.usersExportStrategy=SKIP
       -b 0.0.0.0
     links:
       - mail_dev
@@ -44,7 +50,7 @@ services:
       - echo
       - keycloak
     volumes:
-      - ./auth-proxy/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - './auth-proxy/000-default.conf:/etc/apache2/sites-available/000-default.conf'
 
   echo:
     build: ./echo-api

@@ -10,6 +10,7 @@ RUN keytool -genkey -noprompt \
     -keypass password && \
     mv keycloak.jks /opt/jboss/keycloak/standalone/configuration/
 
+COPY import /opt/jboss/import
 COPY standalone.xml /opt/jboss/keycloak/standalone/configuration/
 
 EXPOSE 8443
