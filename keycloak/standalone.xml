@@ -398,8 +398,8 @@
         <subsystem xmlns="urn:jboss:domain:undertow:3.0">
             <buffer-cache name="default"/>
             <server name="default-server">
-                <https-listener name="https" socket-binding="https" security-realm="UndertowRealm"/>
                 <http-listener name="default" socket-binding="http" redirect-socket="https"/>
+                <https-listener name="https" socket-binding="https" security-realm="UndertowRealm"/>
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
                     <filter-ref name="server-header"/>
