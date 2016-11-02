@@ -32,22 +32,22 @@ services:
   auth_proxy:
     build: ./auth-proxy
     ports:
-      - '80:80'     # Redirects to https
-      - '443:443'   # Apache w/ mod_auth_openidc
+      - '4480:80'
+      - '4443:443'   # Apache w/ mod_auth_openidc
     environment:
       OIDC_METADATA_URI: https://keycloak:8443/auth/realms/hmda/.well-known/openid-configuration
       OIDC_JWKS_URI: https://keycloak:8443/auth/realms/hmda/protocol/openid-connect/certs
-      OIDC_CLIENT_ID: hmda-api
+      OIDC_CLIENT_ID: api
       OIDC_REDIRECT_URI: https://192.168.99.100:8443
       CRYPTO_PASSPHRASE: abcdefghijklmnopqrstuvwxyz
       VALIDATE_SSL: "Off"
       CLAIM_HEADER_PREFIX: CFPB-HMDA-
       REMOTE_USER_CLAIM: preferred_username
       REMOTE_USER_HEADER: CFPB-HMDA-Username
-      UPSTREAM_API_URI: http://hmda_api:8080/
+      UPSTREAM_API_URI: http://api:8080/
       API_PATH_PREFIX: /hmda/
     links:
-      - hmda_api
+      - api
       - echo
       - keycloak
     volumes:
@@ -63,12 +63,17 @@ services:
     ports:
       - '7070:80'
 
-  hmda_api:
+  api:
     build: ../hmda-platform
     ports:
       - '9090:8080'
 
-#  web:
-#    build: ../hmda-platform-ui
-#    ports:
-#      - '8080:80'
+  web:
+    build: ../hmda-platform-ui
+    depends_on:
+      - auth_proxy
+      - keycloak
+    ports:
+      - '80:80'
+    volumes:
+      - ../hmda-platform-ui/dist:/usr/src/app/dist

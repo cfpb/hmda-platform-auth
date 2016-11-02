@@ -1,4 +1,6 @@
-FROM jboss/keycloak:2.2.1.Final
+FROM jboss/keycloak:2.3.0.Final
+
+ENV KEYCLOAK_LOGLEVEL TRACE
 
 # Generate TLS keypair for Keycloak over HTTPS
 RUN keytool -genkey -noprompt \

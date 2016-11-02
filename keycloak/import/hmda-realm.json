@@ -539,7 +539,7 @@
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "clientAuthenticatorType" : "client-secret",
-    "redirectUris" : [ "http://192.168.99.100:7070" ],
+    "redirectUris" : [ "http://192.168.99.100/oidc-callback",  "http://192.168.99.100/silent_renew.html" ],
     "webOrigins" : [ "*" ],
     "notBefore" : 0,
     "bearerOnly" : false,
