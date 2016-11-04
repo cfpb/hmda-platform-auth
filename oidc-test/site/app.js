@@ -56,7 +56,7 @@ function getInstitution(accessToken, instId) {
     $("#inst-id").text(instId)
 
     $.ajax({
-        url: "https://192.168.99.100/hmda/institutions/"+instId,
+        url: "https://192.168.99.100:4443/hmda/institutions/"+instId,
         method: "GET",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -74,7 +74,7 @@ function getInstitution(accessToken, instId) {
 function getMyInstitutions(accessToken) {
 
     $.ajax({
-        url: "https://192.168.99.100/hmda/institutions",
+        url: "https://192.168.99.100:4443/hmda/institutions",
         method: "GET",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -97,7 +97,7 @@ function callEchoApi(accessToken) {
 
     if(accessToken) {
         $.ajax({
-            url: "https://192.168.99.100/echo/v1",
+            url: "https://192.168.99.100:4443/echo/v1",
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + accessToken
@@ -111,7 +111,7 @@ function callEchoApi(accessToken) {
         });
     } else {
         $.ajax({
-            url: "https://192.168.99.100/api/echo/v1",
+            url: "https://192.168.99.100:4443/api/echo/v1",
             method: "GET"
         }).done(function(data, textStatus, jqXHR) {
             console.log("Echo Success! :)")
