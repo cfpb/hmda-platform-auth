@@ -23,6 +23,7 @@ services:
       -b 0.0.0.0
     links:
       - mail_dev
+      - institution_search
 
   mail_dev:
     image: djfarrelly/maildev:0.14.0
@@ -53,10 +54,15 @@ services:
     volumes:
       - './auth-proxy/000-default.conf:/etc/apache2/sites-available/000-default.conf'
 
-  echo:
-    build: ./echo-api
+  institution_search:
+    build: ./institution-search
     ports:
       - '5000:5000'
+
+  echo:
+    build: ./echo-api
+    #ports:
+    #  - '5000:5000'
 
   oidc_test:
     build: ./oidc-test
