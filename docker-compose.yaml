@@ -51,6 +51,7 @@ services:
       - api
       - echo
       - keycloak
+      - institution_search
     volumes:
       - './auth-proxy/000-default.conf:/etc/apache2/sites-available/000-default.conf'
 
