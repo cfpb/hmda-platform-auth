@@ -1,18 +1,19 @@
 from collections import defaultdict
 from flask import abort, Flask, jsonify, request
-from flask_cors import CORS
+#from flask_cors import CORS
 from pprint import pprint
 from werkzeug.exceptions import BadRequest
+import yaml
+
+institutions = None
+
+with open("data/institutions.yaml", 'r') as f:
+    institutions = yaml.safe_load(f)['institutions']
 
 app = Flask(__name__)
-CORS(app)
+# CORS not currently needed with requests going through auth-proxy
+#CORS(app)
 
-institutions = [
-    {'id': '1', 'rssd_id': '11111', 'fdic_charter': '987', 'name': 'ABC Bank',    'domain': ['abcbank.com']},
-    {'id': '2', 'rssd_id': '22222', 'fdic_charter': '823', 'name': 'XYZ Bank',    'domain': ['xyzbank.com']},
-    {'id': '3', 'rssd_id': '33333', 'fdic_charter': '123', 'name': 'First Bank',  'domain': ['1stbank.com', 'firstbank.com']},
-    {'id': '4', 'rssd_id': '44444', 'fdic_charter': '656', 'name': 'Second Bank', 'domain': ['2ndbank.com', 'secondbank.com']}
-]
 
 inst_by_attr = defaultdict(dict)
 for inst in institutions:
@@ -23,14 +24,15 @@ for inst in institutions:
         if inst_attr_key == 'domain':
             for domain in inst_attr_val:
                 try:
-                    # FIXME: This allows dupe insts 
-                    inst_attr_map[domain].add(inst)
+                    # FIXME: This allows dupe institutions 
+                    inst_attr_map[domain].append(inst)
                 except KeyError:
                     inst_attr_map[domain] = [inst]
+
         else:
             try:
-                # FIXME: This allows dupe insts
-                inst_attr_map[inst_attr_val].add(inst)
+                # FIXME: This allows dupe institutions
+                inst_attr_map[inst_attr_val].append(inst)
             except KeyError:
                 inst_attr_map[inst_attr_val] = [inst]
 
