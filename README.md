@@ -23,7 +23,7 @@ This project has been fully Docker-ized.  Docker is all you need to launch the f
 
 This project is intended to be run from [`hmda-platform`](https://github.com/cfpb/hmda-platform)'s
 Docker Compose setup, configured in [`hmda-platform/docker-compose.yml`](https://github.com/cfpb/hmda-platform/blob/master/docker-compose.yml).
-Please see the instructions in that repo for details on how to launch the system.
+Please see [the instructions in that repo](https://github.com/cfpb/hmda-platform#to-run-the-entire-platform) for details on how to launch the system.
 
 ## Config
 
