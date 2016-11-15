@@ -25,28 +25,7 @@ This project is intended to be run from [`hmda-platform`](https://github.com/cfp
 Docker Compose setup, configured in [`hmda-platform/docker-compose.yml`](https://github.com/cfpb/hmda-platform/blob/master/docker-compose.yml).
 Please see the instructions in that repo for details on how to launch the system.
 
-## Run it!
-
-### First Time
-
-When you are launching this stack from a clean slate, all you need is a simple:
-
-```
-docker-compose up
-```
-
-### Re-running
-
-If you're making changes, and you'd like to rebuild and launch the full stack, 
-the safest way to do so is with:
-
-```
-docker-compose rm -vf auth_proxy keycloak && docker-compose build --no-cache auth_proxy keycloak && docker-compose up
-```
-
-This will guarantee that old containers (and their data) are removed, and new ones are build from scratch.
-
-## Config it!
+## Config
 
 ### Automated
 The Keycloak Docker image comes with the default "master" (admin) realm, and a "hmda" realm configured 
@@ -117,17 +96,6 @@ The following services are included in the Docker Compose config.
 Keycloak acts as an OpenID Connect Identity Provider.  It is available at:
 
 * https://192.168.99.100:8443/auth/
-
-#### Echo API
-This is a simple REST API that _echos_ back the request it received, including all headers added by the Auth Proxy.  This can be extremely useful while debugging OIDC settings.
-
-* http://192.168.99.100:5000 (directly)
-* https://192.168.99.100 (through the Auth Proxy)
-
-#### OpenId Connect Demo Webapp
-This is a simple OIDC test webapp used for testing purposes.  It authenticates with Keycloak, and makes CORS API calls through the Auth Proxy to both the Echo API and HMDA Platform API.
-
-* http://192.168.99.100:7070 
 
 #### Email
 Several of Keycloak's identity manangement workflows involve email confirmation.  In order to test this locally, we've included the [MailDev](http://danfarrelly.nyc/MailDev/) service.  All emails sent by Keycloak can be viewed at:
