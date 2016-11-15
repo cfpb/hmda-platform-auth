@@ -31,6 +31,7 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
     public static final String FIELD_INSTITUTIONS = "user.attributes.institutions";
     private static final Logger logger = Logger.getLogger(HmdaValidInstitutionsFormAction.class);
 
+    // FIXME: Replace hard-coded URI with envvar
     private WebTarget apiClient = ClientBuilder.newClient().register(
             InstitutionSearchResultsReader.class
     ).target("http://institution_search:5000").path("institutions");
@@ -38,9 +39,8 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
     private Set<Institution> findInstitutionsByDomain(String domain) {
         WebTarget target = apiClient.queryParam("domain", domain);
         InstitutionSearchResults results = target.request(MediaType.APPLICATION_JSON_TYPE).get(InstitutionSearchResults.class);
-        Set<Institution> domainInsts = new HashSet<>(results.getResults());
 
-        return domainInsts;
+        return new HashSet<>(results.getResults());
     }
 
     private Institution getInstitution(String id) {
@@ -50,7 +50,7 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
         // FIXME: This should use a /institutions/{id} endpoint
         List<Institution> insts = results.getResults();
 
-        if(insts.isEmpty())
+        if (insts.isEmpty())
             // FIXME: Throw exception on inst_not_found?
             return null;
         else
@@ -123,7 +123,7 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
 
             context.success();
         } catch (Exception e) {
-            String message = "Error occurred while validating institution(s) against \""+domain+"\" domain";
+            String message = "Error occurred while validating institution(s) against \"" + domain + "\" domain";
             logger.error(message, e);
             errors.add(new FormMessage(FIELD_INSTITUTIONS, message));
             context.validationError(formData, errors);

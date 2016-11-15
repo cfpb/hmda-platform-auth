@@ -11,9 +11,6 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-/**
- * Created by keelerh on 10/21/16.
- */
 public class InstitutionSearchResultsReader implements MessageBodyReader<InstitutionSearchResults> {
 
     @Override
