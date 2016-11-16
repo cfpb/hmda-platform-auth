@@ -14,3 +14,8 @@ errorlog = "-"
 #   http://gunicorn-docs.readthedocs.org/en/latest/settings.html#forwarded-allow-ips
 #   http://gunicorn-docs.readthedocs.org/en/latest/deploy.html
 forwarded_allow_ips = "*"
+
+# SSL
+# Key and cert are generated at server startup.  See docker-entrypoint.sh for details.
+certfile = 'ssl.crt'
+keyfile = 'ssl.key'
