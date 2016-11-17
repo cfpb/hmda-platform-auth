@@ -1,6 +1,6 @@
 from collections import defaultdict
 from flask import abort, Flask, jsonify, request
-#from flask_cors import CORS
+from flask_cors import CORS
 from pprint import pprint
 from werkzeug.exceptions import BadRequest
 import yaml
@@ -11,9 +11,7 @@ with open("data/institutions.yaml", 'r') as f:
     institutions = yaml.safe_load(f)['institutions']
 
 app = Flask(__name__)
-# CORS not currently needed with requests going through auth-proxy
-#CORS(app)
-
+CORS(app)
 
 inst_by_attr = defaultdict(dict)
 for inst in institutions:
