@@ -129,7 +129,7 @@
                 width: "600px",
                 dropdownCssClass: "bigdrop",
                 ajax: {
-                    url: "https://192.168.99.100:4443/search/institutions",
+                    url: "https://192.168.99.100:9443/institutions",
                     data: function(term, page) {
                         // Search based on user input
                         return { search: term }
