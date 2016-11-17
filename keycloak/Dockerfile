@@ -46,7 +46,6 @@ USER jboss
 # NOTE: If we develop more SPIs, we may want to iterate over a directory structure, building as we go.
 RUN echo 'Keycloak SPI build starting...' && \
     cd ${KC_SPI_DEST}/${KC_SPI_SRC}/authenticator/hmda && \
-    #mvn --quiet clean install -DoutputDirectory=/opt/jboss/keycloak/providers && \
     mvn --quiet clean install && \
     cp target/keycloak-authenticator-hmda-2.3.0.Final.jar /opt/jboss/keycloak/providers && \
     echo 'Keycloak SPIs build successful!'
