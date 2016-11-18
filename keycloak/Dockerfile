@@ -24,6 +24,9 @@ RUN keytool -genkey -noprompt \
     -keypass password && \
     mv keycloak.jks /opt/jboss/keycloak/standalone/configuration/
 
+# Overwrite the default Keycloak startup script
+COPY docker-entrypoint.sh /opt/jboss/
+
 # Copy JBoss Wildfly-based config file
 COPY standalone.xml /opt/jboss/keycloak/standalone/configuration
 

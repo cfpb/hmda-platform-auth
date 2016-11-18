@@ -97,6 +97,7 @@
         </form>
     </#if>
     <script>
+        var institutionSearchUri = "${properties.institutionSearchUri!}/institutions";
 
         function emailToDomain(email) {
             return email.split("@", 2)[1];
@@ -121,6 +122,7 @@
         }
 
         $(document).ready(function() {
+            
             $("#user\\.attributes\\.institutions").select2({
                 placeholder: "Select Institution(s)",
                 minimumInputLength: 3,
@@ -129,7 +131,7 @@
                 width: "600px",
                 dropdownCssClass: "bigdrop",
                 ajax: {
-                    url: "https://192.168.99.100:9443/institutions",
+                    url: institutionSearchUri,
                     data: function(term, page) {
                         // Search based on user input
                         return { search: term }
@@ -152,7 +154,6 @@
                     return  institution.name + ' (' + institution.id + ') ' + getStatusIcon(getFormEmail(), institution.domain[0]);
                 },
                 formatResult: function(institution) {
-                    //console.log(institution)
 
                     return '<div class="container-fluid">' +
                            '  <div class="row">' +
