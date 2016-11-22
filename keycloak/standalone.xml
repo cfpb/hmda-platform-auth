@@ -140,20 +140,36 @@
                         <password>sa</password>
                     </security>
                 </datasource>
-                <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS"
+                <datasource 
+                        jndi-name="java:jboss/datasources/KeycloakDS" 
+                        pool-name="KeycloakDS"
                         enabled="true"
-                        use-java-context="true">
-                    <connection-url>jdbc:h2:${jboss.server.data.dir}/keycloak;AUTO_SERVER=TRUE</connection-url>
-                    <driver>h2</driver>
+                        use-java-context="true"
+                        use-ccm="true">
+
+                    <connection-url>jdbc:postgresql://${env.POSTGRES_SERVER}:${env.POSTGRES_PORT:5432}/${env.POSTGRES_DATABASE:keycloak}</connection-url>
+                    <driver>postgresql</driver>
                     <security>
-                        <user-name>sa</user-name>
-                        <password>sa</password>
+                        <user-name>${env.POSTGRES_USER:keycloak}</user-name>
+                        <password>${env.POSTGRES_PASSWORD:password}</password>
                     </security>
+                    <validation>
+                        <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
+                        <background-validation>true</background-validation>
+                        <background-validation-millis>60000</background-validation-millis>
+                    </validation>
+                    <pool>
+                        <flush-strategy>IdleConnections</flush-strategy>
+                    </pool>
                 </datasource>
+
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
+                    <driver name="postgresql" module="org.postgresql.jdbc">
+                        <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+                   </driver>
                 </drivers>
             </datasources>
         </subsystem>
