@@ -83,7 +83,7 @@
                 minimumInputLength: 3,
                 multiple: true,
                 allowClear: true,
-                width: "600px",
+                width: "350px",
                 dropdownCssClass: "bigdrop",
                 ajax: {
                     url: institutionSearchUri,
@@ -110,42 +110,21 @@
                 },
                 formatResult: function(institution) {
 
-                    return '<div class="container-fluid">' +
-                           '  <div class="row">' +
-                           '    <div styles="vertical-align:middle;" class="col-md-1">' +
-                           '      <h1>' + getStatusIcon(getFormEmail(), institution.domain[0]) + '</h1>' +
-                           '    </div>' +
-                           '    <div class="col-md-11">' +
-                           '      <div class="row">' +
-
-                           '        <div class="col-md-6">' +
-                           '          <div class="row">' +
-                           '            <div class="col-md-12">' +
-                           '              <h4>' + institution.name + '</h4>' +
-                           '            </div>' +
-                           '          </div>' +
-
-                           '          <div class="row">' +
-                           '            <div class="col-md-4">' +
-                           '               <i class="fa fa-gavel" aria-hidden="true"></i> ' + institution.regulator +
-                           '            </div>' +
-                           '            <div class="col-md-8">' +
-                           '               <i class="fa fa-envelope" aria-hidden="true"></i> ' + institution.domain[0] +
-                           '            </div>' +
-                           '          </div>' +
-
+                    return '<div class="usa-grid-full">' +
+                           //'    <div styles="vertical-align:middle;" class="col-md-1">' +
+                           //'      <h1>' + getStatusIcon(getFormEmail(), institution.domain[0]) + '</h1>' +
+                           //'    </div>' +
+                           '          <h4>' + institution.name + '</h4>' +
+                           '        <div class="usa-width-one-half usa-text-small">' +
+                           '            <p><strong>Regulator:</strong> ' + institution.regulator +
+                           '            <p><strong>Domain:</strong> ' + institution.domain[0] +
                            '        </div>' +
 
-                           '        <div class="col-md-6">' +
-                           '          <div class="row"><strong>Respondent ID:</strong> ' + institution.id + '</div>' +
-                           '          <div class="row"><strong>EIN:</strong> 12-3456789</div>' +
-                           '          <div class="row"><strong>FDIC Charter:</strong> 999999</div>' +
-                           '          </div>' +
+                           '        <div class="usa-width-one-half usa-text-small">' +
+                           '          <p><strong>Respondent ID:</strong> ' + institution.id + '</p>' +
+                           '          <p><strong>EIN:</strong> 12-3456789</p>' +
+                           '          <p><strong>FDIC Charter:</strong> 999999</p>' +
                            '        </div>' +
-
-                           '      </div>' +
-                           '    </div>' +
-                           '  </div>' +
                            '</div>'
                 }
             });
