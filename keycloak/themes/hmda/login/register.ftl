@@ -32,8 +32,8 @@
                 <label for="email">${msg("email")}</label>
                 <input type="text" id="email" name="email" value="${(register.formData.email!'')?html}" />
 
-                <label for="institutions">Institutions</label>
-                <input id="institutions" name="institutions"/>
+                <label for="user.attributes.institutions">Institutions</label>
+                <input id="user.attributes.institutions" name="user.attributes.institutions"/>
 
                 <#if passwordRequired>
                     <label for="password">${msg("password")}</label>
@@ -78,7 +78,7 @@
 
         $(document).ready(function() {
 
-            $("#institutions").select2({
+            $("#user\\.attributes\\.institutions").select2({
                 placeholder: "Select Institution(s)",
                 minimumInputLength: 3,
                 multiple: true,
