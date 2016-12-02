@@ -32,73 +32,51 @@
 </head>
 
 <body>
-    <#-- <div id="kc-logo"><a href="${properties.kcLogoLink!'#'}"><div id="kc-logo-wrapper"></div></a></div> -->
-    <div class="usa-grid">
-        <div class="usa-width-one-whole">
-            <img src="${url.resourcesPath}/img/ffiec-logo.png" width="150px" />
-        </div>
-        <#--<div id="kc-container" class="${properties.kcContainerClass!}">
-            <div id="kc-container-wrapper" class="${properties.kcContainerWrapperClass!}">-->
-
-                <#--<div id="kc-header" class="${properties.kcHeaderClass!}">
-                    <div id="kc-header-wrapper" class="${properties.kcHeaderWrapperClass!}"><#nested "header"></div>
-                </div>-->
-
-                <#if realm.internationalizationEnabled>
-                    <div id="kc-locale" class="${properties.kcLocaleClass!}">
-                        <div id="kc-locale-wrapper" class="${properties.kcLocaleWrapperClass!}">
-                            <div class="kc-dropdown" id="kc-locale-dropdown">
-                                <a href="#" id="kc-current-locale-link">${locale.current}</a>
-                                <ul>
-                                    <#list locale.supported as l>
-                                        <li class="kc-dropdown-item"><a href="${l.url}">${l.label}</a></li>
-                                    </#list>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </#if>
-
-                <div id="kc-content">
-                    <div id="kc-content-wrapper">
-
-                        <#if displayMessage && message?has_content>
-                            <div class="usa-width-one-whole">
-                                <div class="usa-alert usa-alert-${message.type}">
-                                    <div class="usa-alert-body">
-                                        <#--<#if message.type = 'success'><span class="${properties.kcFeedbackSuccessIcon!}"></span></#if>
-                                        <#if message.type = 'warning'><span class="${properties.kcFeedbackWarningIcon!}"></span></#if>
-                                        <#if message.type = 'error'><span class="${properties.kcFeedbackErrorIcon!}"></span></#if>
-                                        <#if message.type = 'info'><span class="${properties.kcFeedbackInfoIcon!}"></span></#if> -->
-                                        <h3 class="usa-alert-heading">${message.type} Status</h3>
-                                        <p class="usa-alert-text">${message.summary}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </#if>
-
-                        <#--<div id="kc-form" class="${properties.kcFormAreaClass!}">
-                            <div id="kc-form-wrapper" class="${properties.kcFormAreaWrapperClass!}">-->
-                                <div class="usa-width-one-whole">
-                                    <#nested "form">
-                                </div>
-                            <#--</div>
-                        </div>-->
-
-                        <#if displayInfo>
-                            <#--<div id="kc-info" class="${properties.kcInfoAreaClass!}">
-                                <div id="kc-info-wrapper" class="${properties.kcInfoAreaWrapperClass!}">-->
-                                <div class="usa-width-one-whole">
-                                    <#nested "info">
-                                </div>
-                                <#--</div>
-                            </div>-->
-                        </#if>
-                    </div>
-                </div>
-            <#--</div>
-        </div> -->
+  <div class="usa-grid">
+    <div class="usa-width-one-whole">
+        <img src="${url.resourcesPath}/img/ffiec-logo.png" width="150px" />
     </div>
+
+    <#if realm.internationalizationEnabled>
+      <div id="kc-locale" class="${properties.kcLocaleClass!}">
+        <div id="kc-locale-wrapper" class="${properties.kcLocaleWrapperClass!}">
+          <div class="kc-dropdown" id="kc-locale-dropdown">
+            <a href="#" id="kc-current-locale-link">${locale.current}</a>
+            <ul>
+              <#list locale.supported as l>
+                <li class="kc-dropdown-item"><a href="${l.url}">${l.label}</a></li>
+              </#list>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </#if>
+
+    <div id="kc-content">
+      <div id="kc-content-wrapper">
+        <#if displayMessage && message?has_content>
+          <div class="usa-width-one-whole">
+            <div class="usa-alert usa-alert-${message.type}">
+              <div class="usa-alert-body">
+                <h3 class="usa-alert-heading">${message.type} Status</h3>
+                <p class="usa-alert-text">${message.summary}</p>
+              </div>
+            </div>
+          </div>
+        </#if>
+
+        <div class="usa-width-one-whole">
+            <#nested "form">
+        </div>
+
+        <#if displayInfo>
+          <div class="usa-width-one-whole">
+            <#nested "info">
+          </div>
+        </#if>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
 </#macro>
