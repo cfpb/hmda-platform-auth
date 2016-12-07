@@ -13,6 +13,7 @@ CONTAINER_UP_URI=$7
 
 CONTAINER1="$(echo $IMAGE_NAME | tr '/' '_')-$IMAGE_TAG1"
 CONTAINER2="$(echo $IMAGE_NAME | tr '/' '_')-$IMAGE_TAG2"
+DIFF_FILE="$DIFF_DEST_BASE/images.diff"
 
 function remove_container()
 {
@@ -45,8 +46,9 @@ function export_container()
         echo "Waiting for container $container to start..." 
         until $(curl --output /dev/null --silent --head --fail "$CONTAINER_UP_URI"); do
           printf '.'
-          sleep 5
+          sleep 1
         done
+        echo ''
     fi
 
     echo 'Diffing running container filesystem from its image...'
@@ -56,27 +58,22 @@ function export_container()
     docker cp "$container:$DIFF_SRC_BASE" "$DIFF_DEST_BASE/$container"
     docker stop $container
     docker rm -vf $container
+    echo "Export complete."
 }
 
-echo "Keycloak diff of versions $KC_VER_1 and $KC_VER_2 starting..."
+echo "Diff of $IMAGE_NAME:$IMAGE_TAG1 and $IMAGE_NAME:$IMAGE_TAG2 starting..."
 
 if [[ -d "$DIFF_DEST_BASE" ]]; then
     echo "Cleaning up old diff dir ($DIFF_DEST_BASE)"
     rm -rf "$DIFF_DEST_BASE"
 fi
 
-remove_container 'kc_upgrade_db'
-
-docker run --detach --name kc_upgrade_db \
-  --env "POSTGRES_DB=keycloak" \
-  --env "POSTGRES_USER=keycloak" \
-  --env "POSTGRES_PASSWORD=password" \
-  postgres:9.6.1
-
 export_container $IMAGE_TAG1 $CONTAINER1
 export_container $IMAGE_TAG2 $CONTAINER2
 
-diff -ru "$DIFF_DEST_BASE/$CONTAINER1" "$DIFF_DEST_BASE/$CONTAINER2" > "$DIFF_DEST_BASE/images.diff"
+set +e
+diff -ru "$DIFF_DEST_BASE/$CONTAINER1" "$DIFF_DEST_BASE/$CONTAINER2" > $DIFF_FILE
+set -e
 
-echo "Keycloak diff of versions ${KC_VER_1} and ${KC_VER_2} complete."
+echo "Diff of $IMAGE_NAME:$IMAGE_TAG1 and $IMAGE_NAME:$IMAGE_TAG2 complete. For details, see $DIFF_FILE."
 
