@@ -16,12 +16,10 @@ import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.services.validation.Validation;
 
 import javax.net.ssl.*;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-import java.net.URI;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -35,9 +33,16 @@ import java.util.Set;
 
 public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFactory, ConfiguredProvider {
 
-    private static final WebTarget apiClient;
     public static final String PROVIDER_ID = "registration-institution-action";
     public static final String FIELD_INSTITUTIONS = "user.attributes.institutions";
+    public static final String MISSING_INSTITUTION_MESSAGE = "missingInstitutionMessage";
+    public static final String INVALID_INSTITUTION_MESSAGE = "invalidInstitutionMessage";
+    public static final String UNKNOWN_INSTITUTION_MESSAGE = "unknownInstitutionMessage";
+    public static final String UNKNOWN_EMAIL_DOMAIN_MESSAGE = "unknownEmailDomainMessage";
+    public static final String INSTITUTION_ERROR_MESSAGE = "institutionErrorMessage";
+
+    private static final WebTarget apiClient;
+
     private static final Logger logger = Logger.getLogger(HmdaValidInstitutionsFormAction.class);
 
     static {
@@ -117,10 +122,10 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
 
         String instFieldVal = formData.getFirst(FIELD_INSTITUTIONS);
         if (Validation.isBlank(instFieldVal)) {
-            // FIXME: Make these errors consistent with Keycloak's own errors
-            errors.add(new FormMessage(FIELD_INSTITUTIONS, "Institution(s) not set"));
+            errors.add(new FormMessage(FIELD_INSTITUTIONS, MISSING_INSTITUTION_MESSAGE));
             context.validationError(formData, errors);
             context.error(Errors.INVALID_REGISTRATION);
+
             return;
         }
 
@@ -135,47 +140,40 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
             Set<Institution> domainInsts = findInstitutionsByDomain(domain);
 
             if (domainInsts.isEmpty()) {
-                errors.add(new FormMessage(RegistrationPage.FIELD_EMAIL, "Email domain '" + domain + "' not in CFPB whitelist"));
+                errors.add(new FormMessage(RegistrationPage.FIELD_EMAIL, UNKNOWN_EMAIL_DOMAIN_MESSAGE, domain));
                 context.validationError(formData, errors);
                 context.error(Errors.INVALID_REGISTRATION);
                 return;
             }
 
             for (String instId : instIds) {
-
                 Institution inst = getInstitution(instId);
-                ;
 
                 if (inst == null) {
-                    errors.add(new FormMessage(FIELD_INSTITUTIONS, "No institution found with ID " + instId));
+                    errors.add(new FormMessage(FIELD_INSTITUTIONS, UNKNOWN_INSTITUTION_MESSAGE));
                 }
 
                 if (!domainInsts.contains(inst)) {
-                    errors.add(new FormMessage(
-                            FIELD_INSTITUTIONS,
-                            "Institution \"" + inst.getName() + "\" not associated with email domain \"" + domain + "\""));
+                    errors.add(new FormMessage(FIELD_INSTITUTIONS, INVALID_INSTITUTION_MESSAGE, inst.getName(), domain));
                 }
             }
 
-            if (!errors.isEmpty()) {
-                context.validationError(formData, errors);
-                context.error(Errors.INVALID_REGISTRATION);
-                return;
-            }
-
-            context.success();
         } catch (Exception e) {
-            String message = "Error occurred while validating institution(s) against \"" + domain + "\" domain";
-            logger.error(message, e);
-            errors.add(new FormMessage(FIELD_INSTITUTIONS, message));
+            logger.error("Error occurred while validating institution(s) against \"" + domain + "\" domain", e);
+            errors.add(new FormMessage(FIELD_INSTITUTIONS, INSTITUTION_ERROR_MESSAGE, domain));
+        }
+
+        if (errors.isEmpty()) {
+            context.success();
+        } else {
             context.validationError(formData, errors);
             context.error(Errors.INVALID_REGISTRATION);
         }
+
     }
 
     @Override
     public void success(FormContext form) {
-
     }
 
     @Override
@@ -185,13 +183,11 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
 
     @Override
     public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
-        // FIXME: We could check to make sure it is the "hmda" realm?
         return true;
     }
 
     @Override
     public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
-        // FIXME: Anything we should do with this?
     }
 
     @Override
@@ -211,7 +207,6 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
 
     @Override
     public void close() {
-        // FIXME: What does this do?
     }
 
 
@@ -261,8 +256,5 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
         // FIXME: Add Institution API endpoint config
         return null;
     }
-
-
-    // ConfiguredProvider methods
 
 }
