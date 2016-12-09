@@ -60,7 +60,7 @@
               <div class="usa-alert-body">
                 <h3 class="usa-alert-heading">${message.type} Status</h3>
                 <p class="usa-alert-text">${message.summary}</p>
-                <p>For help account-related issues, please contact <a href="mailto:${properties.supportEmail!}">${properties.supportEmail}</a></em>.</p>
+                <p>For help account-related issues, please contact <strong>${properties.supportEmail!}</strong>.</p>
               </div>
             </div>
           </div>
