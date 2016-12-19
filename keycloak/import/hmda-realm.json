@@ -229,7 +229,6 @@
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "clientAuthenticatorType" : "client-secret",
-    "defaultRoles" : [ "manage-account", "view-profile" ],
     "redirectUris" : [ "/auth/realms/hmda/account/*" ],
     "webOrigins" : [ ],
     "notBefore" : 0,
