@@ -891,7 +891,6 @@
     "from" : "hmda-support@keycloak.local"
   },
   "loginTheme" : "hmda",
-  "accountTheme" : "hmda",
   "eventsEnabled" : false,
   "eventsListeners" : [ "jboss-logging" ],
   "enabledEventTypes" : [ ],
