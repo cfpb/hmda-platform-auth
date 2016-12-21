@@ -20,7 +20,6 @@ RUN apt-get update && \
     apt-get install -yf && \
     a2enmod auth_openidc log_debug headers proxy proxy_http rewrite ssl
 
-ADD ports.conf /etc/apache2/
-ADD 000-default.conf /etc/apache2/sites-available/
+ADD conf/ /
 
 CMD apache2ctl -D FOREGROUND

@@ -1,0 +1,5 @@
+{
+  "httpStatus": 400,
+  "message": "Bad gateway",
+  "path": "<!--#echo var="REQUEST_URI" -->"
+}

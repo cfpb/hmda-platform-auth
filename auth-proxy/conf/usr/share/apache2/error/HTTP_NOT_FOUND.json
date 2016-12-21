@@ -1,0 +1,5 @@
+{
+  "httpStatus": 404,
+  "message": "Resource not found",
+  "path": "<!--#echo var="REQUEST_URI" -->"
+}

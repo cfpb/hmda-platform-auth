@@ -1,0 +1,5 @@
+{
+  "httpStatus": 401,
+  "message": "Unauthorized",
+  "path": "<!--#echo var="REQUEST_URI" -->"
+}
