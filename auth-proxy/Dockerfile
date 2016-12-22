@@ -10,6 +10,8 @@ ENV CJOSE_PKG libcjose_0.4.1-1_amd64.deb
 
 ENV DL_SITE https://github.com/pingidentity/mod_auth_openidc/releases/download/
 
+ENV HTTPD_USER www-data
+
 RUN apt-get update && \
     apt-get install -y apache2 curl libhiredis0.10 libjansson4 vim && \
     curl -sL -o /tmp/${CJOSE_PKG} ${DL_SITE}/v${CJOSE_OIDC_VER}/${CJOSE_PKG} && \
@@ -20,13 +22,14 @@ RUN apt-get update && \
     a2disconf charset localized-error-pages other-vhosts-access-log serve-cgi-bin && \
     a2dismod -f access_compat auth_basic authn_file authz_host autoindex deflate negotiation status && \
     a2enmod auth_openidc headers include log_debug proxy proxy_http rewrite ssl && \
-    rm -rf /usr/share/apache2/error/* /var/www/html/* /var/log/apache2/* && \
-    chown -R www-data /run /etc/ssl 
+    rm -rf /usr/share/apache2/error/* /var/www/html/* /var/log/apache2/*
 
 ADD conf/ /
 
-RUN a2enconf error-pages 
+RUN a2enconf error-pages && \
+    chown -R $HTTPD_USER /etc/ssl /run /var/www/html
 
-USER www-data 
+USER $HTTPD_USER 
 
-CMD apache2ctl -D FOREGROUND
+# Updates timestamp for upSince attribute, and starts httpd
+CMD touch -m /var/www/html/index.json && apache2ctl -D FOREGROUND

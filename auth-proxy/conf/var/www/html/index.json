@@ -3,5 +3,6 @@
   "message": "Welcome to auth-proxy",
   "status": "OK",
   "time": "<!--#echo var="DATE_GMT"-->",
-  "host": "<!--#echo var="HOSTNAME"-->"
+  "host": "<!--#echo var="HOSTNAME"-->",
+  "upSince": "<!--#echo var="LAST_MODIFIED"-->"
 }
