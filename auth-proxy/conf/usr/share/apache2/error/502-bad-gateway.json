@@ -1,6 +1,6 @@
 {
   "httpStatus": 502,
-  "message": "Bad gateway",
+  "message": "Bad Gateway",
   "path": "<!--#echo var="REQUEST_URI" -->"
 }
 

@@ -1,6 +1,6 @@
 {
   "httpStatus": 405,
-  "message": "HTTP method <!--#echo var="REDIRECT_REQUEST_METHOD" --> not allowed",
+  "message": "HTTP Method Not Allowed: <!--#echo var="REDIRECT_REQUEST_METHOD" -->",
   "path": "<!--#echo var="REQUEST_URI" -->"
 }
 
