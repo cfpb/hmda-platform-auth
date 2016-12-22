@@ -2,5 +2,6 @@
 {
   "message": "Welcome to auth-proxy",
   "status": "OK",
-  "time": "<!--#echo var="DATE_GMT"-->"
+  "time": "<!--#echo var="DATE_GMT"-->",
+  "host": "<!--#echo var="HOSTNAME"-->"
 }
