@@ -35,14 +35,10 @@
   <div class="bg-color-hmda-gray padding-1 margin-bottom-1">
     <div class="usa-grid">
       <img src="${url.resourcesPath}/img/ffiec-logo.png" width="150px">
-      <br><a class="HomeLink" href="/">Home</a>
+      <br><a class="HomeLink" href="${properties.homePageUri!}">Home</a>
     </div>
   </div>
   <div class="usa-grid">
-    <#--<div class="usa-width-one-whole">
-        <img src="${url.resourcesPath}/img/ffiec-logo.png" width="150px" />
-    </div>-->
-
     <#if realm.internationalizationEnabled>
       <div id="kc-locale" class="${properties.kcLocaleClass!}">
         <div id="kc-locale-wrapper" class="${properties.kcLocaleWrapperClass!}">
