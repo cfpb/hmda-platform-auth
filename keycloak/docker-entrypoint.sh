@@ -16,9 +16,18 @@ if [ -z ${INSTITUTION_SEARCH_URI+x} ]; then
     echo 'INSTITUTION_SEARCH_URI environment variable not set' >&2
     exit 1
 else
-    echo "INSTITUTION_SEARCH_URI=$INSTITUTION_SUPPORT_URI"
+    echo "INSTITUTION_SEARCH_URI=$INSTITUTION_SEARCH_URI"
     sed -i "s@{{INSTITUTION_SEARCH_URI}}@$INSTITUTION_SEARCH_URI@g" keycloak/themes/hmda/login/theme.properties
     echo "Set institutionSearchUri=$INSTITUTION_SEARCH_URI"
+fi
+
+if [ -z ${HOME_PAGE_URI+x} ]; then
+    echo 'HOME_PAGE_URI environment variable not set' >&2
+    exit 1
+else
+    echo "HOME_PAGE_URI=$HOME_PAGE_URI"
+    sed -i "s@{{HOME_PAGE_URI}}@$HOME_PAGE_URI@g" keycloak/themes/hmda/login/theme.properties
+    echo "Set homePageUri=$HOME_PAGE_URI"
 fi
 
 if [ -z ${SUPPORT_EMAIL+x} ]; then
