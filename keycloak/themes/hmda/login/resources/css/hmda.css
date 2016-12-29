@@ -1,3 +1,11 @@
+.usa-grid-small {
+  max-width: 450px;
+}
+
+.usa-form {
+  max-width: 450px;
+}
+
 .usa-alert-heading {
   text-transform: capitalize;
 }
@@ -11,7 +19,7 @@
 }
 
 .margin-bottom-1 {
-  margin-bottom: 1em;
+  margin-bottom: 3em;
 }
 
 .select2-default {

@@ -43,6 +43,8 @@
 
         <input name="register" id="kc-register" type="submit" value="${msg("doRegister")}"/>
       </fieldset>
+
+      <p class="usa-text-small">Having trouble? Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a></p>
     </form>
   </#if>
   <script>

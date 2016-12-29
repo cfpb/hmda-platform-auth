@@ -53,7 +53,9 @@
         </div>
       </div>
     </#if>
+  </div>
 
+  <div class="usa-grid usa-grid-small">
     <div id="kc-content">
       <div id="kc-content-wrapper">
         <#if displayMessage && message?has_content>
