@@ -78,7 +78,7 @@
         minimumInputLength: 3,
         multiple: true,
         allowClear: true,
-        width: "350px",
+        width: "450px",
         dropdownCssClass: "bigdrop",
         ajax: {
           url: institutionSearchUri,
