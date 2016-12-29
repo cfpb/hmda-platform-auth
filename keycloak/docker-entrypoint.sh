@@ -36,7 +36,7 @@ if [ -z ${SUPPORT_EMAIL+x} ]; then
 else
     echo "SUPPORT_EMAIL=$SUPPORT_EMAIL"
     sed -i "s/{{SUPPORT_EMAIL}}/$SUPPORT_EMAIL/g" keycloak/themes/hmda/login/theme.properties
-    echo "Set supportEmail=$SUPPORT_EMAIL"
+    echo "Set supportEmailTo=$SUPPORT_EMAIL"
 fi
 
 echo 'Keycloak "login" theme.properties updated:'
