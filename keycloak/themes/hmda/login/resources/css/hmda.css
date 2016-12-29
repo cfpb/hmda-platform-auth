@@ -1,3 +1,7 @@
+.usa-alert-heading {
+  text-transform: capitalize;
+}
+
 .bg-color-hmda-gray {
   background-color: #f7f7f7;
 }
