@@ -72,7 +72,7 @@
 
     $(document).ready(function() {
       $("#user\\.attributes\\.institutions").select2({
-        placeholder: "Select Institution(s)",
+        placeholder: "Start typing to select institution(s)",
         minimumInputLength: 3,
         multiple: true,
         allowClear: true,
