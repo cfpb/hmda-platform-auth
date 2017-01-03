@@ -1,4 +1,4 @@
-FROM jboss/keycloak-postgres:2.4.0.Final
+FROM jboss/keycloak-postgres:2.5.0.Final
 
 ENV MAVEN_VER=3.3.9
 ENV MAVEN_DIST=apache-maven-$MAVEN_VER
@@ -6,6 +6,7 @@ ENV MAVEN_FILE=$MAVEN_DIST-bin.tar.gz
 ENV PATH=$PATH:/tmp/$MAVEN_DIST/bin
 ENV KC_SPI_SRC=providers
 ENV KC_SPI_DEST=/usr/src/keycloak
+ENV KC_VER=2.5.0.Final
 
 # Install Maven (YUM version is too old)
 RUN curl -s -o /tmp/${MAVEN_FILE} http://www-us.apache.org/dist/maven/maven-3/${MAVEN_VER}/binaries/${MAVEN_FILE} && \
@@ -50,7 +51,7 @@ USER jboss
 RUN echo 'Keycloak SPI build starting...' && \
     cd ${KC_SPI_DEST}/${KC_SPI_SRC}/authenticator/hmda && \
     mvn --quiet clean install && \
-    cp target/keycloak-authenticator-hmda-2.4.0.Final.jar /opt/jboss/keycloak/providers && \
+    cp target/keycloak-authenticator-hmda-${KC_VER}.jar /opt/jboss/keycloak/providers && \
     echo 'Keycloak SPIs build successful!'
 
 USER root
