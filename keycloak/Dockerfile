@@ -6,7 +6,7 @@ ENV MAVEN_FILE=$MAVEN_DIST-bin.tar.gz
 ENV PATH=$PATH:/tmp/$MAVEN_DIST/bin
 ENV KC_SPI_SRC=providers
 ENV KC_SPI_DEST=/usr/src/keycloak
-ENV KC_VER=2.5.0.Final
+ENV KC_VER=2.4.0.Final
 
 # Install Maven (YUM version is too old)
 RUN curl -s -o /tmp/${MAVEN_FILE} http://www-us.apache.org/dist/maven/maven-3/${MAVEN_VER}/binaries/${MAVEN_FILE} && \
