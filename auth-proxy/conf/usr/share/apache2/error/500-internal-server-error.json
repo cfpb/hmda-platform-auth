@@ -1,0 +1,5 @@
+{
+  "httpStatus": 500,
+  "message": "Internal Server Error",
+  "path": "<!--#echo var="REQUEST_URI" -->"
+}

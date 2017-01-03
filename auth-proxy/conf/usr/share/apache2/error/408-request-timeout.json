@@ -1,0 +1,6 @@
+{
+  "httpStatus": 408,
+  "message": "Request Timeout",
+  "path": "<!--#echo var="REQUEST_URI" -->"
+}
+

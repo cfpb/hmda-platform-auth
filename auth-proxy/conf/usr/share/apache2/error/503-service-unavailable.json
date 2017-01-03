@@ -1,0 +1,6 @@
+{
+  "httpStatus": 503,
+  "message": "Service Unavailable",
+  "path": "<!--#echo var="REQUEST_URI" -->"
+}
+

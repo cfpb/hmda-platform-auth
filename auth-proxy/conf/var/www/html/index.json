@@ -1,0 +1,7 @@
+<!--#config timefmt="%Y-%m-%dT%H:%M:%SZ"-->{
+  "status": "OK",
+  "message": "Welcome to auth-proxy",
+  "time": "<!--#echo var="DATE_GMT"-->",
+  "upSince": "<!--#echo var="LAST_MODIFIED"-->",
+  "host": "<!--#echo var="HOSTNAME"-->"
+}

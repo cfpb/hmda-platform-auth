@@ -1,0 +1,6 @@
+{
+  "httpStatus": 414,
+  "message": "URI Too Long",
+  "path": "<!--#echo var="REQUEST_URI" -->"
+}
+
