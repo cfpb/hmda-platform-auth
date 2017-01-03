@@ -1,0 +1,33 @@
+.usa-grid-small {
+  max-width: 450px;
+}
+
+.usa-form {
+  max-width: 450px;
+}
+
+.usa-alert-heading {
+  text-transform: capitalize;
+}
+
+.bg-color-hmda-gray {
+  background-color: #f7f7f7;
+}
+
+.padding-1 {
+  padding: 1em;
+}
+
+.margin-bottom-1 {
+  margin-bottom: 3em;
+}
+
+.select2-default {
+  color: #212121 !important;
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input {
+  color: #212121 !important;
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+}
