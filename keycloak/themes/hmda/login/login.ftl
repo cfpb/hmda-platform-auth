@@ -27,6 +27,7 @@
                         <p><a href="${url.loginResetCredentialsUrl}">${msg("doForgotPassword")}</a></p>
                     </#if>
                 </fieldset>
+                <p class="usa-text-small">Having trouble? Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a></p>
             </form>
         </#if>
     </#if>

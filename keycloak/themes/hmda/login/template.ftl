@@ -32,11 +32,13 @@
 </head>
 
 <body>
-  <div class="usa-grid">
-    <div class="usa-width-one-whole">
-        <img src="${url.resourcesPath}/img/ffiec-logo.png" width="150px" />
+  <div class="bg-color-hmda-gray padding-1 margin-bottom-1">
+    <div class="usa-grid">
+      <img src="${url.resourcesPath}/img/ffiec-logo.png" width="150px">
+      <br><a class="HomeLink" href="${properties.homePageUri!}">Home</a>
     </div>
-
+  </div>
+  <div class="usa-grid">
     <#if realm.internationalizationEnabled>
       <div id="kc-locale" class="${properties.kcLocaleClass!}">
         <div id="kc-locale-wrapper" class="${properties.kcLocaleWrapperClass!}">
@@ -51,16 +53,18 @@
         </div>
       </div>
     </#if>
+  </div>
 
+  <div class="usa-grid usa-grid-small">
     <div id="kc-content">
       <div id="kc-content-wrapper">
         <#if displayMessage && message?has_content>
-          <div class="usa-width-one-whole">
+          <div class="usa-width-one-whole margin-bottom-1">
             <div class="usa-alert usa-alert-${message.type}">
               <div class="usa-alert-body">
                 <h3 class="usa-alert-heading">${message.type} Status</h3>
                 <p class="usa-alert-text">${message.summary}</p>
-                <p>For help account-related issues, please contact
+                <p>For help with account-related issues, please contact
                     <strong><a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject?url('UTF-8')}">${properties.supportEmailTo}</a></strong>.
                 </p>
               </div>

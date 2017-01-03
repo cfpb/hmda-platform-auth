@@ -43,6 +43,8 @@
 
         <input name="register" id="kc-register" type="submit" value="${msg("doRegister")}"/>
       </fieldset>
+
+      <p class="usa-text-small">Having trouble? Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a></p>
     </form>
   </#if>
   <script>
@@ -72,11 +74,11 @@
 
     $(document).ready(function() {
       $("#user\\.attributes\\.institutions").select2({
-        placeholder: "Select Institution(s)",
+        placeholder: "Start typing to select institution(s)",
         minimumInputLength: 3,
         multiple: true,
         allowClear: true,
-        width: "350px",
+        width: "450px",
         dropdownCssClass: "bigdrop",
         ajax: {
           url: institutionSearchUri,
