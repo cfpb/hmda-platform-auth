@@ -12,7 +12,7 @@
 
             <p>${msg("emailInstruction")}</p>
 
-            <label for="username"><#if !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if></label>
+            <label for="username"><#if !realm.loginWithEmailAllowed>${msg("username")}<#elseif !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if></label>
             <input type="text" id="username" name="username" autofocus/>
 
             <input name="reset" id="kc-reset" type="submit" value="${msg("doSubmit")}"/>
