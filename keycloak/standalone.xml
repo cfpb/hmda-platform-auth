@@ -255,7 +255,9 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:infinispan:4.0">
             <cache-container name="keycloak" jndi-name="infinispan/Keycloak">
-                <local-cache name="realms"/>
+                <local-cache name="realms">
+                    <eviction max-entries="10000" strategy="LRU"/>
+                </local-cache>
                 <local-cache name="users">
                     <eviction max-entries="10000" strategy="LRU"/>
                 </local-cache>

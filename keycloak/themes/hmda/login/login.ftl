@@ -11,11 +11,11 @@
                     <legend class="usa-drop_text">Sign in</legend>
                     <span>or <a href="${url.registrationUrl}">create an account</a></span>
 
-                    <label for="username"><#if !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if></label>
+                    <label for="username"><#if !realm.loginWithEmailAllowed>${msg("username")}<#elseif !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if></label>
                     <#if usernameEditDisabled??>
                         <input id="username" name="username" type="text" autocapitalize="off" autocorrect="off" value="${(login.username!'')?html}" disabled>
                     <#else>
-                        <input id="username" name="username" value="${(login.username!'')?html}" type="text" autofocus />
+                        <input id="username" name="username" value="${(login.username!'')?html}" type="text" autofocus autocomplete="off" />
                     </#if>
 
                     <label for="password">${msg("password")}</label>
