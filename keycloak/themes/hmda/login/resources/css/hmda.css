@@ -18,7 +18,8 @@
   width: 100%;
 }
 
-.usa-alert-error {
+.usa-alert-error,
+.usa-alert-warning {
   background-image: none;
 }
 
