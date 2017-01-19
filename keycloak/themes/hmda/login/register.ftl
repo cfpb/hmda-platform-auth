@@ -47,77 +47,78 @@
       <p class="usa-text-small">Having trouble? Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a></p>
     </form>
   </#if>
-  <script>
-    var institutionSearchUri = "${properties.institutionSearchUri!}/institutions";
-
-    function emailToDomain(email) {
-      return email.split("@", 2)[1];
-    }
-
-    function getFormEmail() {
-      return $("#email").val().trim().toLowerCase();
-    }
-
-    function isValidDomain(email, domain) {
-      return emailToDomain(email) === domain;
-    }
-
-    function getStatusIcon(email, domain) {
-      var statusIcon = '';
-      if(isValidDomain(email, domain))
-        statusIcon =  '<i style="color:#20aa3f;" class="fa fa-check-circle" aria-hidden="true"></i>';
-      else
-        statusIcon =  '<i style="color:#ff9e1b;" class="fa fa-warning" aria-hidden="true"></i>';
-
-      return statusIcon;
-    }
-
-    $(document).ready(function() {
-      $("#user\\.attributes\\.institutions").select2({
-        placeholder: "Start typing to select institution(s)",
-        minimumInputLength: 3,
-        multiple: true,
-        allowClear: true,
-        width: "450px",
-        dropdownCssClass: "bigdrop",
-        ajax: {
-          url: institutionSearchUri,
-          data: function(term, page) {
-            // Search based on user input
-            return { search: term }
-
-            // Search based on "email" form field
-            //var domain = emailToDomain($("#email").val());
-            //return { domain: domain }
-          },
-          results: function(data, page) {
-            return {
-              // Each result MUST have an `id` attribute
-              results: data.results
-            }
-          }
-        },
-        escapeMarkup: function(markup) {
-          return markup;
-        },
-        formatSelection: function(institution) {
-          return  institution.name + ' (' + institution.id + ') ' + getStatusIcon(getFormEmail(), institution.domain[0]);
-        },
-        formatResult: function(institution) {
-          return '<div class="usa-grid-full">' +
-                 '  <h4>' + institution.name + '</h4>' +
-                 '  <div class="usa-width-one-half usa-text-small">' +
-                 '    <p><strong>Regulator:</strong> ' + institution.regulator +
-                 '    <p><strong>Domain:</strong> ' + institution.domain[0] +
-                 '  </div>' +
-                 '  <div class="usa-width-one-half usa-text-small">' +
-                 '    <p><strong>Respondent ID:</strong> ' + institution.id + '</p>' +
-                 '    <p><strong>EIN:</strong> 12-3456789</p>' +
-                 '    <p><strong>FDIC Charter:</strong> 999999</p>' +
-                 '  </div>' +
-                 '</div>'
-        }
-      });
-    });
-  </script>
 </@layout.registrationLayout>
+
+<script>
+var institutionSearchUri = "${properties.institutionSearchUri!}/institutions";
+
+function emailToDomain(email) {
+  return email.split("@", 2)[1];
+}
+
+function getFormEmail() {
+  return $("#email").val().trim().toLowerCase();
+}
+
+function isValidDomain(email, domain) {
+  return emailToDomain(email) === domain;
+}
+
+function getStatusIcon(email, domain) {
+  var statusIcon = '';
+  if(isValidDomain(email, domain))
+    statusIcon =  '<i style="color:#20aa3f;" class="fa fa-check-circle" aria-hidden="true"></i>';
+  else
+    statusIcon =  '<i style="color:#ff9e1b;" class="fa fa-warning" aria-hidden="true"></i>';
+
+  return statusIcon;
+}
+
+$(document).ready(function() {
+  $("#user\\.attributes\\.institutions").select2({
+    placeholder: "Start typing to select institution(s)",
+    minimumInputLength: 3,
+    multiple: true,
+    allowClear: true,
+    width: "450px",
+    dropdownCssClass: "bigdrop",
+    ajax: {
+      url: institutionSearchUri,
+      data: function(term, page) {
+        // Search based on user input
+        return { search: term }
+
+        // Search based on "email" form field
+        //var domain = emailToDomain($("#email").val());
+        //return { domain: domain }
+      },
+      results: function(data, page) {
+        return {
+          // Each result MUST have an `id` attribute
+          results: data.results
+        }
+      }
+    },
+    escapeMarkup: function(markup) {
+      return markup;
+    },
+    formatSelection: function(institution) {
+      return  institution.name + ' (' + institution.id + ') ' + getStatusIcon(getFormEmail(), institution.domain[0]);
+    },
+    formatResult: function(institution) {
+      return '<div class="usa-grid-full">' +
+             '  <h4>' + institution.name + '</h4>' +
+             '  <div class="usa-width-one-half usa-text-small">' +
+             '    <p><strong>Regulator:</strong> ' + institution.regulator +
+             '    <p><strong>Domain:</strong> ' + institution.domain[0] +
+             '  </div>' +
+             '  <div class="usa-width-one-half usa-text-small">' +
+             '    <p><strong>Respondent ID:</strong> ' + institution.id + '</p>' +
+             '    <p><strong>EIN:</strong> 12-3456789</p>' +
+             '    <p><strong>FDIC Charter:</strong> 999999</p>' +
+             '  </div>' +
+             '</div>'
+    }
+  });
+});
+</script>
