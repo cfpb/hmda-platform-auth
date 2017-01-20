@@ -150,7 +150,7 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
                 Institution inst = getInstitution(instId);
 
                 if (inst == null) {
-                    errors.add(new FormMessage(FIELD_INSTITUTIONS, UNKNOWN_INSTITUTION_MESSAGE));
+                    errors.add(new FormMessage(FIELD_INSTITUTIONS, UNKNOWN_INSTITUTION_MESSAGE, instId));
                 }
 
                 if (!domainInsts.contains(inst)) {
