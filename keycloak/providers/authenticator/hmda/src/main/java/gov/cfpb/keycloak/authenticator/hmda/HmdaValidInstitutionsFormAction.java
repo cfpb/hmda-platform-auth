@@ -2,10 +2,7 @@ package gov.cfpb.keycloak.authenticator.hmda;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
-import org.keycloak.authentication.FormAction;
-import org.keycloak.authentication.FormActionFactory;
-import org.keycloak.authentication.FormContext;
-import org.keycloak.authentication.ValidationContext;
+import org.keycloak.authentication.*;
 import org.keycloak.authentication.forms.RegistrationPage;
 import org.keycloak.events.Errors;
 import org.keycloak.forms.login.LoginFormsProvider;
@@ -15,20 +12,8 @@ import org.keycloak.provider.ConfiguredProvider;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.services.validation.Validation;
 
-import javax.net.ssl.*;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFactory, ConfiguredProvider {
@@ -41,68 +26,9 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
     public static final String UNKNOWN_EMAIL_DOMAIN_MESSAGE = "unknownEmailDomainMessage";
     public static final String INSTITUTION_ERROR_MESSAGE = "institutionErrorMessage";
 
-    private static final WebTarget apiClient;
+    private InstitutionService institutionService;
 
     private static final Logger logger = Logger.getLogger(HmdaValidInstitutionsFormAction.class);
-
-    static {
-        //FIXME: Should probably switch envvar handling to using Keycloak built-in Config features
-        String validateSsl = System.getenv("INSTITUTION_SEARCH_VALIDATE_SSL");
-        String apiUri = System.getenv("INSTITUTION_SEARCH_URI");
-
-        ClientBuilder apiClientBuilder = ClientBuilder.newBuilder();
-
-        // Special handling for dealing with untrusted HTTPS calls
-        if(validateSsl.trim().toUpperCase().equals("OFF")) {
-            try {
-                TrustManager[] tm = new TrustManager[] {
-                    new X509TrustManager() {
-                        @Override public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {}
-                        @Override public void checkServerTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {}
-                        @Override public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[0]; }
-                    }};
-
-                HostnameVerifier hv = new HostnameVerifier() {
-                    @Override public boolean verify(String s, SSLSession sslSession) { return true; }
-                };
-
-                SSLContext sslCtx = SSLContext.getInstance("TLS");
-                sslCtx.init(null, tm, new SecureRandom());
-
-                apiClientBuilder.sslContext(sslCtx).hostnameVerifier(hv).build();
-            } catch (NoSuchAlgorithmException|KeyManagementException ex) {
-                throw new RuntimeException(ex);
-            }
-
-            logger.warn("SSL validation is disabled.  This should not be enabled in a production environemnt.");
-        }
-
-        apiClient = apiClientBuilder.build()
-                .register(InstitutionSearchResultsReader.class)
-                .target(apiUri)
-                .path("institutions");
-    }
-
-    private Set<Institution> findInstitutionsByDomain(String domain) {
-        WebTarget target = apiClient.queryParam("domain", domain);
-        InstitutionSearchResults results = target.request(MediaType.APPLICATION_JSON_TYPE).get(InstitutionSearchResults.class);
-
-        return new HashSet<>(results.getResults());
-    }
-
-    private Institution getInstitution(String id) {
-        WebTarget target = apiClient.queryParam("id", id);
-        InstitutionSearchResults results = target.request(MediaType.APPLICATION_JSON_TYPE).get(InstitutionSearchResults.class);
-
-        // FIXME: This should use a /institutions/{id} endpoint
-        List<Institution> insts = results.getResults();
-
-        if (insts.isEmpty())
-            // FIXME: Throw exception on inst_not_found?
-            return null;
-        else
-            return insts.get(0);
-    }
 
     @Override
     public void buildPage(FormContext context, LoginFormsProvider form) {
@@ -130,31 +56,38 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
         }
 
         try {
-            String[] instIds = instFieldVal.split(",");
+            Set<String> userInstIds = new HashSet<>(Arrays.asList(instFieldVal.split(",")));
             String email = formData.getFirst(RegistrationPage.FIELD_EMAIL);
             domain = email.split("@")[1];
 
             logger.info("Email Domain: " + domain);
 
-
-            Set<Institution> domainInsts = findInstitutionsByDomain(domain);
+            Set<Institution> domainInsts = institutionService.findInstitutionsByDomain(domain);
 
             if (domainInsts.isEmpty()) {
                 errors.add(new FormMessage(RegistrationPage.FIELD_EMAIL, UNKNOWN_EMAIL_DOMAIN_MESSAGE, domain));
                 context.validationError(formData, errors);
                 context.error(Errors.INVALID_REGISTRATION);
+
                 return;
             }
 
-            for (String instId : instIds) {
-                Institution inst = getInstitution(instId);
+            // Get a set of institutionId(s) for a given domain
+            Set<String> domainInstIds = new HashSet<>(domainInsts.size());
+            for (Institution domainInstId : domainInsts) {
+                domainInstIds.add(domainInstId.getId());
+            }
 
-                if (inst == null) {
-                    errors.add(new FormMessage(FIELD_INSTITUTIONS, UNKNOWN_INSTITUTION_MESSAGE, instId));
-                }
+            // Add error for every institution submitted not associated with domain
+            if (!domainInsts.containsAll(userInstIds)) {
 
-                if (!domainInsts.contains(inst)) {
-                    errors.add(new FormMessage(FIELD_INSTITUTIONS, INVALID_INSTITUTION_MESSAGE, inst.getName(), domain));
+                // Remove all matched institutions
+                userInstIds.removeAll(domainInstIds);
+                
+                for (String userInstId : userInstIds) {
+                    if (!domainInsts.contains(userInstId)) {
+                        errors.add(new FormMessage(FIELD_INSTITUTIONS, INVALID_INSTITUTION_MESSAGE, userInstId, domain));
+                    }
                 }
             }
 
@@ -197,7 +130,12 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
 
     @Override
     public void init(Config.Scope scope) {
+        String uri = scope.get("institutionSearchUri");
+        Boolean validateSsl = scope.getBoolean("institutionSearchValidateSsl", true);
 
+        logger.info("Initializing institution search: uri="+uri+", validateSsl="+validateSsl);
+
+        institutionService = new InstitutionSearchHmdaApiImpl(uri, validateSsl);
     }
 
     @Override
@@ -253,7 +191,7 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
 
     @Override
     public List<ProviderConfigProperty> getConfigProperties() {
-        // FIXME: Add Institution API endpoint config
+        //TODO: Fill in uri and validateSsl here
         return null;
     }
 

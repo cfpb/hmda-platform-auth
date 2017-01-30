@@ -1,14 +1,14 @@
 package gov.cfpb.keycloak.authenticator.hmda;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Institution {
 
     private String id;
     private String name;
-    private String regulator;
-    private List<String> domain;
+    private Set<String> domains;
+    private Set<ExternalId> externalIds;
 
     public Institution() {
     }
@@ -29,36 +29,20 @@ public class Institution {
         this.name = name;
     }
 
-    public String getRegulator() {
-        return regulator;
+    public Set<String> getDomains() {
+        return domains;
     }
 
-    public void setRegulator(String regulator) {
-        this.regulator = regulator;
+    public void setDomains(Set<String> domains) {
+        this.domains = domains;
     }
 
-    public List<String> getDomain() {
-        return domain;
+    public Set<ExternalId> getExternalIds() {
+        return externalIds;
     }
 
-    public void setDomain(List<String> domain) {
-        this.domain = domain;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Institution that = (Institution) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(regulator, that.regulator) &&
-                Objects.equals(domain, that.domain);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, regulator, domain);
+    public void setExternalIds(Set<ExternalId> externalIds) {
+        this.externalIds = externalIds;
     }
 
     @Override
@@ -66,8 +50,8 @@ public class Institution {
         return "Institution{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", regulator='" + regulator + '\'' +
-                ", domain=" + domain +
+                ", domains=" + domains +
+                ", externalIds=" + externalIds +
                 '}';
     }
 }

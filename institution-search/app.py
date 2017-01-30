@@ -13,35 +13,18 @@ with open("data/institutions.yaml", 'r') as f:
 app = Flask(__name__)
 CORS(app)
 
-inst_by_attr = defaultdict(dict)
+inst_by_domain = {}
+
 for inst in institutions:
-    for inst_attr_key, inst_attr_val in inst.items():
-        inst_attr_map = inst_by_attr[inst_attr_key]
-
-        # FIXME: Make this a general `is list` check.
-        if inst_attr_key == 'domain':
-            for domain in inst_attr_val:
-                try:
-                    # FIXME: This allows dupe institutions 
-                    inst_attr_map[domain].append(inst)
-                except KeyError:
-                    inst_attr_map[domain] = [inst]
-
-        else:
-            try:
-                # FIXME: This allows dupe institutions
-                inst_attr_map[inst_attr_val].append(inst)
-            except KeyError:
-                inst_attr_map[inst_attr_val] = [inst]
-
-
-def search_name(search_str):
-    return [i for i in institutions if search_str.lower() in i['name'].lower()]
+    for domain in inst['domains']:
+        try:
+            inst_by_domain[domain].append(inst)
+        except KeyError:
+            inst_by_domain[domain] = [inst]
 
 
 @app.route('/', methods=['GET'])
 def home():
-
     resp = {'message': 'Welcome to the CFPB\'s Institutions API'}
 
     return jsonify(resp)
@@ -49,35 +32,11 @@ def home():
 
 @app.route('/institutions')
 def get_institutions():
-    params = request.args
-    results=institutions
-
-    if params:
-
-        search_str = params.get('search', None)
-    
-        if search_str:
-            results=search_name(search_str)
-        else:
-            for param_key, param_val in params.items():
-                # FIXME: `results` only based on last param
-                try:
-                    results = inst_by_attr[param_key][param_val]
-                except KeyError:
-                    results = []
-        
+    domain = request.args['domain']
+    results = inst_by_domain.get(domain, [])
 
     return jsonify(results=results)
-
-
-@app.route('/institutions/<id>')
-def get_institution_by_id(id):
-    try:
-        inst = inst_by_id[id]
-        return jsonify(inst)
-    except KeyError as ke:
-        abort(404)
-        
+       
 
 def gen_error_json(message, code):
     """
