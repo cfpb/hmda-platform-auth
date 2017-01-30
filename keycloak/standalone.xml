@@ -513,6 +513,14 @@
                     </properties>
                 </provider>
             </spi>
+            <spi name="form-action">
+                <provider name="registration-institution-action" enabled="true">
+                    <properties>
+                        <property name="institutionSearchUri" value="${env.INSTITUTION_SEARCH_URI}"/>
+                        <property name="institutionSearchValidateSsl" value="${env.INSTITUTION_SEARCH_VALIDATE_SSL}"/>
+                    </properties>
+                </provider>
+            </spi>
         </subsystem>
     </profile>
     <interfaces>
