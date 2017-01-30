@@ -205,7 +205,7 @@
   "groups" : [ ],
   "defaultRoles" : [ "uma_authorization", "offline_access" ],
   "requiredCredentials" : [ "password" ],
-  "passwordPolicy" : "hashIterations(20000)",
+  "passwordPolicy" : "hashIterations and forceExpiredPasswordChange(30) and passwordHistory(12) and upperCase and lowerCase and digits and specialChars and length(12) and notUsername",
   "otpPolicyType" : "totp",
   "otpPolicyAlgorithm" : "HmacSHA1",
   "otpPolicyInitialCounter" : 0,
