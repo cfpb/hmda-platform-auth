@@ -13,7 +13,7 @@
         </#list>
     </#if>
     <title><#nested "title"></title>
-    <link rel="icon" href="${url.resourcesPath}/img/favicon.ico" />
+    <link rel="icon" href="${url.resourcesPath}/img/favicons/favicon.ico" />
     <#if properties.styles?has_content>
         <#list properties.styles?split(' ') as style>
             <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
@@ -36,7 +36,7 @@
     <div class="usa-banner">
       <header class="usa-banner-header">
         <div class="usa-grid usa-banner-inner">
-          <img src="/img/favicons/favicon-57.png" alt="U.S. flag" />
+          <img src="${url.resourcesPath}/img/favicons/favicon-57.png" alt="U.S. flag" />
           <p>An official website of the United States government</p>
         </div>
       </header>
