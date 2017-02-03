@@ -62,10 +62,12 @@ function emailToDomain(email) {
 
 function createHTML(institutions) {
   var html = '<ul class="usa-unstyled-list">';
+  console.log(institutions.length)
+  var checked = (institutions.length === 1) ? 'checked' : ''
 
   for (var i = 0; i < institutions.length; i++) {
     html = html + '<li>'
-      + '<input class="institutionsCheck" type="checkbox" id="' + institutions[i].id + '" name="institutions" value="' + institutions[i].id + '">'
+      + '<input class="institutionsCheck" type="checkbox" id="' + institutions[i].id + '" name="institutions" value="' + institutions[i].id + '"' + checked + '>'
       + '<label for="' + institutions[i].id + '">' + institutions[i].name + '</label></li>'
   }
   html = html + '</ul></fieldset>';
