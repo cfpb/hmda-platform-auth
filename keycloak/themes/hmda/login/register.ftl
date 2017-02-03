@@ -75,7 +75,6 @@ function createHTML(institutions) {
 
 function buildList(institutions) {
   if(institutions.length === 0) {
-    console.log('in here');
     $('#institutions').html('<p class="usa-text-small margin-top-0">Sorry, we couldn\'t find that email domain. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered.</p>');
   } else {
     var html = createHTML(institutions);
@@ -111,7 +110,6 @@ $(document).ready(function() {
   }
 
   $('#institutions').on('click', '.institutionsCheck', function() {
-    console.log('checked');
     var listOfInstitutions = [];
     // add to the user.attributes.institutions input
     $('.institutionsCheck').each(function(index){
