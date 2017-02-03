@@ -32,12 +32,28 @@
 </head>
 
 <body>
-  <div class="bg-color-hmda-gray padding-1 margin-bottom-1">
-    <div class="usa-grid">
-      <img src="${url.resourcesPath}/img/ffiec-logo.png" width="150px">
-      <br><a class="HomeLink" href="${properties.homePageUri!}">Home</a>
+  <header class="usa-header usa-header-basic" role="banner">
+    <div class="usa-banner">
+      <header class="usa-banner-header">
+        <div class="usa-grid usa-banner-inner">
+          <img src="/img/favicons/favicon-57.png" alt="U.S. flag" />
+          <p>An official website of the United States government</p>
+        </div>
+      </header>
     </div>
-  </div>
+    <div class="usa-nav-container">
+      <div class="usa-logo" id="logo">
+        <img src="${url.resourcesPath}/img/ffiec-logo.png" width="125px"/>
+      </div>
+      <nav role="navigation" class="Header usa-nav usa-nav-left">
+        <ul class="usa-nav-primary">
+          <li>
+            <a class="HomeLink usa-nav-link" href="${properties.homePageUri!}">Home</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
   <div class="usa-grid">
     <#if realm.internationalizationEnabled>
       <div id="kc-locale" class="${properties.kcLocaleClass!}">
@@ -83,6 +99,29 @@
       </div>
     </div>
   </div>
+
+  <footer class="usa-footer usa-footer-slim" role="contentinfo">
+    <div class="usa-grid usa-footer-return-to-top">
+      <a href="#">Return to top</a>
+    </div>
+    <div class="usa-footer-primary-section">
+      <div class="usa-grid-full">
+        <nav class="usa-footer-nav usa-width-one-half">
+          <ul class="usa-unstyled-list">
+            <li class="usa-footer-primary-content">
+              <a class="usa-footer-primary-link" href="https://www.ffiec.gov/">FFIEC</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="usa-width-one-half">
+          <div class="usa-footer-primary-content usa-footer-contact_info">
+            <h4>Questions?</h4>
+            <a href="mailto:hmdahelp@cfpb.gov">hmdahelp@cfpb.gov</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
 </#macro>
