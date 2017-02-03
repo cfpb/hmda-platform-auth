@@ -35,6 +35,19 @@
   margin-bottom: 3em;
 }
 
+.margin-top-0 {
+  margin-top: 0;
+}
+
+.usa-unstyled-list label {
+  margin: .2em;
+}
+
+fieldset fieldset legend {
+  font-size: 1.7rem;
+  font-weight: normal;
+}
+
 .select2-default {
   color: #212121 !important;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;

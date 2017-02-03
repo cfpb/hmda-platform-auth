@@ -26,8 +26,12 @@
         <label for="email">${msg("email")}</label>
         <input type="text" id="email" name="email" value="${(register.formData.email!'')?html}" />
 
-        <label for="user.attributes.institutions">Institutions</label>
-        <input id="user.attributes.institutions" name="user.attributes.institutions"/>
+        <label>Select your institutions</label>
+        <div id="institutions">
+          <p class="usa-text-small margin-top-0">After entering your email address a list of available institutions will appear.</p>
+        </div>
+
+        <input id="user.attributes.institutions" name="user.attributes.institutions" class="usa-skipnav" hidden style="display:none;"/>
 
         <#if passwordRequired>
           <label for="password">${msg("password")}</label>
@@ -56,61 +60,66 @@ function emailToDomain(email) {
   return email.split("@", 2)[1];
 }
 
-function getFormEmail() {
-  return $("#email").val().trim().toLowerCase();
+function createHTML(institutions) {
+  var html = '<ul class="usa-unstyled-list">';
+
+  for (var i = 0; i < institutions.length; i++) {
+    html = html + '<li>'
+      + '<input class="institutionsCheck" type="checkbox" id="' + institutions[i].id + '" name="institutions" value="' + institutions[i].id + '">'
+      + '<label for="' + institutions[i].id + '">' + institutions[i].name + '</label></li>'
+  }
+  html = html + '</ul></fieldset>';
+
+  return html;
 }
 
-function genExternalIdsHtml(institution) {
-  var externalIds = institution.externalIds;
-  var externalIdsHtml = "";
-  externalIds.forEach(function(externalId){
-    var idName = externalId.name;
-    var idValue = externalId.value;
-    externalIdsHtml = externalIdsHtml + '    <p><strong>' + idName + '</strong> ' + idValue  + '</p>';
-  });
+function buildList(institutions) {
+  if(institutions.length === 0) {
+    console.log('in here');
+    $('#institutions').html('<p class="usa-text-small margin-top-0">Sorry, we couldn\'t find that email domain. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered.</p>');
+  } else {
+    var html = createHTML(institutions);
+    $('#institutions').html(html);
+  }
+}
 
-  return externalIdsHtml;
+function getInstitutions(domain) {
+
+  $.ajax({
+    url: institutionSearchUri,
+    data: { domain: domain }
+  })
+  .success(function(institutions) {
+    buildList(institutions.results);
+  })
+  .fail(function(request, status, error) {
+    ('#institutions').html('<p class="usa-text-small margin-top-0">Sorry, something went wrong. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered <strong>or</strong> try again in a few minutes.</p>');
+  });
 }
 
 $(document).ready(function() {
-  $("#user\\.attributes\\.institutions").select2({
-    placeholder: "Start typing to select institution(s)",
-    //minimumInputLength: 3,
-    multiple: true,
-    allowClear: true,
-    width: "450px",
-    dropdownCssClass: "bigdrop",
-    ajax: {
-      url: institutionSearchUri,
-      data: function(term, page) {
-        // Search based on "email" form field
-        var domain = emailToDomain($("#email").val());
-        return { domain: domain }
-      },
-      results: function(data, page) {
-        return {
-          // Each result MUST have an `id` attribute
-          results: data.results
-        }
-      }
-    },
-    escapeMarkup: function(markup) {
-      return markup;
-    },
-    formatSelection: function(institution) {
-      return  institution.name + ' (' + institution.id + ')';
-    },
-    formatResult: function(institution) {
-      return '<div class="usa-grid-full">' +
-             '  <h4>' + institution.name + '</h4>' +
-             '  <div class="usa-width-one-half usa-text-small">' +
-             '    <p><strong>Domain:</strong> ' + institution.domains +
-             '  </div>' +
-             '  <div class="usa-width-one-half usa-text-small">' +
-             genExternalIdsHtml(institution) +
-             '  </div>' +
-             '</div>'
+  $('#email').on('blur', function() {
+    if($('#email').val() === '' || $('#email').val() === null) {
+      $('#institutions').html('<p class="usa-text-small margin-top-0">After entering your email address a list of available institutions will appear.</p>');
+    } else {
+      getInstitutions(emailToDomain($('#email').val()));
     }
+  });
+
+  if($('#email').val() !== '' || $('#email').val() != null) {
+    getInstitutions(emailToDomain($('#email').val()));
+  }
+
+  $('#institutions').on('click', '.institutionsCheck', function() {
+    console.log('checked');
+    var listOfInstitutions = [];
+    // add to the user.attributes.institutions input
+    $('.institutionsCheck').each(function(index){
+      if($(this).prop('checked')) {
+        listOfInstitutions.push($(this).val())
+      }
+    })
+    $("#user\\.attributes\\.institutions").val(listOfInstitutions.join(","));
   });
 });
 </script>
