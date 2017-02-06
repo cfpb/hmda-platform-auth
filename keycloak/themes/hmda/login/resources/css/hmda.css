@@ -1,3 +1,15 @@
+.usa-display,
+.usa-display-alt,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.usa-font-lead {
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
 .usa-grid-small {
   max-width: 450px;
 }
@@ -12,6 +24,85 @@
 
 .bg-color-hmda-gray {
   background-color: #f7f7f7;
+}
+
+.usa-header {
+  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 2em;
+}
+
+.usa-navbar {
+  height: auto;
+}
+
+.usa-nav {
+  padding-top: .5rem;
+}
+
+.usa-nav.usa-nav-left {
+  display: inline-block;
+  float: none;
+  padding-left: 4em;
+}
+
+.usa-logo {
+  line-height: 0;
+}
+
+.usa-header-basic .usa-logo {
+  bottom: 0;
+  position: relative;
+}
+
+.usa-banner-inner,
+.usa-nav-container {
+  max-width: none;
+}
+
+.usa-banner-inner {
+  padding-top: .25em;
+  padding-bottom: .25em;
+}
+
+.usa-nav-container {
+  padding-top: .5em;
+  padding-bottom: .5em;
+}
+
+.usa-nav-primary>li {
+  font-size: 1.5rem;
+  margin-left: 0;
+}
+
+.usa-nav-primary>li:last-child>a {
+  margin-right: 0;
+}
+
+.usa-nav-primary>li:first-child>a {
+  margin-left: 0;
+}
+
+.usa-nav-primary>li>a {
+  color: #212121;
+  display: inline-block;
+  margin: 1.3rem 1.5rem 1.7rem;
+  padding: 0;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin: 0 0 120px;
+}
+
+.usa-footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
 
 .usa-alert {
