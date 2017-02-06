@@ -116,7 +116,7 @@
         <div class="usa-width-one-half">
           <div class="usa-footer-primary-content usa-footer-contact_info">
             <h4>Questions?</h4>
-            <a href="mailto:hmdahelp@cfpb.gov">hmdahelp@cfpb.gov</a>
+            <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject?url('UTF-8')}">${properties.supportEmailTo}</a>
           </div>
         </div>
       </div>
