@@ -96,6 +96,8 @@ function buildList(institutions) {
     var html = createHTML(institutions);
     $('#institutions').html(html);
   }
+
+  addInstitutionsToInput();
 }
 
 function getInstitutions(domain) {
@@ -111,6 +113,17 @@ function getInstitutions(domain) {
   });
 }
 
+function addInstitutionsToInput() {
+  var listOfInstitutions = [];
+  // add to the user.attributes.institutions input
+  $('.institutionsCheck').each(function(index){
+    if($(this).prop('checked')) {
+      listOfInstitutions.push($(this).val())
+    }
+  })
+  $("#user\\.attributes\\.institutions").val(listOfInstitutions.join(","));
+}
+
 $(document).ready(function() {
   $('#email').on('blur', function() {
     if($('#email').val() === '' || $('#email').val() === null) {
@@ -124,15 +137,6 @@ $(document).ready(function() {
     getInstitutions(emailToDomain($('#email').val()));
   }
 
-  $('#institutions').on('click', '.institutionsCheck', function() {
-    var listOfInstitutions = [];
-    // add to the user.attributes.institutions input
-    $('.institutionsCheck').each(function(index){
-      if($(this).prop('checked')) {
-        listOfInstitutions.push($(this).val())
-      }
-    })
-    $("#user\\.attributes\\.institutions").val(listOfInstitutions.join(","));
-  });
+  $('#institutions').on('click', '.institutionsCheck', addInstitutionsToInput);
 });
 </script>
