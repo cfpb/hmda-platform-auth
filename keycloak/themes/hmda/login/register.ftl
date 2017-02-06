@@ -60,15 +60,29 @@ function emailToDomain(email) {
   return email.split("@", 2)[1];
 }
 
+function getRSSD(externalIds) {
+  var RSSD = '';
+  for (var i = 0; i < externalIds.length; i++) {
+    if(externalIds[i].name === 'RSSD ID') {
+      RSSD = externalIds[i].value;
+      break;
+    }
+  }
+
+  return RSSD;
+}
+
 function createHTML(institutions) {
   var html = '<ul class="usa-unstyled-list">';
-  console.log(institutions.length)
   var checked = (institutions.length === 1) ? 'checked' : ''
 
   for (var i = 0; i < institutions.length; i++) {
+    var RSSD = getRSSD(institutions[i].externalIds)
     html = html + '<li>'
-      + '<input class="institutionsCheck" type="checkbox" id="' + institutions[i].id + '" name="institutions" value="' + institutions[i].id + '"' + checked + '>'
-      + '<label for="' + institutions[i].id + '">' + institutions[i].name + '</label></li>'
+      + '<input class="institutionsCheck" type="checkbox" id="'
+      + institutions[i].id + '" name="institutions" value="'
+      + institutions[i].id + '"' + checked + '>'
+      + '<label for="' + institutions[i].id + '"><strong>' + institutions[i].name + '</strong> (RSSD: ' + RSSD + ')</label></li>'
   }
   html = html + '</ul></fieldset>';
 
@@ -85,7 +99,6 @@ function buildList(institutions) {
 }
 
 function getInstitutions(domain) {
-
   $.ajax({
     url: institutionSearchUri,
     data: { domain: domain }
@@ -107,7 +120,7 @@ $(document).ready(function() {
     }
   });
 
-  if($('#email').val() !== '' || $('#email').val() != null) {
+  if($('#email').val() !== '' && $('#email').val() !== null) {
     getInstitutions(emailToDomain($('#email').val()));
   }
 
