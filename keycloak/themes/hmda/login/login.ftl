@@ -15,7 +15,7 @@
                     <#if usernameEditDisabled??>
                         <input id="username" name="username" type="text" autocapitalize="off" autocorrect="off" value="${(login.username!'')?html}" disabled>
                     <#else>
-                        <input id="username" name="username" value="${(login.username!'')?html}" type="text" autofocus autocomplete="off" />
+                        <input id="username" name="username" value="${(login.username!'')?html}" type="text" autofocus />
                     </#if>
 
                     <label for="password">${msg("password")}</label>
