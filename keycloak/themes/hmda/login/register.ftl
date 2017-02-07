@@ -55,6 +55,7 @@
 
 <script>
 var institutionSearchUri = "${properties.institutionSearchUri!}/institutions";
+var emailExp = new RegExp("[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*");
 
 function emailToDomain(email) {
   return email.split("@", 2)[1];
@@ -125,11 +126,13 @@ function addInstitutionsToInput() {
 }
 
 $(document).ready(function() {
-  $('#email').on('blur', function() {
+  $('#email').on('blur, keyup', function() {
     if($('#email').val() === '' || $('#email').val() === null) {
       $('#institutions').html('<p class="usa-text-small margin-top-0">After entering your email address a list of available institutions will appear.</p>');
     } else {
-      getInstitutions(emailToDomain($('#email').val()));
+      if(emailExp.test($('#email').val())) {
+        getInstitutions(emailToDomain($('#email').val()));
+      }
     }
   });
 
