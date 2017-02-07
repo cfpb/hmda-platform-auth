@@ -48,14 +48,27 @@ fieldset fieldset legend {
   font-weight: normal;
 }
 
-.select2-default {
-  color: #212121 !important;
-  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+#institutions dl {
+  margin-top: 0;
+  margin-left: 2.3em;
 }
 
-.select2-container-multi .select2-choices .select2-search-field input {
-  color: #212121 !important;
-  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+#institutions dd,
+#institutions dt {
+  display: inline;
+}
+
+#institutions dt {
+  font-weight: 700;
+}
+
+#institutions dd {
+  margin-left: .5em;
+}
+
+#institutions dd:after {
+  content: '\A';
+  white-space: pre-wrap;
 }
 
 .usa-input-help-message {

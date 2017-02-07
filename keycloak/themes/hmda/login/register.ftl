@@ -61,16 +61,17 @@ function emailToDomain(email) {
   return email.split("@", 2)[1];
 }
 
-function getRSSD(externalIds) {
-  var RSSD = '';
-  for (var i = 0; i < externalIds.length; i++) {
-    if(externalIds[i].name === 'RSSD ID') {
-      RSSD = externalIds[i].value;
-      break;
+function getExternalIds(externalIds) {
+  var html = ''
+  if(externalIds.length > 0) {
+    html = '<dl class="usa-text-small">';
+    for (var i = 0; i < externalIds.length; i++) {
+      html += '<dt>' + externalIds[i].name + ': </dt>';
+      html += '<dd>' + externalIds[i].value + '</dd>';
     }
   }
 
-  return RSSD;
+  return html;
 }
 
 function createHTML(institutions) {
@@ -78,12 +79,15 @@ function createHTML(institutions) {
   var checked = (institutions.length === 1) ? 'checked' : ''
 
   for (var i = 0; i < institutions.length; i++) {
-    var RSSD = getRSSD(institutions[i].externalIds)
+    //var dataList = getExternalIds(institutions[i].externalIds)
     html = html + '<li>'
       + '<input class="institutionsCheck" type="checkbox" id="'
       + institutions[i].id + '" name="institutions" value="'
       + institutions[i].id + '"' + checked + '>'
-      + '<label for="' + institutions[i].id + '"><strong>' + institutions[i].name + '</strong> (RSSD: ' + RSSD + ')</label></li>'
+      + '<label for="' + institutions[i].id + '">'
+      + '<strong>' + institutions[i].name + '</strong>'
+      + getExternalIds(institutions[i].externalIds)
+      + '</label></li>'
   }
   html = html + '</ul></fieldset>';
 
@@ -126,7 +130,7 @@ function addInstitutionsToInput() {
 }
 
 $(document).ready(function() {
-  $('#email').on('blur, keyup', function() {
+  $('#email').on('blur keyup', function() {
     if($('#email').val() === '' || $('#email').val() === null) {
       $('#institutions').html('<span class="usa-input-error-message">After entering your email address above, a list of available institutions, based on your email domain, will appear.</span>');
     } else {
