@@ -57,3 +57,12 @@ fieldset fieldset legend {
   color: #212121 !important;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
 }
+
+.usa-input-help-message {
+  color: inherit;
+  display: block;
+  font-size: 1.7rem;
+  font-weight: 700;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}

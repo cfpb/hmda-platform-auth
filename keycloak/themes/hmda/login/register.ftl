@@ -28,7 +28,7 @@
 
         <label>Select your institutions</label>
         <div id="institutions">
-          <p class="usa-text-small margin-top-0">After entering your email address a list of available institutions will appear.</p>
+          <span class="usa-input-help-message">After entering your email address above, a list of available institutions, based on your email domain, will appear.</span>
         </div>
 
         <input id="user.attributes.institutions" name="user.attributes.institutions" class="usa-skipnav" hidden style="display:none;"/>
@@ -92,7 +92,7 @@ function createHTML(institutions) {
 
 function buildList(institutions) {
   if(institutions.length === 0) {
-    $('#institutions').html('<p class="usa-text-small margin-top-0">Sorry, we couldn\'t find that email domain. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered.</p>');
+    $('#institutions').html('<span class="usa-input-error-message">Sorry, we couldn\'t find that email domain. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered.</span>');
   } else {
     var html = createHTML(institutions);
     $('#institutions').html(html);
@@ -110,7 +110,7 @@ function getInstitutions(domain) {
     buildList(institutions.results);
   })
   .fail(function(request, status, error) {
-    ('#institutions').html('<p class="usa-text-small margin-top-0">Sorry, something went wrong. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered <strong>or</strong> try again in a few minutes.</p>');
+    ('#institutions').html('<span class="usa-input-error-message">Sorry, something went wrong. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered <strong>or</strong> try again in a few minutes.</span>');
   });
 }
 
@@ -128,7 +128,7 @@ function addInstitutionsToInput() {
 $(document).ready(function() {
   $('#email').on('blur, keyup', function() {
     if($('#email').val() === '' || $('#email').val() === null) {
-      $('#institutions').html('<p class="usa-text-small margin-top-0">After entering your email address a list of available institutions will appear.</p>');
+      $('#institutions').html('<span class="usa-input-error-message">After entering your email address above, a list of available institutions, based on your email domain, will appear.</span>');
     } else {
       if(emailExp.test($('#email').val())) {
         getInstitutions(emailToDomain($('#email').val()));
