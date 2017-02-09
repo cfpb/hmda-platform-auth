@@ -22,7 +22,6 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
     public static final String FIELD_INSTITUTIONS = "user.attributes.institutions";
     public static final String MISSING_INSTITUTION_MESSAGE = "missingInstitutionMessage";
     public static final String INVALID_INSTITUTION_MESSAGE = "invalidInstitutionMessage";
-    public static final String UNKNOWN_INSTITUTION_MESSAGE = "unknownInstitutionMessage";
     public static final String UNKNOWN_EMAIL_DOMAIN_MESSAGE = "unknownEmailDomainMessage";
     public static final String INSTITUTION_ERROR_MESSAGE = "institutionErrorMessage";
 
@@ -37,14 +36,12 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
     @Override
     public void validate(ValidationContext context) {
 
-        logger.info("Validating Institutions...");
-
         String domain = null;
 
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
         List<FormMessage> errors = new ArrayList<>();
 
-        logger.info("Form Data: " + formData);
+        logger.info("Form data: " + formData);
 
         String instFieldVal = formData.getFirst(FIELD_INSTITUTIONS);
         if (Validation.isBlank(instFieldVal)) {
@@ -55,14 +52,15 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
             return;
         }
 
+        Set<String> userInstIds = new HashSet<>(Arrays.asList(instFieldVal.split(",")));
+
         try {
-            Set<String> userInstIds = new HashSet<>(Arrays.asList(instFieldVal.split(",")));
             String email = formData.getFirst(RegistrationPage.FIELD_EMAIL);
             domain = email.split("@")[1];
 
-            logger.info("Email Domain: " + domain);
+            List<Institution> domainInsts = institutionService.findInstitutionsByDomain(domain);
 
-            Set<Institution> domainInsts = institutionService.findInstitutionsByDomain(domain);
+            logger.info(domainInsts.size() + " institution(s) found for domain \"" + domain + "\"");
 
             if (domainInsts.isEmpty()) {
                 errors.add(new FormMessage(RegistrationPage.FIELD_EMAIL, UNKNOWN_EMAIL_DOMAIN_MESSAGE, domain));
@@ -74,25 +72,23 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
 
             // Get a set of institutionId(s) for a given domain
             Set<String> domainInstIds = new HashSet<>(domainInsts.size());
-            for (Institution domainInstId : domainInsts) {
-                domainInstIds.add(domainInstId.getId());
+            for (Institution domainInst : domainInsts) {
+                domainInstIds.add(domainInst.getId());
             }
 
             // Add error for every institution submitted not associated with domain
             if (!domainInsts.containsAll(userInstIds)) {
+                Set<String> invalidInstIds = new HashSet<>(userInstIds);
+                invalidInstIds.removeAll(domainInstIds);
 
-                // Remove all matched institutions
-                userInstIds.removeAll(domainInstIds);
-                
-                for (String userInstId : userInstIds) {
-                    if (!domainInsts.contains(userInstId)) {
-                        errors.add(new FormMessage(FIELD_INSTITUTIONS, INVALID_INSTITUTION_MESSAGE, userInstId, domain));
-                    }
+                for (String invalidInstId : invalidInstIds) {
+                    logger.warn("User submitted invalid institution ID " + invalidInstId + " for domain \"" + domain + "\"");
+                    errors.add(new FormMessage(FIELD_INSTITUTIONS, INVALID_INSTITUTION_MESSAGE, invalidInstId, domain));
                 }
             }
 
         } catch (Exception e) {
-            logger.error("Error occurred while validating institution(s) against \"" + domain + "\" domain", e);
+            logger.error("Error occurred while validating institution(s) " + userInstIds + " against \"" + domain + "\" domain", e);
             errors.add(new FormMessage(FIELD_INSTITUTIONS, INSTITUTION_ERROR_MESSAGE, domain));
         }
 
@@ -133,9 +129,9 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
         String uri = scope.get("institutionSearchUri");
         Boolean validateSsl = scope.getBoolean("institutionSearchValidateSsl", true);
 
-        logger.info("Initializing institution search: uri="+uri+", validateSsl="+validateSsl);
+        logger.info("Initializing institution search: uri=" + uri + ", validateSsl=" + validateSsl);
 
-        institutionService = new InstitutionSearchHmdaApiImpl(uri, validateSsl);
+        institutionService = new InstitutionServiceHmdaApiImpl(uri, validateSsl);
     }
 
     @Override

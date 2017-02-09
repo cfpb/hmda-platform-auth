@@ -5,23 +5,23 @@ import java.util.List;
 
 public class InstitutionSearchResults {
 
-    private List<Institution> results;
+    private List<Institution> institutions;
 
     public InstitutionSearchResults() {
     }
 
-    public List<Institution> getResults() {
-        return results;
+    public List<Institution> getInstitutions() {
+        return institutions;
     }
 
-    public void setResults(List<Institution> results) {
-        this.results = results;
+    public void setInstitutions(List<Institution> institutions) {
+        this.institutions = institutions;
     }
 
     @Override
     public String toString() {
         return "InstitutionSearchResults{" +
-                "results=" + results +
+                "institutions=" + institutions +
                 '}';
     }
 }
