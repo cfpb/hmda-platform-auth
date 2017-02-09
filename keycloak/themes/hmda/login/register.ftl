@@ -74,8 +74,8 @@ function getExternalIds(externalIds) {
   if(externalIds.length > 0) {
     html = '<dl class="usa-text-small">';
     for (var i = 0; i < externalIds.length; i++) {
-      html += '<dt>' + externalIdTypeNames[externalIds[i].value] + ': </dt>';
-      html += '<dd>' + externalIds[i].name + '</dd>';
+      html += '<dt>' + externalIdTypeNames[externalIds[i].name] + ': </dt>';
+      html += '<dd>' + externalIds[i].value + '</dd>';
     }
   }
 
