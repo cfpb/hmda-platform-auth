@@ -6,22 +6,23 @@ import javax.net.ssl.*;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class InstitutionSearchHmdaApiImpl implements InstitutionService {
+public class InstitutionServiceHmdaApiImpl implements InstitutionService {
 
-    private static final Logger logger = Logger.getLogger(InstitutionSearchHmdaApiImpl.class);
+    private static final Logger logger = Logger.getLogger(InstitutionServiceHmdaApiImpl.class);
 
     private WebTarget apiClient;
 
-    public InstitutionSearchHmdaApiImpl(String apiUri, Boolean validateSsl) {
+    public InstitutionServiceHmdaApiImpl(String apiUri, Boolean validateSsl) {
         this.apiClient = buildClient(apiUri, validateSsl);
     }
 
@@ -62,11 +63,28 @@ public class InstitutionSearchHmdaApiImpl implements InstitutionService {
     }
 
     @Override
-    public Set<Institution> findInstitutionsByDomain(String domain) {
-        WebTarget target = apiClient.queryParam("domain", domain);
-        InstitutionSearchResults results = target.request(MediaType.APPLICATION_JSON_TYPE).get(InstitutionSearchResults.class);
+    public List<Institution> findInstitutionsByDomain(String domain) throws InstitutionServiceException {
+        try {
+            Response response = apiClient.queryParam("domain", domain).request(MediaType.APPLICATION_JSON_TYPE).get();
+            Response.Status status = Response.Status.fromStatusCode(response.getStatus());
 
-        return new HashSet<>(results.getResults());
+            switch (status) {
+                case OK:
+                    return response.readEntity(InstitutionSearchResults.class).getInstitutions();
+
+                case NOT_FOUND:
+                    return new ArrayList<>();
+
+                default:
+                    // TODO: Include details from error JSON message, if available.
+                    logger.error("Unexpected response from institution search API while querying by domain=\""+domain+"\".  " +
+                            "HTTP Status: " + status.getStatusCode() + " - " + status.getReasonPhrase());
+                    throw new InstitutionServiceException("Error occurred while searching for institutions with domain '" + domain + "'");
+            }
+
+        } catch (Exception e) {
+            throw new InstitutionServiceException("Error occurred while searching for institutions with domain \"" + domain + "\"", e);
+        }
     }
 
 }

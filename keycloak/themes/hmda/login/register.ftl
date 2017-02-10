@@ -56,6 +56,14 @@
 <script>
 var institutionSearchUri = "${properties.institutionSearchUri!}/institutions";
 var emailExp = new RegExp("[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*");
+var externalIdTypeNames = {
+  "fdic-certificate-number": "FDIC Certificate Number",
+  "federal-tax-id": "Federal Tax ID",
+  "ncua-charter-id": "NCUA Charter Number",
+  "occ-charter-id": "OCC Charter Number",
+  "rssd-id": "RSSD ID",
+  "undetermined-external-id": "Unknown ID",
+}
 
 function emailToDomain(email) {
   return email.split("@", 2)[1];
@@ -66,7 +74,7 @@ function getExternalIds(externalIds) {
   if(externalIds.length > 0) {
     html = '<dl class="usa-text-small">';
     for (var i = 0; i < externalIds.length; i++) {
-      html += '<dt>' + externalIds[i].name + ': </dt>';
+      html += '<dt>' + externalIdTypeNames[externalIds[i].name] + ': </dt>';
       html += '<dd>' + externalIds[i].value + '</dd>';
     }
   }
@@ -95,12 +103,8 @@ function createHTML(institutions) {
 }
 
 function buildList(institutions) {
-  if(institutions.length === 0) {
-    $('#institutions').html('<span class="usa-input-error-message">Sorry, we couldn\'t find that email domain. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered.</span>');
-  } else {
-    var html = createHTML(institutions);
-    $('#institutions').html(html);
-  }
+  var html = createHTML(institutions);
+  $('#institutions').html(html);
 
   addInstitutionsToInput();
 }
@@ -108,13 +112,23 @@ function buildList(institutions) {
 function getInstitutions(domain) {
   $.ajax({
     url: institutionSearchUri,
+    statusCode: {
+      404: function() {
+        $('#institutions').html(
+          '<span class="usa-input-error-message">' + 
+          'Sorry, we couldn\'t find that email domain. Please contact ' + 
+          '<a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> ' + 
+          'for help getting registered.</span>'
+        );
+      }
+    },
     data: { domain: domain }
   })
-  .success(function(institutions) {
-    buildList(institutions.results);
+  .success(function(response) {
+    buildList(response.institutions);
   })
   .fail(function(request, status, error) {
-    ('#institutions').html('<span class="usa-input-error-message">Sorry, something went wrong. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered <strong>or</strong> try again in a few minutes.</span>');
+    $('#institutions').html('<span class="usa-input-error-message">Sorry, something went wrong. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered <strong>or</strong> try again in a few minutes.</span>');
   });
 }
 
