@@ -118,6 +118,14 @@ body {
   padding-left: 0;
 }
 
+.usa-alert p {
+  margin: 0;
+}
+
+.usa-alert li[data-validator] {
+  margin-bottom: 0;
+}
+
 .padding-1 {
   padding: 1em;
 }
