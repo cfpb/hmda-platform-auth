@@ -151,7 +151,7 @@ $(document).ready(function() {
       // e.keyCode will be 'undefined' on tab key
       // don't make the API call on tab keyup
       if(emailExp.test($('#email').val()) && e.keyCode) {
-        getInstitutions(emailToDomain($('#email').val()));
+        getInstitutions(emailToDomain($('#email').val().trim()));
       }
     }
   });
