@@ -33,6 +33,22 @@
 
         <input id="user.attributes.institutions" name="user.attributes.institutions" class="usa-skipnav" hidden style="display:none;"/>
 
+        <div class="usa-alert usa-alert-info">
+          <div class="usa-alert-body">
+            <div class="usa-alert-text">
+              <p>Passwords must:</p>
+              <ul id="validation_list">
+                <li data-validator="length">Be at least 12 characters</li>
+                <li data-validator="uppercase">Have at least 1 uppercase character</li>
+                <li data-validator="lowercase">Have at least 1 lowercase character</li>
+                <li data-validator="numerical">Have at least 1 numerical character</li>
+                <li data-validator="special">Have at least 1 special character</li>
+                <li data-validator="username">Not be the same as your username</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <#if passwordRequired>
           <label for="password">${msg("password")}</label>
           <input type="password" id="password" name="password" />
@@ -115,9 +131,9 @@ function getInstitutions(domain) {
     statusCode: {
       404: function() {
         $('#institutions').html(
-          '<span class="usa-input-error-message">' + 
-          'Sorry, we couldn\'t find that email domain. Please contact ' + 
-          '<a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> ' + 
+          '<span class="usa-input-error-message">' +
+          'Sorry, we couldn\'t find that email domain. Please contact ' +
+          '<a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> ' +
           'for help getting registered.</span>'
         );
       }
@@ -144,12 +160,14 @@ function addInstitutionsToInput() {
 }
 
 $(document).ready(function() {
-  $('#email').on('blur keyup', function() {
+  $('#email').on('blur keyup', function(e) {
     if($('#email').val() === '' || $('#email').val() === null) {
       $('#institutions').html('<span class="usa-input-error-message">After entering your email address above, a list of available institutions, based on your email domain, will appear.</span>');
     } else {
-      if(emailExp.test($('#email').val())) {
-        getInstitutions(emailToDomain($('#email').val()));
+      // e.keyCode will be 'undefined' on tab key
+      // don't make the API call on tab keyup
+      if(emailExp.test($('#email').val()) && e.keyCode) {
+        getInstitutions(emailToDomain($('#email').val().trim()));
       }
     }
   });
