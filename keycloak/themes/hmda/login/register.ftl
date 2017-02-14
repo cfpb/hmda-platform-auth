@@ -115,9 +115,9 @@ function getInstitutions(domain) {
     statusCode: {
       404: function() {
         $('#institutions').html(
-          '<span class="usa-input-error-message">' + 
-          'Sorry, we couldn\'t find that email domain. Please contact ' + 
-          '<a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> ' + 
+          '<span class="usa-input-error-message">' +
+          'Sorry, we couldn\'t find that email domain. Please contact ' +
+          '<a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> ' +
           'for help getting registered.</span>'
         );
       }
@@ -144,11 +144,13 @@ function addInstitutionsToInput() {
 }
 
 $(document).ready(function() {
-  $('#email').on('blur keyup', function() {
+  $('#email').on('blur keyup', function(e) {
     if($('#email').val() === '' || $('#email').val() === null) {
       $('#institutions').html('<span class="usa-input-error-message">After entering your email address above, a list of available institutions, based on your email domain, will appear.</span>');
     } else {
-      if(emailExp.test($('#email').val())) {
+      // e.keyCode will be 'undefined' on tab key
+      // don't make the API call on tab keyup
+      if(emailExp.test($('#email').val()) && e.keyCode) {
         getInstitutions(emailToDomain($('#email').val()));
       }
     }
