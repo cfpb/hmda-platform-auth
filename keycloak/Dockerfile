@@ -1,4 +1,4 @@
-FROM jboss/keycloak-postgres:2.5.0.Final
+FROM jboss/keycloak-ha-postgres:2.5.1.Final
 
 ENV MAVEN_VER=3.3.9
 ENV MAVEN_DIST=apache-maven-$MAVEN_VER
@@ -6,9 +6,7 @@ ENV MAVEN_FILE=$MAVEN_DIST-bin.tar.gz
 ENV PATH=$PATH:/tmp/$MAVEN_DIST/bin
 ENV KC_SPI_SRC=providers
 ENV KC_SPI_DEST=/usr/src/keycloak
-
-# Keycloak never published 2.5.0 libs, but 2.4.0.Final libs do work on 2.5.0.Final server.
-ENV KC_LIB_VER=2.4.0.Final
+ENV KC_LIB_VER=2.5.1.Final
 
 # Install Maven (YUM version is too old)
 RUN curl -s -o /tmp/${MAVEN_FILE} http://www-us.apache.org/dist/maven/maven-3/${MAVEN_VER}/binaries/${MAVEN_FILE} && \
