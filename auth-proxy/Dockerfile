@@ -15,7 +15,7 @@ ENV HTTPD_USER apache
 RUN curl -sL -o /tmp/epel-release-7-9.noarch.rpm https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm && \
     yum install -y /tmp/epel-release-7-9.noarch.rpm && \
     yum update -y && \
-    yum install -y hiredis httpd jansson mod_ssl && \
+    yum install -y hiredis httpd jansson && \
     curl -sL -o /tmp/${CJOSE_PKG} ${DL_SITE}/v${CJOSE_OIDC_VER}/${CJOSE_PKG} && \
     yum install -y /tmp/${CJOSE_PKG} && \
     curl -sL -o /tmp/${OIDC_PKG} ${DL_SITE}/v${OIDC_VER}/${OIDC_PKG} && \
@@ -23,8 +23,6 @@ RUN curl -sL -o /tmp/epel-release-7-9.noarch.rpm https://dl.fedoraproject.org/pu
     rm -rf /etc/httpd/conf/* /etc/httpd/conf.d/* /etc/httpd/conf.modules.d/* /usr/share/httpd/error/* /var/www/html/* 
 
 ADD conf/ /
-
-RUN chown -R $HTTPD_USER /etc/pki/tls /run /var/www/html
 
 USER $HTTPD_USER
 
