@@ -39,8 +39,24 @@ else
     echo "Set supportEmailTo=$SUPPORT_EMAIL"
 fi
 
+export HOSTNAME_IP=$(hostname -i)
+export HOSTNAME_IP_ALL=$(hostname --all-ip-addresses)
+echo "hostname -i returned: $HOSTNAME_IP, -I returned: $HOSTNAME_IP_ALL"
+
 echo 'Keycloak "login" theme.properties updated:'
 cat keycloak/themes/hmda/login/theme.properties
 
-exec /opt/jboss/keycloak/bin/standalone.sh $@
+exec /opt/jboss/keycloak/bin/standalone.sh \
+      -Dkeycloak.migration.action=import \
+      -Dkeycloak.migration.provider=dir \
+      -Dkeycloak.migration.dir=/opt/jboss/import/ \
+      -Dkeycloak.migration.strategy=OVERWRITE_EXISTING \
+      -Dkeycloak.migration.usersExportStrategy=SKIP \
+      -Djboss.jgroups.stack=udp \
+      -Djboss.jgroups.udp.port=5520 \
+      -Djboss.jgroups.udp.multicast.port=4568 \
+      -Djboss.jgroups.udp.fd.port=5420 \
+      -Djboss.bind.address.private=$HOSTNAME_IP \
+      -b 0.0.0.0 -bmanagement 0.0.0.0 --server-config standalone-ha.xml
+
 exit $?
