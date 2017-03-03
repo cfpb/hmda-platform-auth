@@ -15,21 +15,11 @@ RUN curl -s -o /tmp/${MAVEN_FILE} http://www-us.apache.org/dist/maven/maven-3/${
     cd ${MAVEN_DIST} && \
     mvn --version 
 
-# Generate TLS keypair for Keycloak over HTTPS
-RUN keytool -genkey -noprompt \
-    -alias keycloak \
-    -keyalg RSA \
-    -dname "CN=localhost, OU=Test, L=Testtown, ST=CA, C=US" \
-    -keystore keycloak.jks \
-    -storepass password \
-    -keypass password && \
-    mv keycloak.jks /opt/jboss/keycloak/standalone/configuration/
-
 # Overwrite the default Keycloak startup script
 COPY docker-entrypoint.sh /opt/jboss/
 
 # Copy JBoss Wildfly-based config file
-COPY standalone.xml /opt/jboss/keycloak/standalone/configuration
+COPY standalone-ha.xml /opt/jboss/keycloak/standalone/configuration
 
 # Copy realms and users for import at startup
 COPY import /opt/jboss/import
