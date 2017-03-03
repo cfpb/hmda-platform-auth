@@ -6,9 +6,16 @@ RUN yum update -y && \
 
 ADD conf/ /
 
-EXPOSE 2000 # hmda-platform-ui
-EXPOSE 3000 # keycloak
-EXPOSE 4000 # hmda-platform public api
-EXPOSE 5000 # auth-proxy 
+# hmda-platform-ui
+EXPOSE 2000
+
+# keycloak
+EXPOSE 3000
+
+# hmda-platform public api
+EXPOSE 4000
+
+# auth-proxy
+EXPOSE 5000
 
 CMD httpd -D FOREGROUND
