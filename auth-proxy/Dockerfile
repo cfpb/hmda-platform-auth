@@ -24,6 +24,8 @@ RUN curl -sL -o /tmp/epel-release-7-9.noarch.rpm https://dl.fedoraproject.org/pu
 
 ADD conf/ /
 
+RUN chown -R $HTTPD_USER /run /var/www/html
+
 USER $HTTPD_USER
 
 # Updates timestamp for upSince attribute, and starts httpd
