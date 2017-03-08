@@ -44,9 +44,4 @@ RUN echo 'Keycloak SPI build starting...' && \
     cp target/keycloak-authenticator-hmda-${KC_LIB_VER}.jar /opt/jboss/keycloak/providers && \
     echo 'Keycloak SPIs build successful!'
 
-USER root
-# Remove source and build tools
-RUN rm -rf ~/.m2 ${KC_SPI_DEST} /tmp/${MAVEN_FILE}
-USER jboss
-
 EXPOSE 8443
