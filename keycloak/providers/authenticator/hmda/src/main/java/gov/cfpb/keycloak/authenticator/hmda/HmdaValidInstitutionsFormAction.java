@@ -43,6 +43,16 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
 
         logger.info("Form data: " + formData);
 
+        // Get email field.  If not populated, there is no point in proceeding.  The email field check is
+        // already checked by core Keycloak, so there's no need for a dupe context.error() here.
+        String emailFieldVal = formData.getFirst(RegistrationPage.FIELD_EMAIL);
+        if(Validation.isBlank(emailFieldVal)) {
+            context.success();
+
+            return;
+        }
+
+        // Get the institutions field, returning with error if not set.
         String instFieldVal = formData.getFirst(FIELD_INSTITUTIONS);
         if (Validation.isBlank(instFieldVal)) {
             errors.add(new FormMessage(FIELD_INSTITUTIONS, MISSING_INSTITUTION_MESSAGE));
@@ -55,8 +65,7 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
         Set<String> userInstIds = new HashSet<>(Arrays.asList(instFieldVal.split(",")));
 
         try {
-            String email = formData.getFirst(RegistrationPage.FIELD_EMAIL);
-            domain = email.split("@")[1];
+            domain = emailFieldVal.split("@")[1];
 
             List<Institution> domainInsts = institutionService.findInstitutionsByDomain(domain);
 
