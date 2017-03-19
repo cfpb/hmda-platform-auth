@@ -19,6 +19,7 @@ RUN curl -s -o /tmp/${MAVEN_FILE} http://www-us.apache.org/dist/maven/maven-3/${
 COPY docker-entrypoint.sh /opt/jboss/
 
 # Copy JBoss Wildfly-based config file
+COPY standalone.xml /opt/jboss/keycloak/standalone/configuration
 COPY standalone-ha.xml /opt/jboss/keycloak/standalone/configuration
 
 # Copy realms and users for import at startup

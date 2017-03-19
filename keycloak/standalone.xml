@@ -26,13 +26,6 @@
     </extensions>
     <management>
         <security-realms>
-            <security-realm name="UndertowRealm">
-                <server-identities>
-                    <ssl>
-                        <keystore path="keycloak.jks" relative-to="jboss.server.config.dir" keystore-password="password" />
-                    </ssl>
-                </server-identities>
-            </security-realm>
             <security-realm name="ManagementRealm">
                 <authentication>
                     <local default-user="$local" skip-group-loading="true"/>
@@ -92,14 +85,14 @@
             <logger category="com.arjuna">
                 <level name="WARN"/>
             </logger>
+            <logger category="org.keycloak">
+                <level name="DEBUG"/>
+            </logger> 
             <logger category="org.jboss.as.config">
                 <level name="DEBUG"/>
             </logger>
             <logger category="sun.rmi">
                 <level name="WARN"/>
-            </logger>
-            <logger category="org.keycloak">
-                <level name="DEBUG"/>
             </logger>
             <root-logger>
                 <level name="INFO"/>
@@ -406,7 +399,6 @@
             <buffer-cache name="default"/>
             <server name="default-server">
                 <http-listener name="default" socket-binding="http" proxy-address-forwarding="true" redirect-socket="https"/>
-                <https-listener name="https" socket-binding="https" security-realm="UndertowRealm"/>
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
                     <filter-ref name="server-header"/>
