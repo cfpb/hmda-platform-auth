@@ -887,8 +887,9 @@
     "contentSecurityPolicy" : "frame-src 'self'"
   },
   "smtpServer" : {
-    "host" : "mail_dev",
-    "from" : "hmda-support@keycloak.local"
+    "host" : "{{SMTP_SERVER}}",
+    "port" : "{{SMTP_PORT}}",
+    "from" : "{{SUPPORT_EMAIL}}"
   },
   "loginTheme" : "hmda",
   "eventsEnabled" : false,
