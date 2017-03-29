@@ -7,15 +7,18 @@ import java.util.Objects;
  */
 public class ExternalId {
 
-    private String name;
+    private ExternalIdType externalIdType;
     private String value;
 
-    public String getName() {
-        return name;
+    public ExternalId() {
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public ExternalIdType getExternalIdType() {
+        return externalIdType;
+    }
+
+    public void setExternalIdType(ExternalIdType externalIdType) {
+        this.externalIdType = externalIdType;
     }
 
     public String getValue() {
@@ -29,7 +32,7 @@ public class ExternalId {
     @Override
     public String toString() {
         return "ExternalId{" +
-                "name='" + name + '\'' +
+                "externalIdType=" + externalIdType +
                 ", value='" + value + '\'' +
                 '}';
     }

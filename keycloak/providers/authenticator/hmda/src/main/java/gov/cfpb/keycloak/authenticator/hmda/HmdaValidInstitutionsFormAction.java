@@ -41,8 +41,6 @@ public class HmdaValidInstitutionsFormAction implements FormAction, FormActionFa
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
         List<FormMessage> errors = new ArrayList<>();
 
-        logger.info("Form data: " + formData);
-
         // Get email field.  If not populated, there is no point in proceeding.  The email field check is
         // already checked by core Keycloak, so there's no need for a dupe context.error() here.
         String emailFieldVal = formData.getFirst(RegistrationPage.FIELD_EMAIL);

@@ -72,27 +72,20 @@
 <script>
 var institutionSearchUri = "${properties.institutionSearchUri!}/institutions";
 var emailExp = new RegExp("[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*");
-var externalIdTypeNames = {
-  "fdic-certificate-number": "FDIC Certificate Number",
-  "federal-tax-id": "Federal Tax ID",
-  "ncua-charter-id": "NCUA Charter Number",
-  "occ-charter-id": "OCC Charter Number",
-  "rssd-id": "RSSD ID",
-  "undetermined-external-id": "Unknown ID",
-}
 
 function emailToDomain(email) {
   return email.split("@", 2)[1];
 }
 
-function getExternalIds(externalIds) {
-  var html = ''
+function createExternalIdHTML(externalIds) {
+  var html = '';
   if(externalIds.length > 0) {
     html = '<dl class="usa-text-small">';
     for (var i = 0; i < externalIds.length; i++) {
-      html += '<dt>' + externalIdTypeNames[externalIds[i].name] + ': </dt>';
+      html += '<dt>' + externalIds[i].externalIdType.name + ': </dt>';
       html += '<dd>' + externalIds[i].value + '</dd>';
     }
+    html += '</dl>';
   }
 
   return html;
@@ -110,7 +103,7 @@ function createHTML(institutions) {
       + institutions[i].id + '"' + checked + '>'
       + '<label for="' + institutions[i].id + '">'
       + '<strong>' + institutions[i].name + '</strong>'
-      + getExternalIds(institutions[i].externalIds)
+      + createExternalIdHTML(institutions[i].externalIds)
       + '</label></li>'
   }
   html = html + '</ul></fieldset>';
