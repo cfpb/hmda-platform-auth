@@ -892,6 +892,7 @@
     "from" : "{{SUPPORT_EMAIL}}"
   },
   "loginTheme" : "hmda",
+  "emailTheme" : "hmda",
   "eventsEnabled" : false,
   "eventsListeners" : [ "jboss-logging" ],
   "enabledEventTypes" : [ ],
