@@ -18,9 +18,10 @@ DIFF_FILE="$DIFF_DEST_BASE/images.diff"
 function remove_container()
 {
     container=$1
-    echo "Removing container $container"
+    echo "Removing container $container..."
     if docker inspect $container ; then
         docker rm -vf $container
+        echo "Container $container removed."
     else
         echo "Container $container is not running"
     fi
@@ -37,7 +38,6 @@ function export_container()
 
     mkdir -p "$DIFF_DEST_BASE/$container"
 
-    echo "Removing container $container..."
     remove_container $container
 
     docker run --detach --name $container $DOCKER_RUN_OPTS $image
