@@ -70,19 +70,6 @@ h6,
   max-width: 100%;
 }
 
-.usa-nav-primary>li {
-  font-size: 1.3rem;
-  margin-left: 0;
-}
-
-.usa-nav-primary>li.nav-institutions {
-  margin-left: 3em;
-}
-
-.usa-nav-primary>li.nav-institutions>a.usa-nav-link {
-  margin-left: 0;
-}
-
 .usa-nav-primary>li>a {
   color: #212121;
   font-size: 1.3rem;
@@ -90,40 +77,6 @@ h6,
   padding: 0;
   text-transform: uppercase;
 }
-
-.usa-nav-primary>li>a.active {
-  border-bottom: 2px solid;
-}
-
-.usa-nav-primary>li>a.usa-button {
-  color: #ffffff;
-  margin: 0;
-  padding: 1rem 2rem;
-  text-transform: uppercase;
-}
-
-.usa-nav-primary>li>a.usa-button:hover {
-  color: #ffffff;
-  background-color: #205493;
-}
-
-.usa-nav-primary>li>a.usa-button.usa-button-outline:hover {
-  color: #ffffff
-}
-
-.usa-nav-primary>li>a:last-child>a {
-  margin-right: 0;
-}
-
-.usa-nav-primary>li>a:first-child>a {
-  margin-left: 0;
-}
-
-.usa-nav-primary a {
-  padding: 0;
-  display: inline-block;
-}
-
 
 html {
   position: relative;
