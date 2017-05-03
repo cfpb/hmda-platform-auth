@@ -43,9 +43,9 @@
     </div>
     <div class="usa-nav-container">
       <div class="usa-logo" id="logo">
-        <img src="${url.resourcesPath}/img/ffiec-logo.png" width="125px"/>
+        <em class="usa-logo-text"><a class="usa-nav-link" title="Home" aria-label="Home" href="/">HMDA Filing</a></em>
       </div>
-      <nav role="navigation" class="Header usa-nav usa-nav-left">
+      <nav role="navigation" class="Header usa-nav">
         <ul class="usa-nav-primary">
           <li>
             <a class="HomeLink usa-nav-link" href="${properties.homePageUri!}">Home</a>
@@ -109,7 +109,9 @@
         <nav class="usa-footer-nav usa-width-one-half">
           <ul class="usa-unstyled-list">
             <li class="usa-footer-primary-content">
-              <a class="usa-footer-primary-link" href="https://www.ffiec.gov/">FFIEC</a>
+              <a class="usa-footer-primary-link" href="https://www.ffiec.gov/">
+                <img src="${url.resourcesPath}/img/ffiec-logo.png" width="100px"/>
+              </a>
             </li>
           </ul>
         </nav>
