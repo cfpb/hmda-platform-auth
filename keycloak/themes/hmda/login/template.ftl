@@ -54,8 +54,8 @@
       </nav>
     </div>
   </header>
-  <div class="usa-grid">
-    <#if realm.internationalizationEnabled>
+  <#if realm.internationalizationEnabled>
+    <div class="usa-grid">
       <div id="kc-locale" class="${properties.kcLocaleClass!}">
         <div id="kc-locale-wrapper" class="${properties.kcLocaleWrapperClass!}">
           <div class="kc-dropdown" id="kc-locale-dropdown">
@@ -68,8 +68,8 @@
           </div>
         </div>
       </div>
-    </#if>
-  </div>
+    </div>
+  </#if>
 
   <div class="usa-grid usa-grid-small">
     <div id="kc-content">
