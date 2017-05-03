@@ -11,6 +11,8 @@ h6,
 }
 
 .usa-grid-small {
+  margin-top: 4em;
+  padding-bottom: 4em;
   max-width: 450px;
 }
 
