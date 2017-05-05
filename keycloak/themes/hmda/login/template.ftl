@@ -43,9 +43,9 @@
     </div>
     <div class="usa-nav-container">
       <div class="usa-logo" id="logo">
-        <img src="${url.resourcesPath}/img/ffiec-logo.png" width="125px"/>
+        <em class="usa-logo-text"><a class="usa-nav-link" title="Home" aria-label="Home" href="${properties.homePageUri!}">HMDA Filing</a></em>
       </div>
-      <nav role="navigation" class="Header usa-nav usa-nav-left">
+      <nav role="navigation" class="Header usa-nav">
         <ul class="usa-nav-primary">
           <li>
             <a class="HomeLink usa-nav-link" href="${properties.homePageUri!}">Home</a>
@@ -54,8 +54,8 @@
       </nav>
     </div>
   </header>
-  <div class="usa-grid">
-    <#if realm.internationalizationEnabled>
+  <#if realm.internationalizationEnabled>
+    <div class="usa-grid">
       <div id="kc-locale" class="${properties.kcLocaleClass!}">
         <div id="kc-locale-wrapper" class="${properties.kcLocaleWrapperClass!}">
           <div class="kc-dropdown" id="kc-locale-dropdown">
@@ -68,8 +68,8 @@
           </div>
         </div>
       </div>
-    </#if>
-  </div>
+    </div>
+  </#if>
 
   <div class="usa-grid usa-grid-small">
     <div id="kc-content">
@@ -109,7 +109,9 @@
         <nav class="usa-footer-nav usa-width-one-half">
           <ul class="usa-unstyled-list">
             <li class="usa-footer-primary-content">
-              <a class="usa-footer-primary-link" href="https://www.ffiec.gov/">FFIEC</a>
+              <a class="usa-footer-primary-link" href="https://www.ffiec.gov/">
+                <img src="${url.resourcesPath}/img/ffiec-logo.png" width="100px"/>
+              </a>
             </li>
           </ul>
         </nav>

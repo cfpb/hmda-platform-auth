@@ -11,6 +11,8 @@ h6,
 }
 
 .usa-grid-small {
+  margin-top: 4em;
+  padding-bottom: 4em;
   max-width: 450px;
 }
 
@@ -27,8 +29,8 @@ h6,
 }
 
 .usa-header {
-  border-bottom: 1px solid #f1f1f1;
-  margin-bottom: 2em;
+  background-color: #ffffff;
+  border-bottom: 1px solid #d6d7d9;
 }
 
 .usa-navbar {
@@ -36,13 +38,13 @@ h6,
 }
 
 .usa-nav {
-  padding-top: .5rem;
+  padding-top: 0;
 }
 
 .usa-nav.usa-nav-left {
   display: inline-block;
   float: none;
-  padding-left: 4em;
+  padding-left: 3em;
 }
 
 .usa-logo {
@@ -51,42 +53,29 @@ h6,
 
 .usa-header-basic .usa-logo {
   bottom: 0;
+  font-weight: bold;
+  margin-top: 3px;
   position: relative;
-}
-
-.usa-banner-inner,
-.usa-nav-container {
-  max-width: none;
 }
 
 .usa-banner-inner {
   padding-top: .25em;
   padding-bottom: .25em;
+  max-width: 100%;
 }
 
 .usa-nav-container {
   padding-top: .5em;
   padding-bottom: .5em;
-}
-
-.usa-nav-primary>li {
-  font-size: 1.5rem;
-  margin-left: 0;
-}
-
-.usa-nav-primary>li:last-child>a {
-  margin-right: 0;
-}
-
-.usa-nav-primary>li:first-child>a {
-  margin-left: 0;
+  max-width: 100%;
 }
 
 .usa-nav-primary>li>a {
   color: #212121;
-  display: inline-block;
-  margin: 1.3rem 1.5rem 1.7rem;
+  font-size: 1.3rem;
+  margin: 1.3rem 1.5rem 1rem;
   padding: 0;
+  text-transform: uppercase;
 }
 
 html {
