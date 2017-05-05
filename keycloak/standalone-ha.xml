@@ -109,10 +109,6 @@
                 <pattern-formatter pattern="%K{level}%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%e%n"/>
             </formatter>
         </subsystem>
-        <subsystem xmlns="urn:jboss:domain:deployment-scanner:2.0">
-            <deployment-scanner path="deployments" relative-to="jboss.server.base.dir" scan-interval="5000"
-                             runtime-failure-causes-rollback="${jboss.deployment.scanner.rollback.on.failure:false}"/>
-        </subsystem>
         <subsystem xmlns="urn:jboss:domain:bean-validation:1.0"/>
         <subsystem xmlns="urn:jboss:domain:datasources:4.0">
             <datasources>
@@ -155,6 +151,10 @@
                     </driver>
                 </drivers>
             </datasources>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:deployment-scanner:2.0">
+            <deployment-scanner path="deployments" relative-to="jboss.server.base.dir" scan-interval="5000"
+                             runtime-failure-causes-rollback="${jboss.deployment.scanner.rollback.on.failure:false}"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:ee:4.0">
             <spec-descriptor-property-replacement>false</spec-descriptor-property-replacement>
@@ -281,15 +281,15 @@
             </cache-container>
             <cache-container name="hibernate" default-cache="local-query" module="org.hibernate.infinispan">
                 <transport lock-timeout="60000"/>
+                <local-cache name="local-query">
+                    <eviction strategy="LRU" max-entries="10000"/>
+                    <expiration max-idle="100000"/>
+                </local-cache>
                 <invalidation-cache name="entity" mode="SYNC">
                     <transaction mode="NON_XA"/>
                     <eviction strategy="LRU" max-entries="10000"/>
                     <expiration max-idle="100000"/>
                 </invalidation-cache>
-                <local-cache name="local-query">
-                    <eviction strategy="LRU" max-entries="10000"/>
-                    <expiration max-idle="100000"/>
-                </local-cache>
                 <replicated-cache name="timestamps" mode="ASYNC"/>
             </cache-container>
         </subsystem>
@@ -316,9 +316,11 @@
         <subsystem xmlns="urn:jboss:domain:jdr:1.0"/>
         <subsystem xmlns="urn:jboss:domain:jgroups:4.0">
             <channels default="ee">
-                <channel name="ee" stack="udp"/>
+                <channel name="ee" stack="tcp"/>
             </channels>
             <stacks>
+                <!-- UDP is geared toward multicast protocols, which are not supported in all environments -->
+                <!--
                 <stack name="udp">
                     <transport type="UDP" socket-binding="jgroups-udp"/>
                     <protocol type="PING"/>
@@ -334,9 +336,24 @@
                     <protocol type="MFC"/>
                     <protocol type="FRAG2"/>
                 </stack>
+                -->
                 <stack name="tcp">
+                    <!-- Multicast protocols have been commented out -->
                     <transport type="TCP" socket-binding="jgroups-tcp"/>
+                    <!--
                     <protocol type="MPING" socket-binding="jgroups-mping"/>
+                    -->
+                    <protocol type="JDBC_PING">
+                        <property name="datasource_jndi_name">java:jboss/datasources/KeycloakDS</property>
+                        <property name="initialize_sql">
+                          CREATE TABLE IF NOT EXISTS jgroupsping (
+                            own_addr VARCHAR(200) NOT NULL,
+                            cluster_name VARCHAR(200) NOT NULL,
+                            ping_data BYTEA DEFAULT NULL,
+                            PRIMARY KEY (own_addr, cluster_name)
+                          )
+                        </property>
+                    </protocol>
                     <protocol type="MERGE3"/>
                     <protocol type="FD_SOCK" socket-binding="jgroups-tcp-fd"/>
                     <protocol type="FD"/>
@@ -345,7 +362,10 @@
                     <protocol type="UNICAST3"/>
                     <protocol type="pbcast.STABLE"/>
                     <protocol type="pbcast.GMS"/>
+                    <!--
                     <protocol type="MFC"/>
+                    -->
+                    <protocol type="UFC"/>
                     <protocol type="FRAG2"/>
                 </stack>
             </stacks>
@@ -468,29 +488,16 @@
                 <dir>${jboss.home.dir}/themes</dir>
             </theme>
             <spi name="eventsStore">
-                <default-provider>jpa</default-provider>
                 <provider name="jpa" enabled="true">
                     <properties>
                         <property name="exclude-events" value="[&#34;REFRESH_TOKEN&#34;]"/>
                     </properties>
                 </provider>
             </spi>
-            <spi name="realm">
-                <default-provider>jpa</default-provider>
-            </spi>
-            <spi name="user">
-                <default-provider>jpa</default-provider>
-            </spi>
-            <spi name="userFederatedStorage">
-                <default-provider>jpa</default-provider>
-            </spi>
             <spi name="userCache">
                 <provider name="default" enabled="true"/>
             </spi>
             <spi name="userSessionPersister">
-                <default-provider>jpa</default-provider>
-            </spi>
-            <spi name="authorizationPersister">
                 <default-provider>jpa</default-provider>
             </spi>
             <spi name="timer">
@@ -554,24 +561,30 @@
     </interfaces>
     <socket-binding-group name="standard-sockets" default-interface="public"
                          port-offset="${jboss.socket.binding.port-offset:0}">
+        <!--
         <socket-binding name="management-http" interface="management"
                       port="${jboss.management.http.port:9990}"/>
         <socket-binding name="management-https" interface="management"
                       port="${jboss.management.https.port:9993}"/>
         <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
+        -->
         <socket-binding name="http" port="${jboss.http.port:8080}"/>
+        <!--
         <socket-binding name="https" port="${jboss.https.port:8443}"/>
         <socket-binding name="jgroups-mping" interface="private" port="0"
                       multicast-address="${jboss.default.multicast.address:230.0.0.4}"
                       multicast-port="45700"/>
+        -->
         <socket-binding name="jgroups-tcp" interface="private" port="7600"/>
         <socket-binding name="jgroups-tcp-fd" interface="private" port="57600"/>
+        <!--
         <socket-binding name="jgroups-udp" interface="private" port="55200"
                       multicast-address="${jboss.default.multicast.address:230.0.0.4}"
                       multicast-port="45688"/>
         <socket-binding name="jgroups-udp-fd" interface="private" port="54200"/>
         <socket-binding name="modcluster" port="0" multicast-address="224.0.1.105"
                       multicast-port="23364"/>
+        -->
         <socket-binding name="txn-recovery-environment" port="4712"/>
         <socket-binding name="txn-status-manager" port="4713"/>
         <outbound-socket-binding name="mail-smtp">
