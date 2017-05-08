@@ -1,4 +1,4 @@
-FROM docker.io/jboss/keycloak-postgres:3.0.0.Final
+FROM jboss/keycloak-postgres:3.0.0.Final
 
 ENV MAVEN_VER=3.3.9
 ENV MAVEN_DIST=apache-maven-$MAVEN_VER
