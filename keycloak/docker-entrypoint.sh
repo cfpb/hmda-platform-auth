@@ -76,10 +76,6 @@ exec /opt/jboss/keycloak/bin/standalone.sh \
       -Dkeycloak.migration.dir=/opt/jboss/import/ \
       -Dkeycloak.migration.strategy=OVERWRITE_EXISTING \
       -Dkeycloak.migration.usersExportStrategy=SKIP \
-      -Djboss.jgroups.stack=udp \
-      -Djboss.jgroups.udp.port=5520 \
-      -Djboss.jgroups.udp.multicast.port=4568 \
-      -Djboss.jgroups.udp.fd.port=5420 \
       -Djboss.bind.address.private=$HOSTNAME_IP \
       -b 0.0.0.0 -bmanagement 0.0.0.0 --server-config standalone-ha.xml
 
