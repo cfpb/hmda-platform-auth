@@ -28,7 +28,7 @@
 
         <label>Select your institutions</label>
         <div id="institutions">
-          <span class="usa-input-help-message">After entering your email address above, a list of available institutions, based on your email domain, will appear.</span>
+          <span class="usa-input-help-message">${msg("hmdaEnterEmailAddress")}</span>
         </div>
 
         <input id="user.attributes.institutions" name="user.attributes.institutions" class="usa-skipnav" hidden style="display:none;"/>
@@ -155,7 +155,7 @@ function addInstitutionsToInput() {
 $(document).ready(function() {
   $('#email').on('blur keyup', function(e) {
     if($('#email').val() === '' || $('#email').val() === null) {
-      $('#institutions').html('<span class="usa-input-error-message">After entering your email address above, a list of available institutions, based on your email domain, will appear.</span>');
+      $('#institutions').html('<span class="usa-input-error-message">${msg("hmdaEnterEmailAddress")}</span>');
     } else {
       // e.keyCode will be 'undefined' on tab key
       // don't make the API call on tab keyup
