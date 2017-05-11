@@ -178,8 +178,10 @@ $(document).ready(function() {
     if($('#password-confirm').val().length >= 12) {
       if($('#password-confirm').val() !== $('#password').val()) {
         $('#password-confirm-error-message').css('display', 'block');
+        $('#password-confirm-error-message').prev().css('font-weight', 'bold');
       } else {
         $('#password-confirm-error-message').css('display', 'none');
+        $('#password-confirm-error-message').prev().css('font-weight', 'normal');
       }
     }
   })
