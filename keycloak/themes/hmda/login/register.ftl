@@ -54,6 +54,7 @@
           <input type="password" id="password" name="password" />
 
           <label for="password-confirm">${msg("passwordConfirm")}</label>
+          <span class="usa-input-error-message" id="password-confirm-error-message" role="alert">Passwords do not match</span>
           <input type="password" id="password-confirm" name="password-confirm" />
         </#if>
 
@@ -170,5 +171,19 @@ $(document).ready(function() {
   }
 
   $('#institutions').on('click', '.institutionsCheck', addInstitutionsToInput);
+
+  // compare passwords
+  $('#password-confirm').on('keyup', function(e) {
+    // wait for the 12 character to check, we require a length of 12
+    if($('#password-confirm').val().length >= 12) {
+      if($('#password-confirm').val() !== $('#password').val()) {
+        $('#password-confirm-error-message').css('display', 'block');
+        $('#password-confirm-error-message').prev().css('font-weight', 'bold');
+      } else {
+        $('#password-confirm-error-message').css('display', 'none');
+        $('#password-confirm-error-message').prev().css('font-weight', 'normal');
+      }
+    }
+  })
 });
 </script>

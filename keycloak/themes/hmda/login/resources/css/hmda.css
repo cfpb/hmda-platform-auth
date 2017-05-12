@@ -167,3 +167,7 @@ fieldset fieldset legend {
   padding-top: 3px;
   padding-bottom: 3px;
 }
+
+.usa-input-error-message {
+  display: none;
+}
