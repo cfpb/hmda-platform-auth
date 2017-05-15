@@ -21,7 +21,6 @@ if [ -z ${INSTITUTION_SEARCH_URI+x} ]; then
     echo 'INSTITUTION_SEARCH_URI environment variable not set' >&2
     exit 1
 else
-    echo "INSTITUTION_SEARCH_URI=$INSTITUTION_SEARCH_URI"
     sed -i "s@{{INSTITUTION_SEARCH_URI}}@$INSTITUTION_SEARCH_URI@g" $LOGIN_THEME
     echo "Set institutionSearchUri=$INSTITUTION_SEARCH_URI"
 fi
@@ -30,7 +29,6 @@ if [ -z ${HOME_PAGE_URI+x} ]; then
     echo 'HOME_PAGE_URI environment variable not set' >&2
     exit 1
 else
-    echo "HOME_PAGE_URI=$HOME_PAGE_URI"
     sed -i "s@{{HOME_PAGE_URI}}@$HOME_PAGE_URI@g" keycloak/themes/hmda/login/theme.properties
     echo "Set homePageUri=$HOME_PAGE_URI"
 fi
@@ -39,11 +37,9 @@ if [ -z ${SMTP_SERVER+x} ] || [ -z ${SMTP_PORT+x} ]; then
     echo 'SMTP_SERVER and/or SMTP_PORT environment variables not set' >&2
     exit 1
 else
-    echo "SMTP_SERVER=$SMTP_SERVER"
     sed -i "s/{{SMTP_SERVER}}/$SMTP_SERVER/g" /opt/jboss/import/hmda-realm.json
     echo "Set smtpServer.host=$SMTP_SERVER"
 
-    echo "SMTP_PORT=$SMTP_PORT"
     sed -i "s/{{SMTP_PORT}}/$SMTP_PORT/g" /opt/jboss/import/hmda-realm.json
     echo "Set smtpServer.port=$SMTP_PORT"
 fi
@@ -52,17 +48,18 @@ if [ -z ${SUPPORT_EMAIL+x} ]; then
     echo 'SUPPORT_EMAIL environment variable not set' >&2
     exit 1
 else
-    echo "SUPPORT_EMAIL=$SUPPORT_EMAIL"
     sed -i "s/{{SUPPORT_EMAIL}}/$SUPPORT_EMAIL/g" $LOGIN_THEME
     sed -i "s/{{SUPPORT_EMAIL}}/$SUPPORT_EMAIL/g" $HMDA_REALM
     echo "Set supportEmailTo=$SUPPORT_EMAIL"
     echo "Set smtpServer.from=$SUPPORT_EMAIL"
 fi
 
-# Print host IP info for debugging Keycloak clustering issues
+# Print useful bits for debugging Keycloak clustering issues
 export HOSTNAME_IP=$(hostname -i)
 export HOSTNAME_IP_ALL=$(hostname --all-ip-addresses)
-echo "hostname -i returned: $HOSTNAME_IP, -I returned: $HOSTNAME_IP_ALL"
+
+printf "\nEnvironment:\n"
+env | sort
 
 echo "Updated $LOGIN_THEME:"
 cat $LOGIN_THEME
@@ -76,7 +73,6 @@ exec /opt/jboss/keycloak/bin/standalone.sh \
       -Dkeycloak.migration.dir=/opt/jboss/import/ \
       -Dkeycloak.migration.strategy=OVERWRITE_EXISTING \
       -Dkeycloak.migration.usersExportStrategy=SKIP \
-      -Djboss.bind.address.private=$HOSTNAME_IP \
-      -b 0.0.0.0 -bmanagement 0.0.0.0 --server-config standalone-ha.xml
+      -b $HOSTNAME_IP --server-config $SERVER_CONFIG
 
 exit $?
