@@ -384,6 +384,7 @@
                 <smtp-server outbound-socket-binding-ref="mail-smtp"/>
             </mail-session>
         </subsystem>
+        <!--
         <subsystem xmlns="urn:jboss:domain:modcluster:2.0">
             <mod-cluster-config advertise-socket="modcluster" connector="ajp">
                 <dynamic-load-provider>
@@ -391,6 +392,7 @@
                 </dynamic-load-provider>
             </mod-cluster-config>
         </subsystem>
+        -->
         <subsystem xmlns="urn:jboss:domain:naming:2.0">
             <remote-naming/>
         </subsystem>
@@ -451,7 +453,9 @@
         <subsystem xmlns="urn:jboss:domain:undertow:3.0">
             <buffer-cache name="default"/>
             <server name="default-server">
+                <!--
                 <ajp-listener name="ajp" socket-binding="ajp"/>
+                -->
                 <http-listener name="default" socket-binding="http" proxy-address-forwarding="true" redirect-socket="https"/>
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
@@ -549,46 +553,22 @@
         </subsystem>
     </profile>
     <interfaces>
-        <interface name="management">
-            <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
-        </interface>
         <interface name="public">
             <inet-address value="${jboss.bind.address:127.0.0.1}"/>
-        </interface>
-        <interface name="private">
-            <inet-address value="${jboss.bind.address.private:127.0.0.1}"/>
         </interface>
     </interfaces>
     <socket-binding-group name="standard-sockets" default-interface="public"
                          port-offset="${jboss.socket.binding.port-offset:0}">
-        <!--
-        <socket-binding name="management-http" interface="management"
-                      port="${jboss.management.http.port:9990}"/>
-        <socket-binding name="management-https" interface="management"
-                      port="${jboss.management.https.port:9993}"/>
-        <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
-        -->
-        <socket-binding name="http" port="${jboss.http.port:8080}"/>
-        <!--
-        <socket-binding name="https" port="${jboss.https.port:8443}"/>
-        <socket-binding name="jgroups-mping" interface="private" port="0"
-                      multicast-address="${jboss.default.multicast.address:230.0.0.4}"
-                      multicast-port="45700"/>
-        -->
-        <socket-binding name="jgroups-tcp" interface="private" port="7600"/>
-        <socket-binding name="jgroups-tcp-fd" interface="private" port="57600"/>
-        <!--
-        <socket-binding name="jgroups-udp" interface="private" port="55200"
-                      multicast-address="${jboss.default.multicast.address:230.0.0.4}"
-                      multicast-port="45688"/>
-        <socket-binding name="jgroups-udp-fd" interface="private" port="54200"/>
-        <socket-binding name="modcluster" port="0" multicast-address="224.0.1.105"
-                      multicast-port="23364"/>
-        -->
-        <socket-binding name="txn-recovery-environment" port="4712"/>
-        <socket-binding name="txn-status-manager" port="4713"/>
+        <socket-binding name="management-http" port="${env.PORT_MANAGEMENT:9990}"/>
+        <socket-binding name="http" port="${env.PORT_HTTP:8080}"/>
+        <socket-binding name="https" port="${env.PORT_HTTPS:8443}"/>
+        <socket-binding name="jgroups-tcp" port="${env.PORT_JGROUPS_TCP:7600}"/>
+        <socket-binding name="jgroups-tcp-fd" port="${env.PORT_TCP_FD:57600}"/>
+        <!-- FIXME: Can these txn ports be removed? -->
+        <socket-binding name="txn-recovery-environment" port="${env.PORT_TXN_RECOVERY:4712}"/>
+        <socket-binding name="txn-status-manager" port="${env.PORT_TXN_STATUS:4713}"/>
         <outbound-socket-binding name="mail-smtp">
-            <remote-destination host="localhost" port="25"/>
+            <remote-destination host="${env.SMTP_SERVER:localhost}" port="${env.SMTP_PORT:25}"/>
         </outbound-socket-binding>
     </socket-binding-group>
 </server>
