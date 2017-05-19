@@ -171,3 +171,9 @@ fieldset fieldset legend {
 .usa-input-error-message {
   display: none;
 }
+
+.hmda-error-message {
+  color: #dc2026;
+  font-weight: 700;
+  padding: 3px 0;
+}
