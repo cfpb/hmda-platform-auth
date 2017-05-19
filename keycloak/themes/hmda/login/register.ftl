@@ -125,7 +125,7 @@ function getInstitutions(domain) {
     statusCode: {
       404: function() {
         $('#institutions').html(
-          '<span class="usa-input-error-message">' +
+          '<span class="hmda-error-message">' +
           'Sorry, we couldn\'t find that email domain. Please contact ' +
           '<a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> ' +
           'for help getting registered.</span>'
@@ -138,7 +138,7 @@ function getInstitutions(domain) {
     buildList(response.institutions);
   })
   .fail(function(request, status, error) {
-    $('#institutions').html('<span class="usa-input-error-message">Sorry, something went wrong. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered <strong>or</strong> try again in a few minutes.</span>');
+    $('#institutions').html('<span class="hmda-error-message">Sorry, something went wrong. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered <strong>or</strong> try again in a few minutes.</span>');
   });
 }
 
@@ -155,8 +155,9 @@ function addInstitutionsToInput() {
 
 $(document).ready(function() {
   $('#email').on('blur keyup', function(e) {
-    if($('#email').val() === '' || $('#email').val() === null) {
-      $('#institutions').html('<span class="usa-input-error-message">${msg("hmdaEnterEmailAddress", (properties.supportEmailTo!''))}</span>');
+    // keycode (tab key) used to not warn when first tabbing into the email field
+    if(($('#email').val() === '' || $('#email').val() === null) && e.keyCode !== 9) {
+      $('#institutions').html('<span class="hmda-error-message">${msg("hmdaEnterEmailAddress", (properties.supportEmailTo!''))}</span>');
     } else {
       // e.keyCode will be 'undefined' on tab key
       // don't make the API call on tab keyup
