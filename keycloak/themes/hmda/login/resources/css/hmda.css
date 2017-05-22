@@ -107,8 +107,16 @@ body {
   padding-left: 0;
 }
 
+.usa-alert-body p:first-child {
+  margin-top: 0;
+}
+
 .usa-alert p {
   margin: 0;
+}
+
+.usa-alert-error p:not(.usa-alert-text) {
+  margin-top: 1em;
 }
 
 .usa-alert li[data-validator] {
