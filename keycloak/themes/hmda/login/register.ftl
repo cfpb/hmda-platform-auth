@@ -28,7 +28,7 @@
 
         <label>Select your institutions</label>
         <div id="institutions">
-          <span class="usa-input-help-message">After entering your email address above, a list of available institutions, based on your email domain, will appear.</span>
+          <span class="usa-input-help-message">${msg("hmdaEnterEmailAddress", (properties.supportEmailTo!''))}</span>
         </div>
 
         <input id="user.attributes.institutions" name="user.attributes.institutions" class="usa-skipnav" hidden style="display:none;"/>
@@ -54,6 +54,7 @@
           <input type="password" id="password" name="password" />
 
           <label for="password-confirm">${msg("passwordConfirm")}</label>
+          <span class="usa-input-error-message" id="password-confirm-error-message" role="alert">Passwords do not match</span>
           <input type="password" id="password-confirm" name="password-confirm" />
         </#if>
 
@@ -124,7 +125,7 @@ function getInstitutions(domain) {
     statusCode: {
       404: function() {
         $('#institutions').html(
-          '<span class="usa-input-error-message">' +
+          '<span class="hmda-error-message">' +
           'Sorry, we couldn\'t find that email domain. Please contact ' +
           '<a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> ' +
           'for help getting registered.</span>'
@@ -137,7 +138,7 @@ function getInstitutions(domain) {
     buildList(response.institutions);
   })
   .fail(function(request, status, error) {
-    $('#institutions').html('<span class="usa-input-error-message">Sorry, something went wrong. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered <strong>or</strong> try again in a few minutes.</span>');
+    $('#institutions').html('<span class="hmda-error-message">Sorry, something went wrong. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered <strong>or</strong> try again in a few minutes.</span>');
   });
 }
 
@@ -154,8 +155,9 @@ function addInstitutionsToInput() {
 
 $(document).ready(function() {
   $('#email').on('blur keyup', function(e) {
-    if($('#email').val() === '' || $('#email').val() === null) {
-      $('#institutions').html('<span class="usa-input-error-message">After entering your email address above, a list of available institutions, based on your email domain, will appear.</span>');
+    // keycode (tab key) used to not warn when first tabbing into the email field
+    if(($('#email').val() === '' || $('#email').val() === null) && e.keyCode !== 9) {
+      $('#institutions').html('<span class="hmda-error-message">${msg("hmdaEnterEmailAddress", (properties.supportEmailTo!''))}</span>');
     } else {
       // e.keyCode will be 'undefined' on tab key
       // don't make the API call on tab keyup
@@ -170,5 +172,19 @@ $(document).ready(function() {
   }
 
   $('#institutions').on('click', '.institutionsCheck', addInstitutionsToInput);
+
+  // compare passwords
+  $('#password-confirm').on('keyup', function(e) {
+    // wait for the 12 character to check, we require a length of 12
+    if($('#password-confirm').val().length >= 12) {
+      if($('#password-confirm').val() !== $('#password').val()) {
+        $('#password-confirm-error-message').css('display', 'block');
+        $('#password-confirm-error-message').prev().css('font-weight', 'bold');
+      } else {
+        $('#password-confirm-error-message').css('display', 'none');
+        $('#password-confirm-error-message').prev().css('font-weight', 'normal');
+      }
+    }
+  })
 });
 </script>
