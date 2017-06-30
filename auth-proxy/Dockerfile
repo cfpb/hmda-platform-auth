@@ -14,7 +14,7 @@ ENV HTTPD_USER apache
 
 RUN yum install -y epel-release && \
     yum update -y && \
-    yum install -y hiredis httpd jansson mod_ssl && \
+    yum install -y hiredis httpd jansson && \
     curl -sL -o /tmp/${CJOSE_PKG} ${DL_SITE}/v${CJOSE_OIDC_VER}/${CJOSE_PKG} && \
     yum install -y /tmp/${CJOSE_PKG} && \
     curl -sL -o /tmp/${OIDC_PKG} ${DL_SITE}/v${OIDC_VER}/${OIDC_PKG} && \
@@ -23,7 +23,7 @@ RUN yum install -y epel-release && \
 
 ADD conf/ /
 
-RUN chown -R $HTTPD_USER /etc/pki/tls /run /var/www/html
+RUN chown -R $HTTPD_USER /run /var/www/html
 
 USER $HTTPD_USER
 
