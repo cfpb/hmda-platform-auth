@@ -562,11 +562,11 @@
         <socket-binding name="management-http" port="${env.PORT_MANAGEMENT:9990}"/>
         <socket-binding name="http" port="${env.PORT_HTTP:8080}"/>
         <socket-binding name="https" port="${env.PORT_HTTPS:8443}"/>
-        <socket-binding name="jgroups-tcp" port="${env.PORT_JGROUPS-TCP:7600}"/>
-        <socket-binding name="jgroups-tcp-fd" port="${env.PORT_JGROUPS-TCP-FD:57600}"/>
+        <socket-binding name="jgroups-tcp" port="${env.PORT_JGROUPSTCP:7600}"/>
+        <socket-binding name="jgroups-tcp-fd" port="${env.PORT_JGROUPSTCPFD:57600}"/>
         <!-- FIXME: Can these txn ports be removed? -->
-        <socket-binding name="txn-recovery-environment" port="${env.PORT_TXN-RECOVERY:4712}"/>
-        <socket-binding name="txn-status-manager" port="${env.PORT_TXN-STATUS:4713}"/>
+        <socket-binding name="txn-recovery-environment" port="${env.PORT_TXNRECOVERY:4712}"/>
+        <socket-binding name="txn-status-manager" port="${env.PORT_TXNSTATUS:4713}"/>
         <outbound-socket-binding name="mail-smtp">
             <remote-destination host="${env.SMTP_SERVER:localhost}" port="${env.SMTP_PORT:25}"/>
         </outbound-socket-binding>
