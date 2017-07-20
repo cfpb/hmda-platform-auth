@@ -26,13 +26,6 @@
     </extensions>
     <management>
         <security-realms>
-            <security-realm name="UndertowRealm">
-                <server-identities>
-                    <ssl>
-                        <keystore path="keycloak.jks" relative-to="jboss.server.config.dir" keystore-password="password" />
-                    </ssl>
-                </server-identities>
-            </security-realm>
             <security-realm name="ManagementRealm">
                 <authentication>
                     <local default-user="$local" skip-group-loading="true"/>
@@ -84,22 +77,17 @@
     <profile>
         <subsystem xmlns="urn:jboss:domain:logging:3.0">
             <console-handler name="CONSOLE">
-                <level name="INFO"/>
+                <level name="${env.KEYCLOAK_LOGLEVEL:INFO}"/>
                 <formatter>
                     <named-formatter name="COLOR-PATTERN"/>
                 </formatter>
             </console-handler>
-            <periodic-rotating-file-handler name="FILE" autoflush="true">
-                <formatter>
-                    <named-formatter name="PATTERN"/>
-                </formatter>
-                <file relative-to="jboss.server.log.dir" path="server.log"/>
-                <suffix value=".yyyy-MM-dd"/>
-                <append value="true"/>
-            </periodic-rotating-file-handler>
             <logger category="com.arjuna">
                 <level name="WARN"/>
             </logger>
+            <logger category="org.keycloak">
+                <level name="DEBUG"/>
+            </logger> 
             <logger category="org.jboss.as.config">
                 <level name="DEBUG"/>
             </logger>
@@ -110,7 +98,6 @@
                 <level name="INFO"/>
                 <handlers>
                     <handler name="CONSOLE"/>
-                    <handler name="FILE"/>
                 </handlers>
             </root-logger>
             <formatter name="PATTERN">
@@ -119,9 +106,6 @@
             <formatter name="COLOR-PATTERN">
                 <pattern-formatter pattern="%K{level}%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%e%n"/>
             </formatter>
-            <log:logger xmlns:log="urn:jboss:domain:logging:3.0" xmlns="" category="org.keycloak">
-                <log:level name="${env.KEYCLOAK_LOGLEVEL:INFO}"/>
-             </log:logger>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:bean-validation:1.0"/>
         <subsystem xmlns="urn:jboss:domain:datasources:4.0">
@@ -136,13 +120,11 @@
                         <password>sa</password>
                     </security>
                 </datasource>
-                <datasource 
-                        jndi-name="java:jboss/datasources/KeycloakDS" 
-                        pool-name="KeycloakDS"
-                        enabled="true"
-                        use-java-context="true"
-                        use-ccm="true">
-
+                <datasource jndi-name="java:jboss/datasources/KeycloakDS"
+                            pool-name="KeycloakDS"
+                            enabled="true"
+                            use-java-context="true"
+                            use-ccm="true">
                     <connection-url>jdbc:postgresql://${env.POSTGRES_SERVER}:${env.POSTGRES_PORT:5432}/${env.POSTGRES_DATABASE:keycloak}</connection-url>
                     <driver>postgresql</driver>
                     <security>
@@ -165,7 +147,7 @@
                     </driver>
                     <driver name="postgresql" module="org.postgresql.jdbc">
                         <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
-                   </driver>
+                    </driver>
                 </drivers>
             </datasources>
         </subsystem>
@@ -412,8 +394,7 @@
         <subsystem xmlns="urn:jboss:domain:undertow:3.0">
             <buffer-cache name="default"/>
             <server name="default-server">
-                <http-listener name="default" socket-binding="http" redirect-socket="https"/>
-                <https-listener name="https" socket-binding="https" security-realm="UndertowRealm"/>
+                <http-listener name="default" socket-binding="http" proxy-address-forwarding="true" redirect-socket="proxy-https"/>
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
                     <filter-ref name="server-header"/>
@@ -522,7 +503,11 @@
                       port="${jboss.management.https.port:9993}"/>
         <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
         <socket-binding name="http" port="${jboss.http.port:8080}"/>
-        <socket-binding name="https" port="${jboss.https.port:8443}"/>
+        <!--
+            Set https port used by reverse proxy fronting Keycloak via PROXY_HTTPS_PORT envvar.
+            This is generally 8443 in dev, and the standard 443 in non-dev envs.
+        -->
+        <socket-binding name="proxy-https" port="${env.PROXY_HTTPS_PORT}"/>
         <socket-binding name="txn-recovery-environment" port="4712"/>
         <socket-binding name="txn-status-manager" port="4713"/>
         <outbound-socket-binding name="mail-smtp">

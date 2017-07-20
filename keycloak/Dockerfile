@@ -15,16 +15,6 @@ RUN curl -s -o /tmp/${MAVEN_FILE} http://www-us.apache.org/dist/maven/maven-3/${
     cd ${MAVEN_DIST} && \
     mvn --version 
 
-# Generate TLS keypair for Keycloak over HTTPS
-RUN keytool -genkey -noprompt \
-    -alias keycloak \
-    -keyalg RSA \
-    -dname "CN=localhost, OU=Test, L=Testtown, ST=CA, C=US" \
-    -keystore keycloak.jks \
-    -storepass password \
-    -keypass password && \
-    mv keycloak.jks /opt/jboss/keycloak/standalone/configuration/
-
 # Overwrite the default Keycloak startup script
 COPY docker-entrypoint.sh /opt/jboss/
 
@@ -54,4 +44,4 @@ RUN echo 'Keycloak SPI build starting...' && \
     cp target/keycloak-authenticator-hmda-${KC_LIB_VER}.jar /opt/jboss/keycloak/providers && \
     echo 'Keycloak SPIs build successful!'
 
-EXPOSE 8443
+EXPOSE 8080
