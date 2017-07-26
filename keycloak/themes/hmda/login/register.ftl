@@ -18,7 +18,7 @@
         </#if>
 
         <label for="firstName">${msg("firstName")}</label>
-        <input type="text" id="firstName" class="${properties.kcInputClass!}" name="firstName" value="${(register.formData.firstName!'')?html}" />
+        <input type="text" id="firstName" class="${properties.kcInputClass!}" name="firstName" value="${(register.formData.firstName!'')?html}" autofocus />
 
         <label for="lastName">${msg("lastName")}</label>
         <input type="text" id="lastName" name="lastName" value="${(register.formData.lastName!'')?html}" />
