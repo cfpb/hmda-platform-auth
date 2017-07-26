@@ -171,6 +171,11 @@ $(document).ready(function() {
     getInstitutions(emailToDomain($('#email').val()));
   }
 
+  // remove whitespace from email to prevent 'invalid email'
+  $('#email').on('blur', function(e) {
+    $('#email').val($.trim($('#email').val()))
+  })
+
   $('#institutions').on('click', '.institutionsCheck', addInstitutionsToInput);
 
   // compare passwords
