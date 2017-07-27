@@ -72,7 +72,7 @@
 
 <script>
 var institutionSearchUri = "${properties.institutionSearchUri!}/institutions";
-var emailExp = new RegExp("[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*");
+var emailExp = new RegExp("[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-]+");
 
 function emailToDomain(email) {
   return email.split("@", 2)[1];
@@ -153,6 +153,16 @@ function addInstitutionsToInput() {
   $("#user\\.attributes\\.institutions").val(listOfInstitutions.join(","));
 }
 
+function makeDebouncer(delay){
+  var timeout
+  return function(domain){
+    clearTimeout(timeout)
+    timeout = setTimeout(function(){getInstitutions(domain)}, delay)
+  }
+}
+
+var debounceRequest = makeDebouncer(300)
+
 $(document).ready(function() {
   var email = $('#email');
 
@@ -164,7 +174,7 @@ $(document).ready(function() {
       // e.keyCode will be 'undefined' on tab key
       // don't make the API call on tab keyup
       if(emailExp.test(email.val()) && e.keyCode) {
-        getInstitutions(emailToDomain(email.val().trim()));
+        debounceRequest(emailToDomain(email.val().trim()))
       }
     }
   });
