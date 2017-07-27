@@ -154,26 +154,28 @@ function addInstitutionsToInput() {
 }
 
 $(document).ready(function() {
-  $('#email').on('blur keyup', function(e) {
+  var email = $('#email');
+
+  email.on('blur keyup', function(e) {
     // keycode (tab key) used to not warn when first tabbing into the email field
-    if(($('#email').val() === '' || $('#email').val() === null) && e.keyCode !== 9) {
+    if((email.val() === '' || email.val() === null) && e.keyCode !== 9) {
       $('#institutions').html('<span class="hmda-error-message">${msg("hmdaEnterEmailAddress", (properties.supportEmailTo!''))}</span>');
     } else {
       // e.keyCode will be 'undefined' on tab key
       // don't make the API call on tab keyup
-      if(emailExp.test($('#email').val()) && e.keyCode) {
-        getInstitutions(emailToDomain($('#email').val().trim()));
+      if(emailExp.test(email.val()) && e.keyCode) {
+        getInstitutions(emailToDomain(email.val().trim()));
       }
     }
   });
 
-  if($('#email').val() !== '' && $('#email').val() !== null) {
-    getInstitutions(emailToDomain($('#email').val()));
+  if(email.val() !== '' && email.val() !== null) {
+    getInstitutions(emailToDomain(email.val()));
   }
 
   // remove whitespace from email to prevent 'invalid email'
-  $('#email').on('blur', function(e) {
-    $('#email').val($.trim($('#email').val()))
+  email.on('blur', function(e) {
+    email.val($.trim(email.val()))
   })
 
   $('#institutions').on('click', '.institutionsCheck', addInstitutionsToInput);
