@@ -99,6 +99,7 @@ body {
 }
 
 .usa-alert-error,
+.usa-alert-info,
 .usa-alert-warning {
   background-image: none;
 }
