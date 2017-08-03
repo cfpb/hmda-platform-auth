@@ -134,8 +134,8 @@ function getInstitutions(domain) {
     },
     data: { domain: domain }
   })
-  .success(function(response) {
-    buildList(response.institutions);
+  .done(function(data, status, xhr) {
+    buildList(data.institutions);
   })
   .fail(function(request, status, error) {
     $('#institutions').html('<span class="hmda-error-message">Sorry, something went wrong. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered <strong>or</strong> try again in a few minutes.</span>');

@@ -244,11 +244,16 @@
                     <eviction max-entries="10000" strategy="LRU"/>
                 </local-cache>
                 <local-cache name="sessions"/>
+                <local-cache name="authenticationSessions"/>
                 <local-cache name="offlineSessions"/>
                 <local-cache name="loginFailures"/>
                 <local-cache name="work"/>
                 <local-cache name="authorization">
-                    <eviction max-entries="100" strategy="LRU"/>
+                    <eviction max-entries="10000" strategy="LRU"/>
+                </local-cache>
+                <local-cache name="actionTokens">
+                    <eviction max-entries="-1" strategy="NONE"/>
+                    <expiration max-idle="-1" interval="300000"/>
                 </local-cache>
                 <local-cache name="keys">
                     <eviction max-entries="1000" strategy="LRU"/>
