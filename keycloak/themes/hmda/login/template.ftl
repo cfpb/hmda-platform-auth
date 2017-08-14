@@ -66,7 +66,7 @@
     </div>
     <div class="usa-nav-container">
       <div class="usa-logo" id="logo">
-        <em class="usa-logo-text"><a class="usa-nav-link" title="Home" aria-label="Home" href="${properties.homePageUri!}">HMDA Filing</a></em>
+        <em class="usa-logo-text"><a class="usa-nav-link" title="Home" aria-label="Home" href="${properties.homePageUri!}">HMDA Platform</a></em>
       </div>
       <nav role="navigation" class="Header usa-nav">
         <ul class="usa-nav-primary">
