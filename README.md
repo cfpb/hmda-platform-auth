@@ -43,24 +43,45 @@ Below are the steps used when creating the "hmda" realm and its "hmda-api" clien
     1. Add "hmda" to _Name_ field.
     1. Select the _Create_ button.
     1. On the _Login_ tab, set the following and select _Save_:
-        * **User registration:** ON
-        * **Edit username:** OFF
-        * **Forgot password:** ON
-        * **Remember Me:** OFF
-        * **Verify email:** ON
-        * **Login with email:** ON
-        * **Require ssl:** all requests
+        1. **User registration:** ON
+        1. **Email as username:** ON
+        1. **Edit username:** OFF
+        1. **Forgot password:** ON
+        1. **Remember Me:** OFF
+        1. **Verify email:** ON
+        1. **Login with email:** ON
+        1. **Require ssl:** all requests
     1. On the _Email_ tab, set following and click _Save_:
-        * **Host:** mail_dev
-        * **From:** hmda-support@keycloak.local
+        1. **Host:** mail_dev
+        1. **From:** hmda-support@keycloak.local
     1. On the _Themes_ tab, set following and select _Save_:
-        * **Login Theme:** hmda
-        * **Email Theme:** hmda
+        1. **Login Theme:** hmda
+        1. **Email Theme:** hmda
     1. On the _Tokens_ tab, set the following and select _Save_:
-        * **Login action timeout:** 1 Hours
+        1. **Login action timeout:** 60 (Minutes)
+        1. **User-Initiated Action Lifespan:** 60 (Minutes)
 1. Configure the realm's _Authentication_ settings:
-    1. Select the _Authentication_ link on the seft menu:
-    
+    1. Select the _Authentication_ link on the left menu:
+    1. On the _Flows_ tab:
+        1. Select _Registration_ from the dropdown.
+        1. Select the _Copy_ button.
+        1. Enter "registration - hmda" in the _New Name_ field, and select _OK_.
+        1. Select _Add Execution_ action for _Registration - Hmda Registration Form_.
+        1. Select _Institution Validation_ for _Provider_, and select _Save_.
+        1. Select _Delete_ action for _Recaptcha_.
+        1. Select _REQUIRED_ for _Institution Validation_.
+    1. On the _Bindings_ tab, set the following and select _Save_:
+        1. Set _Registration Flow_ to  _registration - hmda_.
+    1. On the _Password Policy_ tab, set these policies and select _Save_:
+        1. **Expire Password:** 90
+        1. **Minimum Length:** 12
+        1. **Not Recently Used:** 10
+        1. **Uppercase Characters:** 1 (Default)
+        1. **Lowercase Characters:** 1 (Default)
+        1. **Digits:** 1 (Default)
+        1. **Special Characters:** 1 (Defaul)
+        1. **Not Username (No value to set here)
+        1. **Hashing Iterations:** 27500 (Default)
 1. Add a _hmda-api_ OpenID Connect client.
     1. Select the _Clients_ link on left menu, and select _Create_.
     1. On the _Add Client_ screen, set the following and _Save_:
