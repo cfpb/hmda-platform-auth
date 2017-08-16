@@ -80,7 +80,7 @@ Below are the steps used when creating the "hmda" realm and its "hmda-api" clien
         1. **Lowercase Characters:** 1 (Default)
         1. **Digits:** 1 (Default)
         1. **Special Characters:** 1 (Defaul)
-        1. **Not Username (No value to set here)
+        1. **Not Username** (No value to set here)
         1. **Hashing Iterations:** 27500 (Default)
 1. Add a _hmda-api_ OpenID Connect client.
     1. Select the _Clients_ link on left menu, and select _Create_.
