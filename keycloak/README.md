@@ -106,7 +106,7 @@ rebuild the import config file:
     1. OIDC redirect URIs
 
         **Note:** There are multiple `redirectUris` attributes
-        in the file.  Make sure you are only set `{{REDIRECT_URIS}}`
+        in the file.  Make sure you only set `{{REDIRECT_URIS}}`
         in the `hmda-api` client section.
 
         ```json
