@@ -83,3 +83,56 @@ docker rm -vf kc_upgrade_db
 ```
 
 You can now view the diff at `/tmp/keycloak/images.diff`.
+
+## Rebuilding Realm `import` files
+New versions of Keycloak frequently add new features or tweak default settings
+that result in changes to the realm config files (`keycloak/import`) in this repo.
+In order to make sure these new features are included, follow these steps to 
+rebuild the import config file:
+
+1. Start the newly upgraded Keycloak container.
+1. Login to the admin app.
+1. Delete the current "hmda" realm by clicking the trash can icon.
+1. Follow the steps in the _Manual_ config on the main README.md.
+1. Confirm all auth related features of the hmda-platform stack work.
+1. Select _Export_ from the left menu.
+1. Set the following on the _Partial Export_ screen
+    1. **Export groups and roles:** ON
+    1. **Export clients:**: ON
+1. Click _Export_, saving the file over the existing
+    `keycloak/import/hmda-realm.json` file.
+1. Re-add the following templatized JSON attribute values:
+
+    1. OIDC redirect URIs
+
+        **Note:** There are multiple `redirectUris` attributes
+        in the file.  Make sure you only set `{{REDIRECT_URIS}}`
+        in the `hmda-api` client section.
+
+        ```json
+            {
+              "id": "4638801f-5b2d-4628-984d-d79fbac87f3c",
+              "clientId": "hmda-api",
+              "surrogateAuthRequired": false,
+              "enabled": true,
+              "clientAuthenticatorType": "client-secret",
+              "secret": "**********",
+              "redirectUris": {{REDIRECT_URIS}},
+              "webOrigins": [
+                "*"
+              ],
+            ...
+        ```
+
+    1. SMTP Settings
+
+        ```json
+          "smtpServer" : {
+            "host" : "{{SMTP_SERVER}}",
+            "port" : "{{SMTP_PORT}}",
+            "from" : "{{SUPPORT_EMAIL}}",
+            "auth": "",
+            "ssl": ""
+          },
+        ```
+
