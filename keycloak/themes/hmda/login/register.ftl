@@ -167,13 +167,14 @@ $(document).ready(function() {
   var email = $('#email');
 
   email.on('blur keyup', function(e) {
+    console.log(e)
     // keycode (tab key) used to not warn when first tabbing into the email field
     if((email.val() === '' || email.val() === null) && e.keyCode !== 9) {
       $('#institutions').html('<span class="hmda-error-message">${msg("hmdaEnterEmailAddress", (properties.supportEmailTo!''))}</span>');
     } else {
       // e.keyCode will be 'undefined' on tab key
       // don't make the API call on tab keyup
-      if(emailExp.test(email.val()) && e.keyCode) {
+      if((emailExp.test(email.val()) && e.keyCode) || e.type === 'blur') {
         debounceRequest(emailToDomain(email.val().trim()))
       }
     }
