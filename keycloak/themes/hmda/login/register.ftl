@@ -173,8 +173,9 @@ $(document).ready(function() {
     } else {
       // e.keyCode will be 'undefined' on tab key
       // don't make the API call on tab keyup
-      if((emailExp.test(email.val()) && e.keyCode) || e.type === 'blur') {
-        debounceRequest(emailToDomain(email.val().trim()))
+      var domain = emailToDomain(email.val().trim())
+      if((emailExp.test(email.val()) && e.keyCode) || e.type === 'blur' && domain !== '') {
+        debounceRequest(domain)
       }
     }
   });
