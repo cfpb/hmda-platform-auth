@@ -24,6 +24,7 @@
         <input type="text" id="lastName" name="lastName" value="${(register.formData.lastName!'')?html}" />
 
         <label for="email">${msg("email")}</label>
+        <span class="usa-form-hint">The provided email address will be used to notify you of any HMDA related technology updates.</span>
         <input type="text" id="email" name="email" value="${(register.formData.email!'')?html}" />
 
         <label>Select your institutions</label>
