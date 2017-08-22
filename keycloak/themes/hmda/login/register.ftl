@@ -133,7 +133,13 @@ function getInstitutions(domain) {
         );
       }
     },
-    data: { domain: domain }
+    data: { domain: domain },
+    beforeSend: function() {
+      $('#institutions').html(
+        '<div class="LoadingIconWrapper">' +
+        '<img src="${url.resourcesPath}/img/LoadingIcon.png" class="LoadingIcon" alt="Loading"></img>' +
+        '</div>');
+    }
   })
   .done(function(data, status, xhr) {
     buildList(data.institutions);
