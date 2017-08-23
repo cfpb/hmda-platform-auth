@@ -165,6 +165,8 @@ var debounceRequest = makeDebouncer(300)
 
 $(document).ready(function() {
   var email = $('#email');
+  var password = $('#password');
+  var passwordConfirm = $('#password-confirm');
 
   email.on('blur keyup', function(e) {
     // keycode (tab key) used to not warn when first tabbing into the email field
@@ -192,16 +194,22 @@ $(document).ready(function() {
   $('#institutions').on('click', '.institutionsCheck', addInstitutionsToInput);
 
   // compare passwords
-  $('#password-confirm').on('keyup', function(e) {
-    // wait for the 12 character to check, we require a length of 12
-    if($('#password-confirm').val().length >= 12) {
-      if($('#password-confirm').val() !== $('#password').val()) {
-        $('#password-confirm-error-message').css('display', 'block');
-        $('#password-confirm-error-message').prev().css('font-weight', 'bold');
-      } else {
-        $('#password-confirm-error-message').css('display', 'none');
-        $('#password-confirm-error-message').prev().css('font-weight', 'normal');
-      }
+  // only turn the message off on keyup
+  // blur will display it
+  passwordConfirm.on('keyup', function(e) {
+    if(passwordConfirm.val() === password.val()) {
+      $('#password-confirm-error-message').css('display', 'none');
+      $('#password-confirm-error-message').prev().css('font-weight', 'normal');
+    }
+  })
+
+  passwordConfirm.on('blur', function(e) {
+    if(passwordConfirm.val() === password.val()) {
+      $('#password-confirm-error-message').css('display', 'none');
+      $('#password-confirm-error-message').prev().css('font-weight', 'normal');
+    } else {
+      $('#password-confirm-error-message').css('display', 'block');
+      $('#password-confirm-error-message').prev().css('font-weight', 'bold');
     }
   })
 });
