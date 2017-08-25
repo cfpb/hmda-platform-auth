@@ -30,10 +30,16 @@ COPY themes/hmda /opt/jboss/keycloak/themes/hmda
 # Copy custom authenticator provider source code
 COPY ${KC_SPI_SRC} ${KC_SPI_DEST}/${KC_SPI_SRC}
 
+# Perform root user actions
+USER root
+
 # FIXME: Replace this with new COPY/ADD owner options when that feature become available
 #   SEE: https://github.com/docker/docker/pull/27303 
-USER root
 RUN chmod -R a+w ${KC_SPI_DEST} && chown -R jboss:jboss /opt/jboss
+
+# Get the latest yum packages, and cleanup packages from parent images
+RUN yum -y update && yum -y clean all
+
 USER jboss
 
 # Build the Keycloak authenticator SPI
