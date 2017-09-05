@@ -13,6 +13,7 @@ ENV DL_SITE https://github.com/pingidentity/mod_auth_openidc/releases/download/
 ENV HTTPD_USER apache 
 
 RUN yum install -y epel-release && \
+    yum-config-manager --enable cr && \
     yum update -y && \
     yum install -y hiredis httpd jansson && \
     curl -sL -o /tmp/${CJOSE_PKG} ${DL_SITE}/v${CJOSE_OIDC_VER}/${CJOSE_PKG} && \
