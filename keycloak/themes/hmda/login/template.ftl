@@ -66,7 +66,11 @@
     </div>
     <div class="usa-nav-container">
       <div class="usa-logo" id="logo">
-        <em class="usa-logo-text"><a class="usa-nav-link" title="Home" aria-label="Home" href="${properties.homePageUri!}">HMDA Platform</a></em>
+        <em class="usa-logo-text">
+          <a class="usa-nav-link" href="${properties.homePageUri!}">
+              <img src="${url.resourcesPath}/img/ffiec-logo.png" width="100px" alt="FFIEC"/> HMDA Platform
+          </a>
+        </em>
       </div>
       <nav role="navigation" class="Header usa-nav">
         <ul class="usa-nav-primary">
@@ -132,8 +136,8 @@
         <nav class="usa-footer-nav usa-width-one-half">
           <ul class="usa-unstyled-list">
             <li class="usa-footer-primary-content">
-              <a class="usa-footer-primary-link" href="https://www.ffiec.gov/">
-                <img src="${url.resourcesPath}/img/ffiec-logo.png" width="100px"/>
+              <a class="usa-nav-link" href="${properties.homePageUri!}">
+                <img src="${url.resourcesPath}/img/ffiec-logo.png" width="75px" alt="FFIEC"/> HMDA Platform
               </a>
             </li>
           </ul>
