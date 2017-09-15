@@ -38,7 +38,10 @@ USER root
 RUN chmod -R a+w ${KC_SPI_DEST} && chown -R jboss:jboss /opt/jboss
 
 # Get the latest yum packages, and cleanup packages from parent images
-RUN yum -y update && yum -y clean all
+RUN yum-config-manager --enable cr && \
+	yum -y erase augeas augeas-libs && \
+	yum -y update && \
+	yum -y clean all
 
 USER jboss
 
@@ -49,6 +52,7 @@ RUN echo 'Keycloak SPI build starting...' && \
     mvn --quiet clean install && \
     mkdir /opt/jboss/keycloak/providers && \
     cp target/keycloak-authenticator-hmda-${KC_LIB_VER}.jar /opt/jboss/keycloak/providers && \
+    rm -rf /opt/jboss/.m2 && \
     echo 'Keycloak SPIs build successful!'
 
 EXPOSE 8080
