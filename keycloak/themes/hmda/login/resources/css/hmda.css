@@ -65,7 +65,17 @@ h6,
 }
 
 .usa-logo a:hover {
-  color: $color-primary;
+  color: #222222;
+}
+
+.usa-logo .usa-logo-text {
+  font-size: 2.15rem;
+  font-weight: normal;
+}
+
+.usa-logo .usa-logo-text img {
+  margin-right: .5em;
+  vertical-align: bottom;
 }
 
 .usa-header-basic .usa-logo {
@@ -109,6 +119,17 @@ body {
   left: 0;
   bottom: 0;
   width: 100%;
+}
+
+.usa-footer .usa-nav-link {
+  color: #222222;
+  font-size: .9em;
+  text-decoration: none;
+}
+
+.usa-footer .usa-nav-link img {
+  margin-right: 5px;
+  vertical-align: top;
 }
 
 .usa-alert {
