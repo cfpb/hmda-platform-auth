@@ -163,6 +163,22 @@ body {
   margin-bottom: 0;
 }
 
+#validation_list > li.complete {
+  position: relative;
+  list-style: none;
+}
+
+#validation_list img {
+  display: none;
+  position: absolute;
+  left: -22px;
+  bottom: 5px;
+}
+
+#validation_list > li.complete img {
+  display: inline;
+}
+
 .padding-1 {
   padding: 1em;
 }
@@ -234,7 +250,6 @@ fieldset fieldset legend {
 }
 
 .LoadingIcon {
-  background-image: url('/img/LoadingIcon.png');
   width: 3em;
   animation: loading-spin 2s infinite linear;
 }

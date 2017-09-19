@@ -39,12 +39,12 @@
             <div class="usa-alert-text">
               <p>Passwords must:</p>
               <ul id="validation_list">
-                <li data-validator="length">Be at least 12 characters</li>
-                <li data-validator="uppercase">Have at least 1 uppercase character</li>
-                <li data-validator="lowercase">Have at least 1 lowercase character</li>
-                <li data-validator="numerical">Have at least 1 numerical character</li>
-                <li data-validator="special">Have at least 1 special character</li>
-                <li data-validator="username">Not be the same as your username</li>
+                <li data-validator="length"><img src="${url.resourcesPath}/img/correct9.png"></img>Be at least 12 characters</li>
+                <li data-validator="uppercase"><img src="${url.resourcesPath}/img/correct9.png"></img>Have at least 1 uppercase character</li>
+                <li data-validator="lowercase"><img src="${url.resourcesPath}/img/correct9.png"></img>Have at least 1 lowercase character</li>
+                <li data-validator="numerical"><img src="${url.resourcesPath}/img/correct9.png"></img>Have at least 1 numerical character</li>
+                <li data-validator="special"><img src="${url.resourcesPath}/img/correct9.png"></img>Have at least 1 special character</li>
+                <li data-validator="username"><img src="${url.resourcesPath}/img/correct9.png"></img>Not be the same as your username</li>
               </ul>
             </div>
           </div>
@@ -160,6 +160,33 @@ function addInstitutionsToInput() {
   $("#user\\.attributes\\.institutions").val(listOfInstitutions.join(","));
 }
 
+//Password checking function list
+var checkFunctions = [
+  function atLeastTwelve(val) {
+    return val.length > 11
+  },
+
+  function hasUppercase(val) {
+    return !!val.match(/[A-Z]/)
+  },
+
+  function hasLowercase(val) {
+    return !!val.match(/[a-z]/)
+  },
+
+  function hasNumber(val) {
+    return !!val.match(/[0-9]/)
+  },
+
+  function hasSpecial(val) {
+    return !!val.match(/[^a-zA-Z0-9]/)
+  },
+
+  function notUsername(password, username) {
+    return password !== username
+  }
+]
+
 function makeDebouncer(delay){
   var timeout
   return function(domain){
@@ -174,6 +201,7 @@ $(document).ready(function() {
   var email = $('#email');
   var password = $('#password');
   var passwordConfirm = $('#password-confirm');
+  var validationList = $('#validation_list > li')
 
   email.on('blur keyup', function(e) {
     // keycode (tab key) used to not warn when first tabbing into the email field
@@ -199,6 +227,16 @@ $(document).ready(function() {
   })
 
   $('#institutions').on('click', '.institutionsCheck', addInstitutionsToInput);
+
+  password.on('keyup', function(e) {
+    validationList.each(function(i, el) {
+      if(checkFunctions[i](password.val(), email.val())) {
+        el.className = 'complete'
+      }else{
+        el.className = ''
+      }
+    })
+  })
 
   // compare passwords
   // only turn the message off on keyup
