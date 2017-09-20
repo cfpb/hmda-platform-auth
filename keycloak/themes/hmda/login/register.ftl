@@ -39,12 +39,36 @@
             <div class="usa-alert-text">
               <p>Passwords must:</p>
               <ul id="validation_list">
-                <li data-validator="length">Be at least 12 characters</li>
-                <li data-validator="uppercase">Have at least 1 uppercase character</li>
-                <li data-validator="lowercase">Have at least 1 lowercase character</li>
-                <li data-validator="numerical">Have at least 1 numerical character</li>
-                <li data-validator="special">Have at least 1 special character</li>
-                <li data-validator="username">Not be the same as your username</li>
+                <li data-validator="length">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
+                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  Be at least 12 characters
+                </li>
+                <li data-validator="uppercase">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
+                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  Have at least 1 uppercase character
+                </li>
+                <li data-validator="lowercase">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
+                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  Have at least 1 lowercase character
+                </li>
+                <li data-validator="numerical">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
+                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  Have at least 1 numerical character
+                </li>
+                <li data-validator="special">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
+                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  Have at least 1 special character
+                </li>
+                <li data-validator="username">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
+                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  Not be the same as your username
+                </li>
               </ul>
             </div>
           </div>
@@ -70,154 +94,12 @@
     </form>
   </#if>
 </@layout.registrationLayout>
-
 <script>
-var institutionSearchUri = "${properties.institutionSearchUri!}/institutions";
-var emailExp = new RegExp("[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-]+");
-
-function emailToDomain(email) {
-  return email.split("@", 2)[1];
-}
-
-function createExternalIdHTML(externalIds) {
-  var html = '';
-  if(externalIds.length > 0) {
-    html = '<dl class="usa-text-small">';
-    for (var i = 0; i < externalIds.length; i++) {
-      html += '<dt>' + externalIds[i].externalIdType.name + ': </dt>';
-      html += '<dd>' + externalIds[i].value + '</dd>';
-    }
-    html += '</dl>';
-  }
-
-  return html;
-}
-
-function createHTML(institutions) {
-  var html = '<ul class="usa-unstyled-list">';
-  var checked = (institutions.length === 1) ? 'checked' : ''
-
-  for (var i = 0; i < institutions.length; i++) {
-    //var dataList = getExternalIds(institutions[i].externalIds)
-    html = html + '<li>'
-      + '<input class="institutionsCheck" type="checkbox" id="'
-      + institutions[i].id + '" name="institutions" value="'
-      + institutions[i].id + '"' + checked + '>'
-      + '<label for="' + institutions[i].id + '">'
-      + '<strong>' + institutions[i].name + '</strong>'
-      + createExternalIdHTML(institutions[i].externalIds)
-      + '</label></li>'
-  }
-  html = html + '</ul></fieldset>';
-
-  return html;
-}
-
-function buildList(institutions) {
-  var html = createHTML(institutions);
-  $('#institutions').html(html);
-
-  addInstitutionsToInput();
-}
-
-function getInstitutions(domain) {
-  $.ajax({
-    url: institutionSearchUri,
-    statusCode: {
-      404: function() {
-        $('#institutions').html(
-          '<span class="hmda-error-message">' +
-          'Sorry, we couldn\'t find that email domain. Please contact ' +
-          '<a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> ' +
-          'for help getting registered.</span>'
-        );
-      }
-    },
-    data: { domain: domain },
-    beforeSend: function() {
-      $('#institutions').html(
-        '<div class="LoadingIconWrapper">' +
-        '<img src="${url.resourcesPath}/img/LoadingIcon.png" class="LoadingIcon" alt="Loading"></img>' +
-        '</div>');
-    }
-  })
-  .done(function(data, status, xhr) {
-    buildList(data.institutions);
-  })
-  .fail(function(request, status, error) {
-    $('#institutions').html('<span class="hmda-error-message">Sorry, something went wrong. Please contact <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject!}">${properties.supportEmailTo!}</a> for help getting registered <strong>or</strong> try again in a few minutes.</span>');
-  });
-}
-
-function addInstitutionsToInput() {
-  var listOfInstitutions = [];
-  // add to the user.attributes.institutions input
-  $('.institutionsCheck').each(function(index){
-    if($(this).prop('checked')) {
-      listOfInstitutions.push($(this).val())
-    }
-  })
-  $("#user\\.attributes\\.institutions").val(listOfInstitutions.join(","));
-}
-
-function makeDebouncer(delay){
-  var timeout
-  return function(domain){
-    clearTimeout(timeout)
-    timeout = setTimeout(function(){getInstitutions(domain)}, delay)
-  }
-}
-
-var debounceRequest = makeDebouncer(300)
-
-$(document).ready(function() {
-  var email = $('#email');
-  var password = $('#password');
-  var passwordConfirm = $('#password-confirm');
-
-  email.on('blur keyup', function(e) {
-    // keycode (tab key) used to not warn when first tabbing into the email field
-    if((email.val() === '' || email.val() === null) && e.keyCode !== 9) {
-      $('#institutions').html('<span class="hmda-error-message">${msg("hmdaEnterEmailAddress", (properties.supportEmailTo!''))}</span>');
-    } else {
-      // e.keyCode will be 'undefined' on tab key
-      // don't make the API call on tab keyup
-      var domain = emailToDomain(email.val().trim())
-      if((emailExp.test(email.val()) && e.keyCode) || e.type === 'blur' && domain !== '') {
-        debounceRequest(domain)
-      }
-    }
-  });
-
-  if(email.val() !== '' && email.val() !== null) {
-    getInstitutions(emailToDomain(email.val()));
-  }
-
-  // remove whitespace from email to prevent 'invalid email'
-  email.on('blur', function(e) {
-    email.val($.trim(email.val()))
-  })
-
-  $('#institutions').on('click', '.institutionsCheck', addInstitutionsToInput);
-
-  // compare passwords
-  // only turn the message off on keyup
-  // blur will display it
-  passwordConfirm.on('keyup', function(e) {
-    if(passwordConfirm.val() === password.val()) {
-      $('#password-confirm-error-message').css('display', 'none');
-      $('#password-confirm-error-message').prev().css('font-weight', 'normal');
-    }
-  })
-
-  passwordConfirm.on('blur', function(e) {
-    if(passwordConfirm.val() === password.val()) {
-      $('#password-confirm-error-message').css('display', 'none');
-      $('#password-confirm-error-message').prev().css('font-weight', 'normal');
-    } else {
-      $('#password-confirm-error-message').css('display', 'block');
-      $('#password-confirm-error-message').prev().css('font-weight', 'bold');
-    }
-  })
-});
+var HMDA = {}
+HMDA.institutionSearchUri = "${properties.institutionSearchUri!}/institutions"
+HMDA.supportEmailTo = "${properties.supportEmailTo!}"
+HMDA.supportEmailSubject = "${properties.supportEmailSubject!}"
+HMDA.enterEmailMessage = "${msg("hmdaEnterEmailAddress", (properties.supportEmailTo!''))}"
+HMDA.resources = "${url.resourcesPath}"
 </script>
+<script src="${url.resourcesPath}/js/register.js"></script>
