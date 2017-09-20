@@ -163,7 +163,7 @@ body {
   margin-bottom: 0;
 }
 
-#validation_list > li.complete {
+#validation_list > li {
   position: relative;
   list-style: none;
 }
@@ -171,11 +171,17 @@ body {
 #validation_list img {
   display: none;
   position: absolute;
+  height: 18px;
+  width: 18px;
   left: -22px;
   bottom: 5px;
 }
 
-#validation_list > li.complete img {
+#validation_list > li.complete > .check {
+  display: inline;
+}
+
+#validation_list > li.missing > .missing {
   display: inline;
 }
 
