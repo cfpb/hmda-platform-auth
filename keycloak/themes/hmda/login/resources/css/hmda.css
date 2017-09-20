@@ -165,6 +165,9 @@ body {
 
 #validation_list > li {
   position: relative;
+}
+
+#validation_list > .complete, #validation_list > .missing {
   list-style: none;
 }
 

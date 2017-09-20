@@ -2,33 +2,20 @@
 /* global HMDA */
 (function(){
 
-var emailExp = /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-]+/
-var pwdMatchError = $('#password-confirm-error-message')
+//Given a list of institutions, create units of html for each of them
+function buildList(institutions) {
+  var html = createInstitutions(institutions);
+  $('#institutions').html(html);
 
-function emailToDomain(email) {
-  return email.split('@', 2)[1];
+  addInstitutionsToInput();
 }
 
-function createExternalIdHTML(externalIds) {
-  var html = '';
-  if(externalIds.length > 0) {
-    html = '<dl class="usa-text-small">';
-    for (var i = 0; i < externalIds.length; i++) {
-      html += '<dt>' + externalIds[i].externalIdType.name + ': </dt>';
-      html += '<dd>' + externalIds[i].value + '</dd>';
-    }
-    html += '</dl>';
-  }
-
-  return html;
-}
-
+//Given a list of institutions, return an html list of description lists for each
 function createInstitutions(institutions) {
   var html = '<ul class="usa-unstyled-list">'
   var checked = (institutions.length === 1) ? 'checked' : ''
 
   for (var i = 0; i < institutions.length; i++) {
-    //var dataList = getExternalIds(institutions[i].externalIds)
     html = html + '<li>'
       + '<input class="institutionsCheck" type="checkbox" id="'
       + institutions[i].id + '" name="institutions" value="'
@@ -43,23 +30,37 @@ function createInstitutions(institutions) {
   return html
 }
 
-function buildList(institutions) {
-  var html = createInstitutions(institutions);
-  $('#institutions').html(html);
 
-  addInstitutionsToInput();
+//Create description list from a list of ids
+function createExternalIdHTML(externalIds) {
+  var html = '';
+  if(externalIds.length > 0) {
+    html = '<dl class="usa-text-small">';
+    for (var i = 0; i < externalIds.length; i++) {
+      html += '<dt>' + externalIds[i].externalIdType.name + ': </dt>';
+      html += '<dd>' + externalIds[i].value + '</dd>';
+    }
+    html += '</dl>';
+  }
+
+  return html;
 }
 
-function getEmailLink() {
-  return '<a href="mailto:' +
-    HMDA.supportEmailTo +
-    '?subject=' +
-    HMDA.supportEmailSubject +
-    '">' +
-    HMDA.supportEmailTo +
-    '</a>'
+
+//Get checked institutions' values and add them to a hidden input field to be submitted
+function addInstitutionsToInput() {
+  var listOfInstitutions = [];
+  // add to the user.attributes.institutions input
+  $('.institutionsCheck').each(function(index){
+    if($(this).prop('checked')) {
+      listOfInstitutions.push($(this).val())
+    }
+  })
+  $('#user\\.attributes\\.institutions').val(listOfInstitutions.join(','));
 }
 
+
+//AJAX call to get data, calls buildList with returned institutions
 function getInstitutions(domain) {
   $.ajax({
     url: HMDA.institutionSearchUri,
@@ -93,16 +94,6 @@ function getInstitutions(domain) {
   });
 }
 
-function addInstitutionsToInput() {
-  var listOfInstitutions = [];
-  // add to the user.attributes.institutions input
-  $('.institutionsCheck').each(function(index){
-    if($(this).prop('checked')) {
-      listOfInstitutions.push($(this).val())
-    }
-  })
-  $("#user\\.attributes\\.institutions").val(listOfInstitutions.join(","));
-}
 
 //Password checking function list
 var checkFunctions = [
@@ -131,6 +122,26 @@ var checkFunctions = [
   }
 ]
 
+
+//email parsing util
+function emailToDomain(email) {
+  return email.split('@', 2)[1];
+}
+
+
+//build email links from values provided at build time
+function getEmailLink() {
+  return '<a href="mailto:' +
+    HMDA.supportEmailTo +
+    '?subject=' +
+    HMDA.supportEmailSubject +
+    '">' +
+    HMDA.supportEmailTo +
+    '</a>'
+}
+
+
+//Make a debounced version of the getInstitutions API call, passing in the desired delay
 function makeDebouncer(delay){
   var timeout
   return function(domain){
@@ -146,10 +157,19 @@ $(document).ready(function() {
   var password = $('#password');
   var passwordConfirm = $('#password-confirm');
   var validationList = $('#validation_list > li')
+  var pwdMatchError = $('#password-confirm-error-message')
+  var emailExp = /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+/
+  var lastEmail = null
 
+
+  //Process email and make debounced request when typing in email field
   email.on('blur keyup', function(e) {
+    var emailVal = email.val().trim()
+    if(emailVal === lastEmail) return
+    else lastEmail = emailVal
+
     // keycode (tab key) used to not warn when first tabbing into the email field
-    if((email.val() === '' || email.val() === null) && e.keyCode !== 9) {
+    if((emailVal === '' || emailVal === null) && e.keyCode !== 9) {
       $('#institutions').html(
         '<span class="hmda-error-message">' +
         HMDA.enterEmailMessage +
@@ -158,34 +178,19 @@ $(document).ready(function() {
     } else {
       // e.keyCode will be 'undefined' on tab key
       // don't make the API call on tab keyup
-      var domain = emailToDomain(email.val().trim())
-      if((emailExp.test(email.val()) && e.keyCode) || e.type === 'blur' && domain !== '') {
+      var domain = emailToDomain(emailVal)
+      if((emailExp.test(emailVal) && e.keyCode) || e.type === 'blur' && domain !== '') {
         debounceRequest(domain)
       }
     }
   })
 
-  if(email.val() !== '' && email.val() !== null) {
-    getInstitutions(emailToDomain(email.val()));
-  }
 
-  // remove whitespace from email to prevent 'invalid email'
-  email.on('blur', function(e) {
-    email.val($.trim(email.val()))
-  })
-
+  //Save institution to input when clicked
   $('#institutions').on('click', '.institutionsCheck', addInstitutionsToInput);
 
-  function hideMatchingError () {
-    pwdMatchError.css('display', 'none');
-    pwdMatchError.prev().css('font-weight', 'normal');
-  }
 
-  function showMatchingError() {
-    pwdMatchError.css('display', 'block');
-    pwdMatchError.prev().css('font-weight', 'bold');
-  }
-
+  //Mark password rules as completed when typing and possible adjust password matching error
   password.on('keyup', function(e) {
     validationList.each(function(i, el) {
       if(checkFunctions[i](password.val(), email.val())) {
@@ -203,7 +208,7 @@ $(document).ready(function() {
     }
   })
 
-  //display error checks
+  //Display checks for unmet password rules
   password.on('blur', function(e) {
     validationList.each(function(i, el) {
       if(checkFunctions[i](password.val(), email.val())) {
@@ -213,6 +218,7 @@ $(document).ready(function() {
       }
     })
   })
+
 
   //show or hide confirm as needed
   //<= ensures it doesn't show too early
@@ -226,6 +232,7 @@ $(document).ready(function() {
     }
   })
 
+  //show or hide confirm, on blur will also show errors if confirmation text is shorter than password
   passwordConfirm.on('blur', function(e) {
     if(passwordConfirm.val() === password.val()) {
       hideMatchingError()
@@ -233,6 +240,20 @@ $(document).ready(function() {
       showMatchingError()
     }
   })
+
+
+  //Util for showing error text when password and confirm field don't match
+  function showMatchingError() {
+    pwdMatchError.css('display', 'block');
+    pwdMatchError.prev().css('font-weight', 'bold');
+  }
+
+
+  //Util for hiding error text when password and confirm field match
+  function hideMatchingError () {
+    pwdMatchError.css('display', 'none');
+    pwdMatchError.prev().css('font-weight', 'normal');
+  }
 })
 
 })()
