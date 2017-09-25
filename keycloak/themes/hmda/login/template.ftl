@@ -100,7 +100,7 @@
 
   <#assign className="usa-grid usa-grid-small"/>
   <#if (displayMessage && message?has_content && message.summary == "verifyEmailMessage")>
-    <#assign className="usa-grid"/>
+    <#assign className="usa-grid verifyEmailMessage"/>
   </#if>
 
   <div class="${className}">
