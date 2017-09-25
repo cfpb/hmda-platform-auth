@@ -98,10 +98,15 @@
     </div>
   </#if>
 
-  <div class="usa-grid usa-grid-small">
+  <#assign className="usa-grid usa-grid-small"/>
+  <#if (displayMessage && message?has_content && message.summary == "verifyEmailMessage")>
+    <#assign className="usa-grid verifyEmailMessage"/>
+  </#if>
+
+  <div class="${className}">
     <div id="kc-content">
       <div id="kc-content-wrapper">
-        <#if displayMessage && message?has_content>
+        <#if displayMessage && message?has_content && message.summary != "verifyEmailMessage">
           <div class="usa-width-one-whole margin-bottom-1">
             <div class="usa-alert usa-alert-${message.type}">
               <div class="usa-alert-body">

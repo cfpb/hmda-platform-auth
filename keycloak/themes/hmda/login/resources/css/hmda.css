@@ -16,6 +16,10 @@ h6,
   max-width: 450px;
 }
 
+.verifyEmailMessage {
+  margin-top: 4em;
+}
+
 .usa-form {
   max-width: 450px;
 }
