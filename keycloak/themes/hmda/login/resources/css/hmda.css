@@ -140,6 +140,10 @@ body {
   width: 100%;
 }
 
+.usa-alert a {
+  color: #205493;
+}
+
 .usa-alert-info,
 .usa-alert-error,
 .usa-alert-info,
