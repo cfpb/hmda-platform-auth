@@ -10,6 +10,15 @@ h6,
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+.usa-alert ul {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.usa-alert ul:last-of-type {
+  margin-bottom: 0;
+}
+
 .usa-grid-small {
   margin-top: 4em;
   padding-bottom: 4em;

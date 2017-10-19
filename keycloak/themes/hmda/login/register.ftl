@@ -102,4 +102,5 @@ HMDA.supportEmailSubject = "${properties.supportEmailSubject!}"
 HMDA.enterEmailMessage = "${msg("hmdaEnterEmailAddress", (properties.supportEmailTo!''))}"
 HMDA.resources = "${url.resourcesPath}"
 </script>
+<script src="${url.resourcesPath}/js/passwordRules.js"></script>
 <script src="${url.resourcesPath}/js/register.js"></script>
