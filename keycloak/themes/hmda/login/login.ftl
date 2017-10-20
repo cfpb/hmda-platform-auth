@@ -22,6 +22,9 @@
                     <input id="password" name="password" type="password" autocomplete="off" />
 
                     <input name="login" id="kc-login" type="submit" value="${msg("doLogIn")}"/>
+                    <div id="submit-loader" class="LoadingIconWrapper">
+                      <img src="${url.resourcesPath}/img/LoadingIcon.png" class="LoadingIcon" alt="Loading" />
+                    </div>
 
                     <#if realm.resetPasswordAllowed>
                         <p><a href="${url.loginResetCredentialsUrl}">${msg("doForgotPassword")}</a></p>
@@ -32,3 +35,4 @@
         </#if>
     </#if>
 </@layout.registrationLayout>
+<script src="${url.resourcesPath}/js/login.js"></script>

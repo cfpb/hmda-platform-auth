@@ -167,6 +167,12 @@
 
     //Save institution to input when clicked
     $('#institutions').on('click', '.institutionsCheck', addInstitutionsToInput)
+    var loading = $('#submit-loader')
+    var form = $('#kc-register-form')
+
+    form.on('submit', function(e) {
+      loading.css('display', 'block')
+    })
 
     initRules()
   })
