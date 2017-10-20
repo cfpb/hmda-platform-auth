@@ -268,6 +268,13 @@ fieldset fieldset legend {
   padding: 3px 0;
 }
 
+#submit-loader {
+  position: absolute;
+  margin-top: -3.9em;
+  margin-left: 20em;
+  display: none;
+}
+
 .LoadingIconWrapper {
   -webkit-transform: rotateX(180deg);
   width: 3em;
