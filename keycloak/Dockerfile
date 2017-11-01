@@ -1,6 +1,6 @@
-FROM jboss/keycloak-postgres:3.2.1.Final
+FROM jboss/keycloak-postgres:3.3.0.Final
 
-ENV MAVEN_VER=3.5.0
+ENV MAVEN_VER=3.5.2
 ENV MAVEN_DIST=apache-maven-$MAVEN_VER
 ENV MAVEN_FILE=$MAVEN_DIST-bin.tar.gz
 ENV PATH=$PATH:/tmp/$MAVEN_DIST/bin
