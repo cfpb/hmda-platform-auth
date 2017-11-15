@@ -12,7 +12,6 @@
   //Given a list of institutions, return an html list of description lists for each
   function createInstitutions(institutions) {
     var html = '<ul class="usa-unstyled-list">'
-    var checked = institutions.length === 1 ? 'checked' : ''
 
     for (var i = 0; i < institutions.length; i++) {
       html =
@@ -22,9 +21,7 @@
         institutions[i].id +
         '" name="institutions" value="' +
         institutions[i].id +
-        '"' +
-        checked +
-        '>' +
+        '">' +
         '<label for="' +
         institutions[i].id +
         '">' +
