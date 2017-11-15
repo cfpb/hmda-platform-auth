@@ -76,7 +76,7 @@
             '<span class="hmda-error-message">' +
               "Sorry, we couldn't find that email domain. Please contact " +
               getEmailLink() +
-              ' for help getting registered.</span>'
+              ' and provide your institution name and another identifier (e.g. RSSD, tax ID, NMLS ID) for help getting registered.</span>'
           )
         }
       },
