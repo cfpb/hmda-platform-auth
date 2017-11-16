@@ -11,7 +11,11 @@
 
   //Given a list of institutions, return an html list of description lists for each
   function createInstitutions(institutions) {
-    var html = '<ul class="usa-unstyled-list">'
+    var labelContent = 'Select your institution'
+    if(institutions.length > 1) {
+      labelContent = 'Select all available institutions you wish to file for. You may select more than one.'
+    }
+    var html = '<label>' + labelContent + '</label><ul class="usa-unstyled-list">'
 
     for (var i = 0; i < institutions.length; i++) {
       html =
@@ -71,9 +75,9 @@
         404: function() {
           $('#institutions').html(
             '<span class="hmda-error-message">' +
-              "Sorry, we couldn't find that email domain. Please contact " +
+              "Sorry, we couldn't find that email domain. For help getting registered, please contact " +
               getEmailLink() +
-              ' for help getting registered.</span>'
+              ' and provide your institution name plus one other identifier (RSSD, tax ID, NMLS ID, etc).</span>'
           )
         }
       },
@@ -144,11 +148,7 @@
 
       // keycode (tab key) used to not warn when first tabbing into the email field
       if ((emailVal === '' || emailVal === null) && e.keyCode !== 9) {
-        $('#institutions').html(
-          '<span class="hmda-error-message">' +
-            HMDA.enterEmailMessage +
-            '</span>'
-        )
+        $('#institutions').html('')
       } else {
         // e.keyCode will be 'undefined' on tab key
         // don't make the API call on tab keyup

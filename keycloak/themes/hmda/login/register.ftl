@@ -27,10 +27,7 @@
         <span class="usa-form-hint">The provided email address will be used to notify you of any HMDA related technology updates.</span>
         <input type="text" id="email" name="email" value="${(register.formData.email!'')?html}" />
 
-        <label>Select your institutions</label>
-        <div id="institutions">
-          <span class="usa-input-help-message">${msg("hmdaEnterEmailAddress", (properties.supportEmailTo!''))}</span>
-        </div>
+        <div id="institutions"></div>
 
         <input id="user.attributes.institutions" name="user.attributes.institutions" class="usa-skipnav" hidden style="display:none;"/>
 
