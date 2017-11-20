@@ -8,7 +8,7 @@ if [ -z ${REDIRECT_URIS+x} ]; then
   echo 'REDIRECT_URIS environment variable not set' >&2
   exit 1
 else
-  sed -i "s@{{REDIRECT_URIS}}@$REDIRECT_URIS@g" import/hmda-realm.json
+  sed -i "s@\"{{REDIRECT_URIS}}\"@$REDIRECT_URIS@g" import/hmda-realm.json
   echo "Keycloak redirect URIs set to $REDIRECT_URIS"
 fi
 
@@ -49,9 +49,7 @@ if [ -z ${SUPPORT_EMAIL+x} ]; then
     exit 1
 else
     sed -i "s/{{SUPPORT_EMAIL}}/$SUPPORT_EMAIL/g" $LOGIN_THEME
-    sed -i "s/{{SUPPORT_EMAIL}}/$SUPPORT_EMAIL/g" $HMDA_REALM
     echo "Set supportEmailTo=$SUPPORT_EMAIL"
-    echo "Set smtpServer.from=$SUPPORT_EMAIL"
 fi
 
 printf "\nEnvironment:\n"
