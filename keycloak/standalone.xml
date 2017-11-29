@@ -79,7 +79,7 @@
             <console-handler name="CONSOLE">
                 <level name="${env.KEYCLOAK_LOGLEVEL:INFO}"/>
                 <formatter>
-                    <named-formatter name="COLOR-PATTERN"/>
+                    <named-formatter name="PATTERN"/>
                 </formatter>
             </console-handler>
             <logger category="com.arjuna">
