@@ -8,7 +8,7 @@ if [ -z ${REDIRECT_URIS+x} ]; then
   echo 'REDIRECT_URIS environment variable not set' >&2
   exit 1
 else
-  sed -i "s@\"{{REDIRECT_URIS}}\"@$REDIRECT_URIS@g" import/hmda-realm.json
+  sed -i "s@\"{{REDIRECT_URIS}}\"@$REDIRECT_URIS@g" $HMDA_REALM
   echo "Keycloak redirect URIs set to $REDIRECT_URIS"
 fi
 
@@ -29,7 +29,7 @@ if [ -z ${HOME_PAGE_URI+x} ]; then
     echo 'HOME_PAGE_URI environment variable not set' >&2
     exit 1
 else
-    sed -i "s@{{HOME_PAGE_URI}}@$HOME_PAGE_URI@g" keycloak/themes/hmda/login/theme.properties
+    sed -i "s@{{HOME_PAGE_URI}}@$HOME_PAGE_URI@g" $LOGIN_THEME
     echo "Set homePageUri=$HOME_PAGE_URI"
 fi
 
@@ -37,10 +37,10 @@ if [ -z ${SMTP_SERVER+x} ] || [ -z ${SMTP_PORT+x} ]; then
     echo 'SMTP_SERVER and/or SMTP_PORT environment variables not set' >&2
     exit 1
 else
-    sed -i "s/{{SMTP_SERVER}}/$SMTP_SERVER/g" /opt/jboss/import/hmda-realm.json
+    sed -i "s/{{SMTP_SERVER}}/$SMTP_SERVER/g" $HMDA_REALM
     echo "Set smtpServer.host=$SMTP_SERVER"
 
-    sed -i "s/{{SMTP_PORT}}/$SMTP_PORT/g" /opt/jboss/import/hmda-realm.json
+    sed -i "s/{{SMTP_PORT}}/$SMTP_PORT/g" $HMDA_REALM
     echo "Set smtpServer.port=$SMTP_PORT"
 fi
 
