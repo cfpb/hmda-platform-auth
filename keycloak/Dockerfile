@@ -53,6 +53,7 @@ RUN echo 'Keycloak SPI build starting...' && \
     mkdir /opt/jboss/keycloak/providers && \
     cp target/keycloak-authenticator-hmda-${KC_LIB_VER}.jar /opt/jboss/keycloak/providers && \
     rm -rf /opt/jboss/.m2 && \
+    rm keycloak/modules/system/layers/keycloak/com/thoughtworks/xstream/main/* && \
     echo 'Keycloak SPIs build successful!'
 
 EXPOSE 8080
