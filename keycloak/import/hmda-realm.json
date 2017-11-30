@@ -1102,7 +1102,7 @@
   "smtpServer" : {
     "host" : "{{SMTP_SERVER}}",
     "port" : "{{SMTP_PORT}}",
-    "from" : "{{SUPPORT_EMAIL}}",
+    "from" : "noreply@cfpb.gov",
     "auth": "",
     "ssl": ""
   },
