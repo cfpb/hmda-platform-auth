@@ -65,8 +65,7 @@ exec /opt/jboss/keycloak/bin/standalone.sh \
       -Dkeycloak.migration.action=import \
       -Dkeycloak.migration.provider=dir \
       -Dkeycloak.migration.dir=/opt/jboss/import/ \
-      -Dkeycloak.migration.strategy=OVERWRITE_EXISTING \
-      -Dkeycloak.migration.usersExportStrategy=SKIP \
+      -Dkeycloak.migration.strategy=IGNORE_EXISTING \
       -b 0.0.0.0 \
       --server-config standalone.xml
 
