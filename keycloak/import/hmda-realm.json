@@ -835,11 +835,7 @@
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
-      "redirectUris": [
-        "https://192.168.99.100/silent_renew.html",
-        "https://192.168.99.100/oidc-callback",
-        "https://192.168.99.100"
-      ],
+      "redirectUris": "{{REDIRECT_URIS}}" [
       "webOrigins": [
         "*"
       ],
@@ -1104,7 +1100,8 @@
     "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none';"
   },
   "smtpServer": {
-    "host": "mail_dev",
+    "host": "{{SMTP_SERVER}}",
+    "port": "{{SMTP_PORT}}",
     "from": "noreply@cfpb.gov",
     "starttls": "",
     "auth": "",
