@@ -55,7 +55,6 @@
                 <json-formatter name="json-formatter"/>
             </formatters>
             <handlers>
-            <!-- FIXME: Can we log this to stdout? -->
                 <file-handler name="file" formatter="json-formatter" path="audit-log.log" relative-to="jboss.server.data.dir"/>
             </handlers>
             <logger log-boot="true" log-read-only="false" enabled="false">
