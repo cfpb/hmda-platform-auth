@@ -53,13 +53,16 @@ Below are the steps used when creating the "hmda" realm and its "hmda-api" clien
         1. **Require ssl:** all requests
     1. On the _Email_ tab, set following and click _Save_:
         1. **Host:** mail_dev
-        1. **From:** hmda-support@keycloak.local
+        1. **From:** noreply@cfpb.gov 
     1. On the _Themes_ tab, set following and select _Save_:
         1. **Login Theme:** hmda
         1. **Email Theme:** hmda
     1. On the _Tokens_ tab, set the following and select _Save_:
         1. **Login action timeout:** 60 (Minutes)
         1. **User-Initiated Action Lifespan:** 60 (Minutes)
+    1. On the _Security Defenses_ / _Brute Force Detection_ tab, set the following and select _Save_:
+        1. **Enabled:** ON
+        1. **Permanent Lockout:** ON
 1. Configure the realm's _Authentication_ settings:
     1. Select the _Authentication_ link on the left menu:
     1. On the _Flows_ tab:
@@ -97,11 +100,15 @@ Below are the steps used when creating the "hmda" realm and its "hmda-api" clien
         * **Web Origins:** *
     1. On the _Mappers_ tab, click _Create_, set the following, and _Save_:
         * **Name:** Institutions
+        * **Consent Required:** OFF
         * **Mapper Type:** User Attribute
         * **User Attribute:** institutions
         * **Token Claim Name:** institutions
         * **Claim JSON Type:** String
+        * **Add to ID token:** ON
         * **Add to access token:** ON
+        * **Add to userinfo:** ON
+        * **Multivalued:** OFF
 
 ## Use it!
 Once you've jumped through all of these setup hoops, you're ready to authenticate.

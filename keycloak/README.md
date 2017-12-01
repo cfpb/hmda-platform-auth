@@ -72,8 +72,8 @@ docker run --detach --name kc_upgrade_db \
   postgres:9.6.1 && \
 ./image-diff.sh \
   "jboss/keycloak-postgres" \
-  "2.2.0.Final" \
-  "2.3.0.Final" \
+  "3.2.1.Final" \
+  "3.4.0.Final" \
   "/opt/jboss" \
   "/tmp/keycloak" \
   "--link kc_upgrade_db --env POSTGRES_PORT_5432_TCP_ADDR=kc_upgrade_db --publish 9999:8080" \
@@ -117,7 +117,7 @@ rebuild the import config file:
               "enabled": true,
               "clientAuthenticatorType": "client-secret",
               "secret": "**********",
-              "redirectUris": {{REDIRECT_URIS}},
+              "redirectUris": "{{REDIRECT_URIS}}",
               "webOrigins": [
                 "*"
               ],
@@ -130,7 +130,7 @@ rebuild the import config file:
           "smtpServer" : {
             "host" : "{{SMTP_SERVER}}",
             "port" : "{{SMTP_PORT}}",
-            "from" : "{{SUPPORT_EMAIL}}",
+            "from" : "noreply@cfpb.gov",
             "auth": "",
             "ssl": ""
           },
