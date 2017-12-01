@@ -45,6 +45,12 @@ RUN yum-config-manager --enable cr && \
 
 USER jboss
 
+# Upgrade xstream.  See: http://x-stream.github.io/CVE-2017-7957.html
+RUN cd /opt/jboss/keycloak/modules/system/layers/keycloak/com/thoughtworks/xstream/main/ && \
+    rm -f xstream-1.4.9.jar && \
+    curl -s -O http://central.maven.org/maven2/com/thoughtworks/xstream/xstream/1.4.10/xstream-1.4.10.jar && \
+    sed -i -e 's/1\.4\.9/1.4.10/g' module.xml
+
 # Build the Keycloak authenticator SPI
 # NOTE: If we develop more SPIs, we may want to iterate over a directory structure, building as we go.
 RUN echo 'Keycloak SPI build starting...' && \
@@ -53,7 +59,6 @@ RUN echo 'Keycloak SPI build starting...' && \
     mkdir /opt/jboss/keycloak/providers && \
     cp target/keycloak-authenticator-hmda-${KC_LIB_VER}.jar /opt/jboss/keycloak/providers && \
     rm -rf /opt/jboss/.m2 && \
-    rm keycloak/modules/system/layers/keycloak/com/thoughtworks/xstream/main/* && \
     echo 'Keycloak SPIs build successful!'
 
 EXPOSE 8080
