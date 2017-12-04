@@ -835,7 +835,7 @@
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
-      "redirectUris": "{{REDIRECT_URIS}}" [
+      "redirectUris": "{{REDIRECT_URIS}}",
       "webOrigins": [
         "*"
       ],
