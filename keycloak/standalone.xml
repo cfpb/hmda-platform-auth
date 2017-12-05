@@ -467,7 +467,7 @@
         <subsystem xmlns="urn:jboss:domain:undertow:4.0">
             <buffer-cache name="default"/>
             <server name="default-server">
-                <http-listener name="default" socket-binding="http" proxy-address-forwarding="true" redirect-socket="proxy-https" enable-http2="true"/>
+                <http-listener name="default" socket-binding="http" proxy-address-forwarding="true" redirect-socket="proxy-https" enable-http2="false"/>
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
                     <http-invoker security-realm="ApplicationRealm"/>
