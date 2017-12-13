@@ -33,19 +33,6 @@ h6,
   max-width: 450px;
 }
 
-.beta-banner .usa-alert-heading {
-  text-transform: none;
-}
-
-.beta-banner .usa-alert {
-  margin-top: 0;
-  padding: 3rem;
-}
-
-.beta-banner .usa-alert p {
-  margin: 0;
-}
-
 .usa-alert-heading {
   text-transform: capitalize;
 }
