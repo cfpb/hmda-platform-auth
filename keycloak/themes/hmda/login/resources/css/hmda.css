@@ -140,9 +140,10 @@ body {
 }
 
 .usa-footer .usa-nav-link {
-  color: #222222;
   font-size: .9em;
   text-decoration: none;
+  color: #1F498F;
+  font-weight: bold;
 }
 
 .usa-footer .usa-nav-link img {
