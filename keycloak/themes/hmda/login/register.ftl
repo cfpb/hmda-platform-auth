@@ -37,33 +37,33 @@
               <p>Passwords must:</p>
               <ul id="validation_list">
                 <li data-validator="length">
-                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
-                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.svg">
+                  <img class="missing" src="${url.resourcesPath}/img/close.svg">
                   Be at least 12 characters
                 </li>
                 <li data-validator="uppercase">
-                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
-                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.svg">
+                  <img class="missing" src="${url.resourcesPath}/img/close.svg">
                   Have at least 1 uppercase character
                 </li>
                 <li data-validator="lowercase">
-                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
-                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.svg">
+                  <img class="missing" src="${url.resourcesPath}/img/close.svg">
                   Have at least 1 lowercase character
                 </li>
                 <li data-validator="numerical">
-                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
-                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.svg">
+                  <img class="missing" src="${url.resourcesPath}/img/close.svg">
                   Have at least 1 numerical character
                 </li>
                 <li data-validator="special">
-                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
-                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.svg">
+                  <img class="missing" src="${url.resourcesPath}/img/close.svg">
                   Have at least 1 special character
                 </li>
                 <li data-validator="username">
-                  <img class="check" src="${url.resourcesPath}/img/correct9.png">
-                  <img class="missing" src="${url.resourcesPath}/img/close.png">
+                  <img class="check" src="${url.resourcesPath}/img/correct9.svg">
+                  <img class="missing" src="${url.resourcesPath}/img/close.svg">
                   Not be the same as your username
                 </li>
               </ul>
