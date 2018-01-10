@@ -44,18 +44,6 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <header class="usa-header usa-header-basic" role="banner">
-    <section class="beta-banner usa-text-small">
-      <div class="usa-alert usa-alert-warning">
-        <div class="usa-alert-body">
-          <h3 class="usa-alert-heading">This is a beta release</h3>
-          <div class="usa-alert-text">
-            <p>The beta HMDA Platform is a work in progress, intended to provide HMDA filers with an understanding of the submission process, prior to the filing period.</p>
-            <p>This is part of our work to improve the HMDA electronic reporting process for financial institutions.</p>
-            <p>For more information about filing your HMDA data, please visit <a href="https://www.consumerfinance.gov/hmda">https://www.consumerfinance.gov/hmda/.</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
     <div class="usa-banner">
       <header class="usa-banner-header">
         <div class="usa-grid usa-banner-inner">
