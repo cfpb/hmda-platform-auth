@@ -494,6 +494,15 @@
                 <cacheTemplates>false</cacheTemplates>
                 <dir>${jboss.home.dir}/themes</dir>
             </theme>
+            <spi name="eventsListener">
+              <provider name="jboss-logging" enabled="true">
+                <properties>
+                  <!-- Overrides DEBUG default, allowing ALL events to be logged -->
+                  <property name="success-level" value="INFO"/>
+                  <property name="error-level" value="WARN"/>
+                </properties>
+              </provider>
+            </spi>
             <spi name="eventsStore">
                 <provider name="jpa" enabled="true">
                     <properties>
