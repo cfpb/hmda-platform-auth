@@ -497,7 +497,7 @@
             <spi name="eventsListener">
               <provider name="jboss-logging" enabled="true">
                 <properties>
-                  <!-- Overrides DEBUG default, allowing ALL login events to get logged -->
+                  <!-- Overrides DEBUG default, allowing ALL events to be logged -->
                   <property name="success-level" value="INFO"/>
                   <property name="error-level" value="WARN"/>
                 </properties>
