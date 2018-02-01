@@ -159,7 +159,11 @@
     var lastEmail = null
 
     //Process email and make debounced request when typing in email field
-    email.on('blur keyup', function(e) {
+    email.on('blur keyup', checkEmail)
+
+    checkEmail({})
+
+    function checkEmail(e) {
       var emailVal = email.val().trim()
       if (emailVal === lastEmail) return
       else lastEmail = emailVal
@@ -172,13 +176,13 @@
         // don't make the API call on tab keyup
         var domain = emailToDomain(emailVal)
         if (
-          (emailExp.test(emailVal) && e.keyCode) ||
+          emailExp.test(emailVal) ||
           (e.type === 'blur' && domain !== '' && domain !== undefined)
         ) {
           debounceRequest(domain)
         }
       }
-    })
+    }
 
     //Save institution to input when clicked
     $('#institutions').on('click', '.institutionsCheck', addInstitutionsToInput)
