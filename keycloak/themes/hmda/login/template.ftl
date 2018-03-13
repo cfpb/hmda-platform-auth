@@ -65,6 +65,16 @@
           <li>
             <a class="HomeLink usa-nav-link" href="${properties.homePageUri!}">Home</a>
           </li>
+          <li>
+            <a href="${properties.homePageUri!}/publication/" className="usa-nav-link">
+              Publication
+            </a>
+          </li>
+          <li>
+            <a href="${properties.homePageUri!}/tools/" className="usa-nav-link">
+              Tools
+            </a>
+          </li>
         </ul>
       </nav>
     </div>
