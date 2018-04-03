@@ -23,7 +23,7 @@
 
                     <input tabindex="4" name="login" id="kc-login" type="submit" value="${msg("doLogIn")}"/>
                     <div id="submit-loader" class="LoadingIconWrapper">
-                      <img src="${url.resourcesPath}/img/LoadingIcon.png" class="LoadingIcon" alt="Loading" />
+                      <div class="LoadingIcon"></div>
                     </div>
 
                     <#if realm.resetPasswordAllowed>
