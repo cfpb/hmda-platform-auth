@@ -2,7 +2,7 @@ pipeline {
 
   agent {
     docker {
-      image 'cfpb/jenkinsfile:nodejs'
+      image 'cfpb/jenkinsfile:base'
       args '--user jenkins -v /run/docker.sock:/run/docker.sock'
     }
   }
@@ -47,14 +47,15 @@ pipeline {
 
     stage('build images') {
       steps {
+        sh 'ls -la'
         dir('auth-proxy') {
           script {
-            docker.build(env.AUTH_PROXY_IMAGE_NAME_WITH_TAG)
+            docker.build(env.AUTH_PROXY_IMAGE_NAME_WITH_TAG, '--no-cache .')
           }
         }
         dir('keycloak') {
           script {
-            docker.build(env.KEYCLOAK_IMAGE_NAME_WITH_TAG)
+            docker.build(env.KEYCLOAK_IMAGE_NAME_WITH_TAG, '--no-cache .')
           }
         }
       }
