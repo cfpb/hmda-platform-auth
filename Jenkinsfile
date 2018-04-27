@@ -47,9 +47,15 @@ pipeline {
 
     stage('build images') {
       steps {
-        script {
-          docker.build(env.AUTH_PROXY_IMAGE_NAME_WITH_TAG)
-          docker.build(env.KEYCLOAK_IMAGE_NAME_WITH_TAG)
+        dir('auth-proxy') {
+          script {
+            docker.build(env.AUTH_PROXY_IMAGE_NAME_WITH_TAG)
+          }
+        }
+        dir('keycloak') {
+          script {
+            docker.build(env.KEYCLOAK_IMAGE_NAME_WITH_TAG)
+          }
         }
       }
     }
