@@ -47,16 +47,11 @@ pipeline {
 
     stage('build images') {
       steps {
-        sh 'ls -la'
-        dir('auth-proxy') {
-          script {
-            docker.build(env.AUTH_PROXY_IMAGE_NAME_WITH_TAG, '--no-cache .')
-          }
+        script {
+          docker.build(env.AUTH_PROXY_IMAGE_NAME_WITH_TAG, '--no-cache auth-proxy')
         }
-        dir('keycloak') {
-          script {
-            docker.build(env.KEYCLOAK_IMAGE_NAME_WITH_TAG, '--no-cache .')
-          }
+        script {
+          docker.build(env.KEYCLOAK_IMAGE_NAME_WITH_TAG, '--no-cache keycloak')
         }
       }
     }
