@@ -4,6 +4,7 @@ pipeline {
     docker {
       image 'cfpb/jenkinsfile:base'
       args '--user jenkins -v /run/docker.sock:/run/docker.sock'
+      alwaysPull true
     }
   }
 
