@@ -7,7 +7,7 @@
     <#elseif section = "form">
         <div id="kc-error-message">
             <p class="instruction">${message.summary}</p>
-            <p><a class="usa-button" id="backToApplication" href="${properties.homePageUri}/institutions">${msg("doLogIn")}</a></p>
+            <p><a class="usa-button" id="backToApplication" href="${properties.filingAppUrl}/institutions">${msg("doLogIn")}</a></p>
         </div>
     </#if>
 </@layout.registrationLayout>

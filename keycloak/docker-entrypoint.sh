@@ -25,12 +25,12 @@ else
     echo "Set institutionSearchUri=$INSTITUTION_SEARCH_URI"
 fi
 
-if [ -z ${HOME_PAGE_URI+x} ]; then
-    echo 'HOME_PAGE_URI environment variable not set' >&2
+if [ -z ${FILING_APP_URL+x} ]; then
+    echo 'FILING_APP_URL environment variable not set' >&2
     exit 1
 else
-    sed -i "s@{{HOME_PAGE_URI}}@$HOME_PAGE_URI@g" $LOGIN_THEME
-    echo "Set homePageUri=$HOME_PAGE_URI"
+    sed -i "s@{{FILING_APP_URL}}@$FILING_APP_URL@g" $LOGIN_THEME
+    echo "Set filingAppUrl=$FILING_APP_URL"
 fi
 
 if [ -z ${SMTP_SERVER+x} ] || [ -z ${SMTP_PORT+x} ]; then
