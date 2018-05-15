@@ -1,6 +1,6 @@
 FROM jboss/keycloak:3.4.0.Final
 
-ENV MAVEN_VER=3.5.2
+ENV MAVEN_VER=3.5.3
 ENV MAVEN_DIST=apache-maven-$MAVEN_VER
 ENV MAVEN_FILE=$MAVEN_DIST-bin.tar.gz
 ENV PATH=$PATH:/tmp/$MAVEN_DIST/bin
