@@ -96,10 +96,7 @@
           .empty()
           .append(
             $('<div class="LoadingIconWrapper">').append(
-              $('<img class="LoadingIcon">').attr({
-                src: HMDA.resources + '/img/LoadingIcon.png',
-                alt: 'Loading'
-              })
+              $('<div class="LoadingIcon">')
             )
           )
       }

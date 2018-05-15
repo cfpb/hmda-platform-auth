@@ -87,7 +87,7 @@
         <input name="register" id="kc-register" type="submit" value="${msg("doRegister")}"/>
 
         <div id="submit-loader" class="LoadingIconWrapper">
-          <img src="${url.resourcesPath}/img/LoadingIcon.png" class="LoadingIcon" alt="Loading" />
+          <div class="LoadingIcon"></div>
         </div>
       </fieldset>
 
