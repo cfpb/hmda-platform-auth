@@ -1,3 +1,7 @@
+body {
+  overflow-y: scroll;
+}
+
 .usa-display,
 .usa-display-alt,
 h1,
@@ -74,7 +78,7 @@ h6,
 }
 
 .usa-logo .usa-logo-text {
-  font-size: 2.15rem;
+  font-size: 2.5rem;
   font-weight: normal;
 }
 
@@ -105,7 +109,7 @@ h6,
 .usa-nav-primary>li>a {
   color: #212121;
   font-size: 1.3rem;
-  margin: 1.3rem 1.5rem 1rem;
+  margin: 1.3rem 0 1rem;
   padding: 0;
   text-transform: uppercase;
 }
@@ -131,6 +135,11 @@ body {
   text-decoration: none;
   color: #1F498F;
   font-weight: bold;
+}
+
+.usa-footer > .usa-footer-primary-section {
+  padding-top: 2em;
+  padding-bottom: 2em;
 }
 
 .usa-footer .usa-nav-link img {

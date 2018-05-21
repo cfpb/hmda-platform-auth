@@ -56,14 +56,14 @@
       <div class="usa-logo" id="logo">
         <em class="usa-logo-text">
           <a class="usa-nav-link" href="${properties.filingAppUrl!}">
-              <img src="${url.resourcesPath}/img/ffiec-logo.png" height="27px" alt="FFIEC"/>HMDA Platform
+              <img src="${url.resourcesPath}/img/ffiec-logo.png" height="32px" alt="FFIEC"/>HMDA Filing Platform
           </a>
         </em>
       </div>
       <nav role="navigation" class="Header usa-nav">
         <ul class="usa-nav-primary">
           <li>
-            <a class="HomeLink usa-nav-link" href="${properties.filingAppUrl!}">Home</a>
+            <a class="HomeLink usa-nav-link" href="${properties.filingAppUrl!}">Filing Home</a>
           </li>
         </ul>
       </nav>
@@ -130,15 +130,14 @@
           <ul class="usa-unstyled-list">
             <li class="usa-footer-primary-content">
               <a class="usa-nav-link" href="${properties.filingAppUrl!}">
-                <img src="${url.resourcesPath}/img/ffiec-logo.png" width="75px" alt="FFIEC"/> HMDA Platform
+                <img src="${url.resourcesPath}/img/ffiec-logo.png" width="75px" alt="FFIEC"/>Home Mortgage Disclosure Act
               </a>
             </li>
           </ul>
         </nav>
         <div class="usa-width-one-half">
-          <div class="usa-footer-primary-content usa-footer-contact_info">
-            <h4>Questions?</h4>
-            <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject?url('UTF-8')}">${properties.supportEmailTo}</a>
+          <div class="usa-footer-primary-content">
+            <a href="mailto:${properties.supportEmailTo!}?subject=${properties.supportEmailSubject?url('UTF-8')}">Questions?</a>
           </div>
         </div>
       </div>
