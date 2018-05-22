@@ -55,15 +55,15 @@
     <div class="usa-nav-container">
       <div class="usa-logo" id="logo">
         <em class="usa-logo-text">
-          <a class="usa-nav-link" href="${properties.homePageUri!}">
-              <img src="${url.resourcesPath}/img/ffiec-logo.png" width="100px" alt="FFIEC"/> HMDA Platform
+          <a class="usa-nav-link" href="${properties.filingAppUrl!}">
+              <img src="${url.resourcesPath}/img/ffiec-logo.png" height="27px" alt="FFIEC"/>HMDA Platform
           </a>
         </em>
       </div>
       <nav role="navigation" class="Header usa-nav">
         <ul class="usa-nav-primary">
           <li>
-            <a class="HomeLink usa-nav-link" href="${properties.homePageUri!}">Home</a>
+            <a class="HomeLink usa-nav-link" href="${properties.filingAppUrl!}">Home</a>
           </li>
         </ul>
       </nav>
@@ -129,7 +129,7 @@
         <nav class="usa-footer-nav usa-width-one-half">
           <ul class="usa-unstyled-list">
             <li class="usa-footer-primary-content">
-              <a class="usa-nav-link" href="${properties.homePageUri!}">
+              <a class="usa-nav-link" href="${properties.filingAppUrl!}">
                 <img src="${url.resourcesPath}/img/ffiec-logo.png" width="75px" alt="FFIEC"/> HMDA Platform
               </a>
             </li>
