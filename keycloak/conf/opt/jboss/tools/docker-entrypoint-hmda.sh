@@ -5,16 +5,11 @@ HMDA_REALM=import/hmda-realm.json
 
 # Update Keycloak config files based on envvars
 if [ -z ${REDIRECT_URIS+x} ]; then
-  echo 'REDIRECT_URIS environment variable not set' >&2
-  exit 1
+    echo 'REDIRECT_URIS environment variable not set' >&2
+    exit 1
 else
-  sed -i "s@\"{{REDIRECT_URIS}}\"@$REDIRECT_URIS@g" $HMDA_REALM
-  echo "Keycloak redirect URIs set to $REDIRECT_URIS"
-fi
-
-if [ ! -z ${KEYCLOAK_USER+x} ] && [ ! -z ${KEYCLOAK_PASSWORD+x} ]; then
-    keycloak/bin/add-user-keycloak.sh --user $KEYCLOAK_USER --password $KEYCLOAK_PASSWORD
-    echo "Keycloak admin user \"$KEYCLOAK_USER\" created."
+    sed -i "s@\"{{REDIRECT_URIS}}\"@$REDIRECT_URIS@g" $HMDA_REALM
+    echo "Keycloak redirect URIs set to $REDIRECT_URIS"
 fi
 
 if [ -z ${INSTITUTION_SEARCH_URI+x} ]; then
@@ -61,12 +56,7 @@ cat $LOGIN_THEME
 echo "Updated $HMDA_REALM:"
 cat $HMDA_REALM
 
-exec /opt/jboss/keycloak/bin/standalone.sh \
-      -Dkeycloak.migration.action=import \
-      -Dkeycloak.migration.provider=dir \
-      -Dkeycloak.migration.dir=/opt/jboss/import/ \
-      -Dkeycloak.migration.strategy=IGNORE_EXISTING \
-      -b 0.0.0.0 \
-      --server-config standalone.xml
+# Execute official entrypoint script, passing on any params
+exec $(dirname ${BASH_SOURCE})/docker-entrypoint.sh "$@"
 
 exit $?
