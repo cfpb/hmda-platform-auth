@@ -56,6 +56,9 @@ cat $LOGIN_THEME
 echo "Updated $HMDA_REALM:"
 cat $HMDA_REALM
 
+echo "Cleaning history"
+rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history/current/*
+
 # Execute official entrypoint script, passing on any params
 exec $(dirname ${BASH_SOURCE})/docker-entrypoint.sh "$@"
 
