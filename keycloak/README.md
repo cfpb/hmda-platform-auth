@@ -9,9 +9,9 @@ authentication protocols such as SAML and OpenID Connect.
 This `keycloak` subdirectory of the `hmda-platform-auth` project contains everything needed to build
 our Keycloak customizations, and run Keycloak itself.
 
-## `import`
-Realm-specific data that imported at container startup.  Currently only includes the "HMDA" realm, but
-could support others in the future.
+## `conf`
+All configuration files and automation scripts need for launching the Keycloak container.
+This includes both server-level and HMDA realm-specific data.
 
 ## `providers`
 Custom [Keycloak Service Provider Interface (SPI)](https://keycloak.gitbooks.io/server-developer-guide/content/v/2.4/topics/providers.html)i

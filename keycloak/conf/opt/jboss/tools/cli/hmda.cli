@@ -1,0 +1,6 @@
+embed-server --server-config=standalone.xml --std-out=echo
+/subsystem=keycloak-server/spi=form-action:add()
+/subsystem=keycloak-server/spi=form-action/provider=registration-institution-action:add(properties={institutionSearchUri => "${env.INSTITUTION_SEARCH_URI}", institutionSearchValidateSsl => "${env.INSTITUTION_SEARCH_VALIDATE_SSL}"}, enabled=true)
+/subsystem=keycloak-server/spi=eventListener:add()
+/subsystem=keycloak-server/spi=eventListener/provider=jboss-logging:add(properties={success-level => "INFO", error-level => "WARN"}, enabled=true)
+stop-embedded-server
