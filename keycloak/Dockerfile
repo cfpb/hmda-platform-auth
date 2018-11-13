@@ -22,7 +22,7 @@ RUN jboss-cli.sh --file=tools/cli/hmda.cli && cat keycloak/standalone/configurat
 # Perform root user actions, then switch back to jboss user
 USER root
 # FIXME: Replace with COPY/ADD owner options when feature become available
-RUN chown -R jboss:jboss /opt/jboss
+RUN chown -R jboss:jboss /opt/jboss && chmod u+x /opt/jboss/tools/docker-entrypoint.sh
 USER jboss
 
 EXPOSE 8080
