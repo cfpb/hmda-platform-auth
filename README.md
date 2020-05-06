@@ -1,4 +1,9 @@
 # HMDA Platform Auth
+
+## Archived
+Active development moved to https://github.com/cfpb/hmda-platform/tree/master/auth
+
+## Former README
 This project provides [OpenID Connect](http://openid.net/connect/)-based
 authentication and authorization services for all HMDA APIs and web applications 
 with identity requirements.  This currently includes the
